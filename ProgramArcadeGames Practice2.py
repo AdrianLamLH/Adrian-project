@@ -25,9 +25,9 @@ pygame.display.set_caption("ProgramArcadeGames practice game")
 snow_list = []
 
 # Loop to add snow particles
-for i in range(20):
+for i in range(100):
     x_position = random.randrange(0, 500)
-    y_position = 0
+    y_position = random.randrange(0, 700)
     snow_list.append([x_position, y_position])
 
 # Loop until the user clicks the close button
@@ -40,10 +40,10 @@ clock = pygame.time.Clock()
 while not done:
 
     # - - - Main event loop - - -
-    for event in pygame.event.get(): #User did something
+    for event in pygame.event.get():  # User did something
         if event.type == pygame.QUIT:
             print("User asked to quit.")
-            done = True # Flag that we are done and exit the loop
+            done = True  # Flag that we are done and exit the loop
         elif event.type == pygame.KEYDOWN:
             print("User pressed a key.")
         elif event.type == pygame.KEYUP:
