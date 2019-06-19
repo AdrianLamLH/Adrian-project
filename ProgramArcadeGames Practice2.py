@@ -108,8 +108,8 @@ while not done:
                 snow_list[i][0] = random.randrange(0, 500)
                 snow_list[i][1] = 0
             else:
-                snow_list[i][0] = random.randrange(x_position-6, x_position+6)
-                snow_list[i][1] = random.randrange(y_position-1, y_position+3)
+                snow_list[i][0] = random.randrange(x_position-20, x_position+40)
+                snow_list[i][1] = random.randrange(y_position-10, y_position+30)
             pygame.draw.circle(screen, BLUE, snow_list[i], 1)
 
         # Update screen drawn
