@@ -107,10 +107,11 @@ while not done:
             if snow_list[i][x_position] > 400 or snow_list[i][y_position] > 700:
                 x_position = random.randrange(0, 500)
                 y_position = 0
-            else
+            else:
                 x_position = random.randrange(x_position-6, x_position+6)
                 y_position = random.randrange(y_position-1, y_position+3)
-            pygame.draw.circle(screen, )
+                snow_list_list.append(x_position, y_position)
+            pygame.draw.circle(screen, BLUE, snow_list[i], 1)
 
         # Update screen drawn
         pygame.display.flip()
