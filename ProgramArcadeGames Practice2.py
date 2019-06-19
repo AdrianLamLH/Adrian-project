@@ -26,8 +26,8 @@ snow_list = []
 
 # Loop to add snow particles
 for i in range(100):
-    x_position = random.randrange(0, 500)
-    y_position = random.randrange(0, 700)
+    x_position = random.randrange(0, 700)
+    y_position = random.randrange(0, 500)
     snow_list.append([x_position, y_position])
 
 # Loop until the user clicks the close button
@@ -104,11 +104,11 @@ while not done:
     # Draw snow particles
     for i in range(len(snow_list)):
         if snow_list[i][0] > 700 or snow_list[i][1] > 500:
-            snow_list[i][0] = random.randrange(0, 500)
+            snow_list[i][0] = random.randrange(0, 700)
             snow_list[i][1] = 0
         else:
             snow_list[i][0] = random.randrange(snow_list[i][0]-3, snow_list[i][0]+3)
-            snow_list[i][1] = random.randrange(snow_list[i][1]-1, snow_list[i][1]+4)
+            snow_list[i][1] = random.randrange(snow_list[i][1]-1, snow_list[i][1]+3)
         pygame.draw.circle(screen, BLUE, snow_list[i], 1)
 
     # Update screen drawn
