@@ -104,7 +104,7 @@ while not done:
 
         # Draw snow particles
         for i in range(len(snow_list)):
-            if snow_list[i][0] > 400 or snow_list[i][1] > 700:
+            if snow_list[i][0] > 700 or snow_list[i][1] > 500:
                 snow_list[i][0] = random.randrange(0, 500)
                 snow_list[i][1] = 0
             else:
