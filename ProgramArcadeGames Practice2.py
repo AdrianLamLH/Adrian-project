@@ -107,7 +107,7 @@ while not done:
             snow_list[i][0] = random.randrange(0, 700)
             snow_list[i][1] = 0
         else:
-            snow_list[i][0] = random.randrange(snow_list[i][0]-3, snow_list[i][0]+3)
+            snow_list[i][0] = random.randrange(snow_list[i][0]-1, snow_list[i][0]+1)
             snow_list[i][1] = random.randrange(snow_list[i][1]-1, snow_list[i][1]+3)
         pygame.draw.circle(screen, BLUE, snow_list[i], 1)
 
