@@ -20,6 +20,9 @@ screen = pygame.display.set_mode(size)
 # Labelling the program
 pygame.display.set_caption("Game name here")
 
+# To manage the fps
+clock = pygame.time.Clock()
+
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
@@ -28,7 +31,7 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             print("User asked to quit.")
-            done = True # Signals the program to end
+            done = True  # Signals the program to end
 
     # - - - - - Game logic - - - - - - - -
 
