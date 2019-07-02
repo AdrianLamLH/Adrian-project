@@ -17,8 +17,6 @@ pygame.init()
 # Setting up the screen
 size = (1024, 768)
 screen = pygame.display.set_mode(size)
-screen1 = (384, 768) # Splits the screen into two sides, 1/3rd for tetris and 2/3rd for bullethell
-screen2 = (640, 768)
 # Labelling the program
 pygame.display.set_caption("Game name here")
 
@@ -37,8 +35,8 @@ while not done:
     # - - - - - Drawing code - - - - - - -
 
     # - - - - - Update screen drawn - - -
-    pygame.draw.rect(screen1, RED, [0, 0, 384, 768], 1)
-    pygame.draw.rect(screen2, BLUE, [384, 0, 1024, 768], 1)
+    pygame.draw.rect(screen, RED, [0, 0, 384, 768], 1)
+    pygame.draw.rect(screen, BLUE, [384, 0, 1024, 768], 1)
     pygame.display.flip()
 
     # - - - - - Set the fps - - - - - - -
