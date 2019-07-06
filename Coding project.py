@@ -39,7 +39,7 @@ while not done:
 
     # - - - - - Update screen drawn - - -
     pygame.draw.rect(screen, RED, [0, 0, 384, 768], 1)
-    pygame.draw.rect(screen, BLUE, [384, 0, 1024, 768], 1)
+    pygame.draw.rect(screen, BLUE, [384, 0, 640, 768], 1)
     pygame.display.flip()
 
     # - - - - - Set the fps - - - - - - -
