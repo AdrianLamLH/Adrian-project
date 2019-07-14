@@ -63,13 +63,12 @@ class Bullet(pygame.sprite.Sprite):
         # Projectile starts with same coordinates as player but then moves over time
         self.rect.x += 12
 # Player and projectiles are updated/stored in sprite group
-
 list_all_sprites = pygame.sprite.Group()
+list_bullet = pygame.sprite.Group()
+# Player and bullet initialised
 Pilot = Pilot()
-Shot = Bullet()
 list_all_sprites.add(Pilot)
 TimeShoot = pygame.USEREVENT
-list_all_sprites.add(Shot)
 
 # Loop until the user clicks the close button
 done = False
@@ -81,6 +80,7 @@ while not done:
         if event.type == pygame.QUIT:
             print("User asked to quit.")
             done = True  # Signals the program to end
+
         elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                         pilot_y_speed = -8
@@ -90,14 +90,17 @@ while not done:
                         pilot_x_speed = -8
                 elif event.key == pygame.K_RIGHT:
                         pilot_x_speed = 8
+                elif event.key == pygame.K_SPACE:
+
+                    Shot = Bullet()
+                    list_all_sprites.add(Shot)
+                    list_bullet.add(Shot)
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 pilot_y_speed = 0
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 pilot_x_speed = 0
-        elif event.type == pygame.K_SPACE:
-            Shot = Bullet()
-            list_all_sprites.add(Shot)
+
 
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
