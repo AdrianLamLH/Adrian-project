@@ -34,9 +34,8 @@ class Pilot:
         super().__init__()
         self.image = pygame.Surface([10, 10])
         # Creates the image of the pilot
-        self.image = pygame.draw.rect(screen, WHITE, [(10, 10)])
         self.image.fill(WHITE)
-        self.rect = self.image.get_Rect()
+        self.rect = self.image.get_rect()
 
     def update(self):
         self.rect.x = pilot_x
