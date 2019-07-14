@@ -80,21 +80,22 @@ while not done:
         if event.type == pygame.QUIT:
             print("User asked to quit.")
             done = True  # Signals the program to end
-
+        # Sets controls for the pilot
         elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
-                        pilot_y_speed = -8
+                        pilot_y_speed = -10.5
                 elif event.key == pygame.K_DOWN:
                         pilot_y_speed = 8
                 elif event.key == pygame.K_LEFT:
                         pilot_x_speed = -8
                 elif event.key == pygame.K_RIGHT:
                         pilot_x_speed = 8
-                elif event.key == pygame.K_SPACE:
+        # The bullet continues to fire automatically
+        elif event.type == pygame.USEREVENT:
+            Shot = Bullet()
+            list_all_sprites.add(Shot)
+            list_bullet.add(Shot)
 
-                    Shot = Bullet()
-                    list_all_sprites.add(Shot)
-                    list_bullet.add(Shot)
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 pilot_y_speed = 0
@@ -124,9 +125,7 @@ while not done:
         pilot_y = 741
     elif pilot_y < 2:
         pilot_y = 2
-    # Stores the coordinates of player at that point for the bullet to be moved to
-    pilot_x_store = Pilot.rect.x
-    pilot_y_store = Pilot.rect.y
+
     # All sprites are refreshed in their positions
     list_all_sprites.update()
     # - - - - - Drawing code - - - - - - -
@@ -134,8 +133,7 @@ while not done:
     pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
     pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
-    pygame.time.set_timer(TimeShoot, 40)
-    TimeShoot = pygame.USEREVENT
+    pygame.time.set_timer(pygame.USEREVENT, 10)
     list_all_sprites.draw(screen)
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
