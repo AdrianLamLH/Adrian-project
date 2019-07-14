@@ -17,6 +17,8 @@ pygame.init()
 # Initialise variables
 pilot_x = 400
 pilot_y = 384
+bullet_x = 0
+bullet_y = 0
 pilot_x_speed = 0
 pilot_y_speed = 0
 gravity = 2.5
@@ -47,33 +49,30 @@ class Pilot(pygame.sprite.Sprite):
         self.rect.y = pilot_y
 
 
-class bullet(pygame.sprite.Sprite):
+class Bullet(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         # Setting up the design of the projectiles
-        self.image = pygame.Surface([5, 5])
-        self.image.fill(WHITE)
+        self.image = pygame.Surface([10, 10])
+        self.image.fill(BLUE)
         self.rect = self.image.get_rect()
+        self.rect.x = pilot_x
+        self.rect.y = pilot_y
 
     def update(self):
         self.rect.x = bullet_x
         self.rect.y = bullet_y
 
-
-def shoot():
-    shot = bullet()
-    Shot.rect.x = Pilot.rect.x
-    Shot.rect.y = Pilot.rect.y
-    list_all_sprites.add(Shots)
-    Shot_list.add(shot)
 list_all_sprites = pygame.sprite.Group()
 Pilot = Pilot()
+shot = Bullet()
 list_all_sprites.add(Pilot)
+list_all_sprites.add(shot)
+TimeShoot = pygame.USEREVENT
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
 while not done:
-    pygame.time.set_timer(TimeShoot, 500)
     # - - - - - - - Main event loop - - - - - - - - - -
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -93,8 +92,6 @@ while not done:
                 pilot_y_speed = 0
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 pilot_x_speed = 0
-        elif event.type == TimeShoot:
-            shoot()
 
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
@@ -124,6 +121,8 @@ while not done:
     pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
     pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
+    pygame.time.set_timer(TimeShoot, 500)
+    TimeShoot = pygame.USEREVENT
     list_all_sprites.draw(screen)
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
