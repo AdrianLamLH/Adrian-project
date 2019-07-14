@@ -35,7 +35,7 @@ clock = pygame.time.Clock()
 class Pilot(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface([10, 10])
+        self.image = pygame.Surface([25, 25])
         # Creates the image of the pilot
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
@@ -75,12 +75,13 @@ while not done:
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
     pilot_y += pilot_y_speed + gravity
-    if pilot_x > 1014:
-        pilot_x = 1014
+    # Setting up the walls for the pilot
+    if pilot_x > 997:
+        pilot_x = 997
     elif pilot_x < 390:
         pilot_x = 390
-    elif pilot_y > 756:
-        pilot_y = 756
+    elif pilot_y > 741:
+        pilot_y = 741
     elif pilot_y < 2:
         pilot_y = 2
     list_all_sprites.update()
