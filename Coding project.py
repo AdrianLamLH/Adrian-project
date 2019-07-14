@@ -29,7 +29,7 @@ clock = pygame.time.Clock()
 # Game classes
 
 # Setting up pilot sprite
-class Pilot:
+class Pilot(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.Surface([10, 10])
