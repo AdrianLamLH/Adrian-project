@@ -19,6 +19,7 @@ pilot_x = 400
 pilot_y = 384
 pilot_x_speed = 0
 pilot_y_speed = 0
+gravity = 2.5
 # Setting up the screen
 size = (1024, 768)
 screen = pygame.display.set_mode(size)
@@ -57,13 +58,13 @@ while not done:
             done = True  # Signals the program to end
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                pilot_y_speed = -3
+                pilot_y_speed = -5
             elif event.key == pygame.K_DOWN:
-                pilot_y_speed = 3
+                pilot_y_speed = 5
             elif event.key == pygame.K_LEFT:
-                pilot_x_speed = -3
+                pilot_x_speed = -5
             elif event.key == pygame.K_RIGHT:
-                pilot_x_speed = 3
+                pilot_x_speed = 5
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 pilot_y_speed = 0
@@ -75,7 +76,7 @@ while not done:
 
     list_all_sprites.update()
     pilot_x += pilot_x_speed
-    pilot_y += pilot_y_speed
+    pilot_y += pilot_y_speed + gravity
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, WHITE, [0, 0, 384, 768], 0)
     pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
