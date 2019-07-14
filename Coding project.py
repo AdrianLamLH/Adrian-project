@@ -20,6 +20,8 @@ pilot_y = 384
 pilot_x_speed = 0
 pilot_y_speed = 0
 gravity = 2.5
+validx = True
+validy = True
 # Setting up the screen
 size = (1024, 768)
 screen = pygame.display.set_mode(size)
@@ -57,22 +59,27 @@ while not done:
             print("User asked to quit.")
             done = True  # Signals the program to end
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_UP and validy is True:
                 pilot_y_speed = -5
-            elif event.key == pygame.K_DOWN:
+            elif event.key == pygame.K_DOWN and validy is True:
                 pilot_y_speed = 5
-            elif event.key == pygame.K_LEFT:
+            elif event.key == pygame.K_LEFT and validx is True:
                 pilot_x_speed = -5
-            elif event.key == pygame.K_RIGHT:
+            elif event.key == pygame.K_RIGHT and validx is True:
                 pilot_x_speed = 5
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 pilot_y_speed = 0
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 pilot_x_speed = 0
-        if pilot_x > 1023 or pilot_x < 385 or pilot_y > 767 or pilot_y < 1:
-            pilot_x = 400
-            pilot_y = 384
+        if pilot_x > 1023 or pilot_x < 385:
+            validx = False
+        else:
+             validx = True
+        if pilot_y > 767 or pilot_y < 1:
+            validy = False
+        else:
+            validy = True
 
     # - - - - - Game logic - - - - - - - -
 
