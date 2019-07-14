@@ -4,7 +4,7 @@ import pygame
 import math
 import random
 
-# Define colours
+# Define colors
 WHITE = (0, 0, 0)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -23,6 +23,8 @@ pygame.display.set_caption("Game name here")
 # To manage the fps
 clock = pygame.time.Clock()
 
+# Game classes
+
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
@@ -39,7 +41,9 @@ while not done:
 
     # - - - - - Update screen drawn - - -
     pygame.draw.rect(screen, RED, [0, 0, 384, 768], 1)
+    pygame.draw.rect(screen, WHITE, [0, 0, 384, 768], 0)
     pygame.draw.rect(screen, BLUE, [384, 0, 640, 768], 1)
+
     pygame.display.flip()
 
     # - - - - - Set the fps - - - - - - -
