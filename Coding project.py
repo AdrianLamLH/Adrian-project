@@ -32,6 +32,8 @@ clock = pygame.time.Clock()
 # Game classes
 
 # Setting up pilot sprite
+
+
 class Pilot(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -44,6 +46,26 @@ class Pilot(pygame.sprite.Sprite):
         self.rect.x = pilot_x
         self.rect.y = pilot_y
 
+
+class bullet(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        # Setting up the design of the projectiles
+        self.image = pygame.Surface([5, 5])
+        self.image.fill(WHITE)
+        self.rect = self.image.get_rect()
+
+    def update(self):
+        self.rect.x = bullet_x
+        self.rect.y = bullet_y
+
+
+def shoot():
+    shot = bullet()
+    Shot.rect.x = Pilot.rect.x
+    Shot.rect.y = Pilot.rect.y
+    list_all_sprites.add(Shots)
+    Shot_list.add(shot)
 list_all_sprites = pygame.sprite.Group()
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
@@ -51,6 +73,7 @@ list_all_sprites.add(Pilot)
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
 while not done:
+    pygame.time.set_timer(TimeShoot, 500)
     # - - - - - - - Main event loop - - - - - - - - - -
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -70,12 +93,13 @@ while not done:
                 pilot_y_speed = 0
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 pilot_x_speed = 0
-
+        elif event.type == TimeShoot:
+            shoot()
 
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
     pilot_y += pilot_y_speed + gravity
-    # Setting up the walls for the pilot
+    # Setting up the wall boundaries for the pilot
     if pilot_x > 997 and pilot_y > 741:
         pilot_x = 997
         pilot_y = 741
