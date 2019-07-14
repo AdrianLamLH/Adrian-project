@@ -70,7 +70,9 @@ while not done:
                 pilot_y_speed = 0
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 pilot_x_speed = 0
-
+        if pilot_x > 1023 or pilot_x < 385 or pilot_y > 767 or pilot_y < 1:
+            pilot_x = 400
+            pilot_y = 384
 
     # - - - - - Game logic - - - - - - - -
 
