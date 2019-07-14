@@ -65,14 +65,16 @@ class Bullet(pygame.sprite.Sprite):
 
 list_all_sprites = pygame.sprite.Group()
 Pilot = Pilot()
-shot = Bullet()
+Shot = Bullet()
 list_all_sprites.add(Pilot)
-list_all_sprites.add(shot)
 TimeShoot = pygame.USEREVENT
+list_all_sprites.add(Shot)
+
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
 while not done:
+
     # - - - - - - - Main event loop - - - - - - - - - -
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -92,6 +94,11 @@ while not done:
                 pilot_y_speed = 0
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 pilot_x_speed = 0
+        elif event.type == pygame.K_SPACE:
+            Shot = Bullet()
+            Shot.rect.x = Pilot.rect.x
+            Shot.rect.y = Pilot.rect.y
+            list_all_sprites.add(Shot)
 
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
@@ -125,7 +132,7 @@ while not done:
     pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
     pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
-    pygame.time.set_timer(TimeShoot, 500)
+    pygame.time.set_timer(TimeShoot, 40)
     TimeShoot = pygame.USEREVENT
     list_all_sprites.draw(screen)
     # - - - - - Update screen drawn - - -
