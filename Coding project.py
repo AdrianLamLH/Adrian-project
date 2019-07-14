@@ -25,6 +25,25 @@ clock = pygame.time.Clock()
 
 # Game classes
 
+# Set up the controls
+class Movement:
+    def __init__(self, key_up, key_down, key_left, key_right):
+        self.key_up = key_up
+        self.key_down = key_down
+        self.key_left = key_left
+        self.key_right = key_right
+
+    def active_key(self):
+        key_press = pygame.key.get_pressed()
+        if key_press(self.key_up):
+            self.y += -1
+        elif key_press(self.key_down):
+            self.y += 1
+        elif key_press(self.key_left):
+            self.x += -1
+        elif key_press(self.key_right):
+            self.y += 1
+
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
