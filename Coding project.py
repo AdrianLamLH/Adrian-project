@@ -17,6 +17,8 @@ pygame.init()
 # Initialise variables
 pilot_x = 400
 pilot_y = 384
+pilot_x_speed = 0
+pilot_y_speed = 0
 # Setting up the screen
 size = (1024, 768)
 screen = pygame.display.set_mode(size)
@@ -55,17 +57,25 @@ while not done:
             done = True  # Signals the program to end
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                pilot_y += -1
+                pilot_y_speed = -3
             elif event.key == pygame.K_DOWN:
-                pilot_y += 1
+                pilot_y_speed = 3
             elif event.key == pygame.K_LEFT:
-                pilot_x += -1
+                pilot_x_speed = -3
             elif event.key == pygame.K_RIGHT:
-                pilot_x += 1
+                pilot_x_speed = 3
+        elif event.type == pygame.KEYUP:
+            if event.type == pygame.K_UP or event.type == pygame.K_DOWN:
+                pilot_y_speed = 0
+            elif event.type == pygame.K_RIGHT or event.type == pygame.K_LEFT:
+                pilot_x_speed = 0
+
 
     # - - - - - Game logic - - - - - - - -
 
     list_all_sprites.update()
+    pilot_x += pilot_x_speed
+    pilot_y += pilot_y_speed
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, WHITE, [0, 0, 384, 768], 0)
     pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
