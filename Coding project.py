@@ -41,6 +41,9 @@ class Pilot:
         self.rect.x = pilot_x
         self.rect.y = pilot_y
 
+list_all_sprites = pygame.sprite.Group()
+Pilot = Pilot()
+list_all_sprites.add(Pilot)
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
@@ -61,11 +64,13 @@ while not done:
                 pilot_x += 1
 
     # - - - - - Game logic - - - - - - - -
+
+    list_all_sprites.update()
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, WHITE, [0, 0, 384, 768], 0)
     pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
-    Pilot()
+    list_all_sprites.draw(screen)
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
 
