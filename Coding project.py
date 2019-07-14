@@ -58,8 +58,10 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self):
-        self.rect.x = Pilot.rect.x + 8
-        self.rect.y = Pilot.rect.y + 8
+        # Projectile starts with same coordinates as player but then moves over time
+        self.rect.x = pilot_x_store + 8 + int(pygame.time.get_ticks())/10
+        self.rect.y = pilot_y_store + 8
+# Player and projectiles are updated/stored in sprite group
 
 list_all_sprites = pygame.sprite.Group()
 Pilot = Pilot()
@@ -113,6 +115,10 @@ while not done:
         pilot_y = 741
     elif pilot_y < 2:
         pilot_y = 2
+    # Stores the coordinates of player at that point for the bullet to be moved to
+    pilot_x_store = Pilot.rect.x
+    pilot_y_store = Pilot.rect.y
+    # All sprites are refreshed in their positions
     list_all_sprites.update()
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, WHITE, [0, 0, 384, 768], 0)
