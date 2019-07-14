@@ -65,9 +65,9 @@ while not done:
             elif event.key == pygame.K_RIGHT:
                 pilot_x_speed = 3
         elif event.type == pygame.KEYUP:
-            if event.type == pygame.K_UP or event.type == pygame.K_DOWN:
+            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 pilot_y_speed = 0
-            elif event.type == pygame.K_RIGHT or event.type == pygame.K_LEFT:
+            elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 pilot_x_speed = 0
 
 
