@@ -5,7 +5,7 @@ import math
 import random
 
 # Define colors
-WHITE = (0, 0, 0)
+WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -40,10 +40,9 @@ while not done:
     # - - - - - Drawing code - - - - - - -
 
     # - - - - - Update screen drawn - - -
-    pygame.draw.rect(screen, RED, [0, 0, 384, 768], 1)
+    pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 10)
     pygame.draw.rect(screen, WHITE, [0, 0, 384, 768], 0)
-    pygame.draw.rect(screen, BLUE, [384, 0, 640, 768], 1)
-
+    pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
     pygame.display.flip()
 
     # - - - - - Set the fps - - - - - - -
