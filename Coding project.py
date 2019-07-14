@@ -76,10 +76,20 @@ while not done:
     pilot_x += pilot_x_speed
     pilot_y += pilot_y_speed + gravity
     # Setting up the walls for the pilot
-    if pilot_x > 997:
+    if pilot_x > 997 and pilot_y > 741:
         pilot_x = 997
+        pilot_y = 741
+    elif pilot_x < 390 and pilot_y < 2:
+        pilot_x = 390
+        pilot_y = 2
+    elif pilot_x > 997:
+        pilot_x = 997
+        if pilot_y < 2:
+            pilot_y = 2
     elif pilot_x < 390:
         pilot_x = 390
+        if pilot_y > 741:
+            pilot_y = 741
     elif pilot_y > 741:
         pilot_y = 741
     elif pilot_y < 2:
