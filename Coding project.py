@@ -73,19 +73,19 @@ while not done:
 
 
     # - - - - - Game logic - - - - - - - -
-
-    list_all_sprites.update()
-    if pilot_x > 1023 or pilot_x < 385:
-        pilot_x = pilot_x
-    else:
+    if pilot_x < 768 or pilot_x > 0:
         pilot_x += pilot_x_speed
-    if pilot_y > 767 or pilot_y < 1:
-        pilot_y = pilot_y
     else:
+        pilot_x_speed = 0
+    if pilot_y < 767 or pilot_y > 1:
         pilot_y += pilot_y_speed + gravity
+    else:
+        pilot_y_speed = 0
+    list_all_sprites.update()
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, WHITE, [0, 0, 384, 768], 0)
     pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
+    pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
     list_all_sprites.draw(screen)
     # - - - - - Update screen drawn - - -
