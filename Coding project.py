@@ -25,25 +25,18 @@ clock = pygame.time.Clock()
 
 # Game classes
 
-# Set up the controls
-class Movement:
-    def __init__(self, key_up, key_down, key_left, key_right):
-        self.key_up = key_up
-        self.key_down = key_down
-        self.key_left = key_left
-        self.key_right = key_right
+# Setting up pilot sprite
 
-    def active_key(self):
-        key_press = pygame.key.get_pressed()
-        if key_press(self.key_up):
-            self.y += -1
-        elif key_press(self.key_down):
-            self.y += 1
-        elif key_press(self.key_left):
-            self.x += -1
-        elif key_press(self.key_right):
-            self.y += 1
-
+class Pilot:
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface([10, 10])
+    # Creates the image of the pilot
+        self.image.fill(WHITE)
+        self.rect = self.image.get_Rect()
+    def update(self):
+        self.rect.x = pilot_x
+        self.rect.y = pilot_y
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
@@ -53,9 +46,17 @@ while not done:
         if event.type == pygame.QUIT:
             print("User asked to quit.")
             done = True  # Signals the program to end
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                pilot_y += -1
+            elif event.key == pygame.K_DOWN:
+                pilot_y += 1
+            elif event.key == pygame.K_LEFT:
+                pilot_x += -1
+            elif event.key == pygame.K_RIGHT:
+                pilot_x += 1
 
     # - - - - - Game logic - - - - - - - -
-
     # - - - - - Drawing code - - - - - - -
 
     # - - - - - Update screen drawn - - -
