@@ -56,11 +56,12 @@ class Bullet(pygame.sprite.Sprite):
         self.image = pygame.Surface([10, 10])
         self.image.fill(BLUE)
         self.rect = self.image.get_rect()
+        self.rect.x = pilot_x
+        self.rect.y = pilot_y
 
     def update(self):
         # Projectile starts with same coordinates as player but then moves over time
-        self.rect.x = pilot_x_store + 8 + int(pygame.time.get_ticks())/10
-        self.rect.y = pilot_y_store + 8
+        self.rect.x += 12
 # Player and projectiles are updated/stored in sprite group
 
 list_all_sprites = pygame.sprite.Group()
@@ -96,8 +97,6 @@ while not done:
                 pilot_x_speed = 0
         elif event.type == pygame.K_SPACE:
             Shot = Bullet()
-            Shot.rect.x = Pilot.rect.x
-            Shot.rect.y = Pilot.rect.y
             list_all_sprites.add(Shot)
 
     # - - - - - Game logic - - - - - - - -
