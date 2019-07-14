@@ -56,12 +56,10 @@ class Bullet(pygame.sprite.Sprite):
         self.image = pygame.Surface([10, 10])
         self.image.fill(BLUE)
         self.rect = self.image.get_rect()
-        self.rect.x = pilot_x
-        self.rect.y = pilot_y
 
     def update(self):
-        self.rect.x = bullet_x
-        self.rect.y = bullet_y
+        self.rect.x = Pilot.rect.x + 8
+        self.rect.y = Pilot.rect.y + 8
 
 list_all_sprites = pygame.sprite.Group()
 Pilot = Pilot()
