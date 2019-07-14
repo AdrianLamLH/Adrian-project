@@ -57,14 +57,14 @@ while not done:
             print("User asked to quit.")
             done = True  # Signals the program to end
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                pilot_y_speed = -5
-            elif event.key == pygame.K_DOWN:
-                pilot_y_speed = 5
-            elif event.key == pygame.K_LEFT:
-                pilot_x_speed = -5
-            elif event.key == pygame.K_RIGHT:
-                pilot_x_speed = 5
+                if event.key == pygame.K_UP:
+                        pilot_y_speed = -8
+                elif event.key == pygame.K_DOWN:
+                        pilot_y_speed = 8
+                elif event.key == pygame.K_LEFT:
+                        pilot_x_speed = -8
+                elif event.key == pygame.K_RIGHT:
+                        pilot_x_speed = 8
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 pilot_y_speed = 0
@@ -73,14 +73,16 @@ while not done:
 
 
     # - - - - - Game logic - - - - - - - -
-    if pilot_x < 768 or pilot_x > 0:
-        pilot_x += pilot_x_speed
-    else:
-        pilot_x_speed = 0
-    if pilot_y < 767 or pilot_y > 1:
-        pilot_y += pilot_y_speed + gravity
-    else:
-        pilot_y_speed = 0
+    pilot_x += pilot_x_speed
+    pilot_y += pilot_y_speed + gravity
+    if pilot_x > 1014:
+        pilot_x = 1014
+    elif pilot_x < 390:
+        pilot_x = 390
+    elif pilot_y > 756:
+        pilot_y = 756
+    elif pilot_y < 2:
+        pilot_y = 2
     list_all_sprites.update()
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, WHITE, [0, 0, 384, 768], 0)
