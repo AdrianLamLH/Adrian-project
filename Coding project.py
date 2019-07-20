@@ -62,14 +62,35 @@ class Bullet(pygame.sprite.Sprite):
     def update(self):
         # Projectile starts with same coordinates as player but then moves over time
         self.rect.x += 12
+
+
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface([30, 30])
+        self.image.fill(GREEN)
+        self.rect = self.image.get_rect()
+        # Generic and basic attributes of an enemy
+        self.rect.x = random.randint(1024, 1030)
+        self.rect.y = random.randint(10, 758)
+    # Enemy moves left
+
+    def update(self):
+        self.rect.x -= 9
+
 # Player and projectiles are updated/stored in sprite group
 list_all_sprites = pygame.sprite.Group()
 list_bullet = pygame.sprite.Group()
+# Enemy are updated/stored in sprite group
+list_mobs = pygame.sprite.Group()
 # Player and bullet initialised
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
 TimeShoot = pygame.USEREVENT
-
+# Enemy initialised
+Mob = Enemy()
+list_all_sprites.add(Mob)
+list_mobs.add(Mob)
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
@@ -127,12 +148,16 @@ while not done:
 
     # All sprites are refreshed in their positions
     list_all_sprites.update()
+
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, WHITE, [0, 0, 384, 768], 0)
     pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
     pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
     pygame.time.set_timer(pygame.USEREVENT, 10)
+    # Randomly generates a new enemy at a random rate
+    TimeRand = random.randint(3200, 5000)
+    pygame.time.set_timer(pygame.USEREVENT + 1, TimeRand)
     # Removes off-screen projectiles
     for Shot in list_bullet:
         if Shot.rect.x >= 1024 or Shot.rect.y >= 768:
