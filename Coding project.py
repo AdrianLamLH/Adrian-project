@@ -95,13 +95,12 @@ while not done:
             Shot = Bullet()
             list_all_sprites.add(Shot)
             list_bullet.add(Shot)
-
+        # Tells the pilot to stop moving when key not pressed
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 pilot_y_speed = 0
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 pilot_x_speed = 0
-
 
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
@@ -134,6 +133,10 @@ while not done:
     pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
     pygame.time.set_timer(pygame.USEREVENT, 10)
+    # Removes off-screen projectiles
+    if Shot.rect.x >= 1024 or Shot.rect.y >= 768:
+        list_all_sprites.remove(Shot)
+        list_bullet.remove(Shot)
     list_all_sprites.draw(screen)
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
