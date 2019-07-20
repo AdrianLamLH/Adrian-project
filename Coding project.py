@@ -87,10 +87,6 @@ list_mobs = pygame.sprite.Group()
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
 TimeShoot = pygame.USEREVENT
-# Enemy initialised
-Mob = Enemy()
-list_all_sprites.add(Mob)
-list_mobs.add(Mob)
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
@@ -111,18 +107,22 @@ while not done:
                         pilot_x_speed = -8
                 elif event.key == pygame.K_RIGHT:
                         pilot_x_speed = 8
-        # The bullet continues to fire automatically
-        elif event.type == pygame.USEREVENT:
-            Shot = Bullet()
-            list_all_sprites.add(Shot)
-            list_bullet.add(Shot)
+
         # Tells the pilot to stop moving when key not pressed
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 pilot_y_speed = 0
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 pilot_x_speed = 0
-
+        # The bullet continues to fire automatically
+        if event.type == pygame.USEREVENT:
+            Shot = Bullet()
+            list_all_sprites.add(Shot)
+            list_bullet.add(Shot)
+        if event.type == pygame.USEREVENT:
+            Mob = Enemy()
+            list_all_sprites.add(Mob)
+            list_mobs.add(Mob)
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
     pilot_y += pilot_y_speed + gravity
