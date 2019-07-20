@@ -22,6 +22,8 @@ bullet_y = 0
 pilot_x_speed = 0
 pilot_y_speed = 0
 gravity = 2.5
+FireRate = pygame.USEREVENT
+SpawnEnemy = pygame.USEREVENT+1
 # Setting up the screen
 size = (1024, 768)
 screen = pygame.display.set_mode(size)
@@ -115,11 +117,11 @@ while not done:
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 pilot_x_speed = 0
         # The bullet continues to fire automatically
-        if event.type == pygame.USEREVENT:
+        elif event.type == FireRate:
             Shot = Bullet()
             list_all_sprites.add(Shot)
             list_bullet.add(Shot)
-        if event.type == pygame.USEREVENT:
+        elif event.type == SpawnEnemy:
             Mob = Enemy()
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
@@ -154,10 +156,10 @@ while not done:
     pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
     pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
-    pygame.time.set_timer(pygame.USEREVENT, 10)
+    pygame.time.set_timer(FireRate, 10)
     # Randomly generates a new enemy at a random rate
     TimeRand = random.randint(3200, 5000)
-    pygame.time.set_timer(pygame.USEREVENT + 1, TimeRand)
+    SpawnEnemy = pygame.time.set_timer(SpawnEnemy, TimeRand)
     # Removes off-screen projectiles
     for Shot in list_bullet:
         if Shot.rect.x >= 1024 or Shot.rect.y >= 768:
