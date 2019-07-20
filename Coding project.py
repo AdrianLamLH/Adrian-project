@@ -134,9 +134,10 @@ while not done:
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
     pygame.time.set_timer(pygame.USEREVENT, 10)
     # Removes off-screen projectiles
-    if Shot.rect.x >= 1024 or Shot.rect.y >= 768:
-        list_all_sprites.remove(Shot)
-        list_bullet.remove(Shot)
+    for Shot in list_bullet:
+        if Shot.rect.x >= 1024 or Shot.rect.y >= 768:
+            list_all_sprites.remove(Shot)
+            list_bullet.remove(Shot)
     list_all_sprites.draw(screen)
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
