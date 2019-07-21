@@ -26,11 +26,14 @@ TotScore = 0
 HitScore = 2
 MobScore = 10
 MobsDead = 0
+InvincibleOver = True
 # Setting up an event for firing the projectiles and spawning mobs
 FireRate = pygame.USEREVENT
 SpawnEnemy = pygame.USEREVENT+1
 PilotHit = pygame.USEREVENT+2
 PilotHitRecover = pygame.USEREVENT+3
+# Grace period for the damage taken
+RecoverTime = pygame.USEREVENT+4
 TimeShot = 220
 # Spawning mobs at random intervals in time range
 TimeMobs = random.randint(3500, 4200)
@@ -153,6 +156,8 @@ while not done:
             Pilot.image.fill(RED)
         elif event.type == PilotHitRecover:
             Pilot.image.fill(WHITE)
+        elif event.type == RecoverTime:
+            InvincibleOver = True
 
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
@@ -206,11 +211,16 @@ while not done:
         for Shot in list_shots_landed:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
+        # Detects when pilot is hit and the pilot flashes
         pilot_damaged = pygame.sprite.spritecollide(Pilot, list_mobs, False)
-        if pilot_damaged:
-            print("hurt")
-            pygame.time.set_timer(PilotHit, 1000)
-            pygame.time.set_timer(PilotHitRecover, 2200)
+        while InvincibleOver == True:
+            if pilot_damaged:
+                print("hurt")
+                pygame.time.set_timer(PilotHit, 1000)
+                pygame.time.set_timer(PilotHitRecover, 2200)
+                InvincibleOver == False
+                pygame.time.set_timer(RecoverTime, 5000)
+        InvincibleOver = True
 
     list_all_sprites.draw(screen)
 
