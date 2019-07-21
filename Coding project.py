@@ -88,7 +88,6 @@ list_mobs = pygame.sprite.Group()
 # Player and bullet initialised
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
-TimeShoot = pygame.USEREVENT
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
@@ -117,14 +116,15 @@ while not done:
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 pilot_x_speed = 0
         # The bullet continues to fire automatically
-        elif event.type == FireRate:
+        if event.type == FireRate:
             Shot = Bullet()
             list_all_sprites.add(Shot)
             list_bullet.add(Shot)
-        elif event.type == SpawnEnemy:
+        if event.type == SpawnEnemy:
             Mob = Enemy()
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
+            print("Enemy", TimeRand)
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
     pilot_y += pilot_y_speed + gravity
@@ -149,6 +149,11 @@ while not done:
         pilot_y = 2
 
     # All sprites are refreshed in their positions
+    pygame.time.set_timer(FireRate, 40)
+    # Randomly generates a new enemy at a random rate
+    TimeRand = random.randint(30, 35)
+    pygame.time.set_timer(SpawnEnemy, TimeRand)
+    print(int(pygame.time.get_ticks()/1000))
     list_all_sprites.update()
 
     # - - - - - Drawing code - - - - - - -
@@ -156,10 +161,7 @@ while not done:
     pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
     pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
-    pygame.time.set_timer(FireRate, 10)
-    # Randomly generates a new enemy at a random rate
-    TimeRand = random.randint(3200, 5000)
-    SpawnEnemy = pygame.time.set_timer(SpawnEnemy, TimeRand)
+
     # Removes off-screen projectiles
     for Shot in list_bullet:
         if Shot.rect.x >= 1024 or Shot.rect.y >= 768:
