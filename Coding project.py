@@ -84,7 +84,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         # Generic and basic attributes of an enemy
         self.rect.x = random.randint(1024, 1030)
-        self.rect.y = random.randint(20, 758)
+        self.rect.y = random.randint(20, 735)
         self.Mob_Health = mob_health
     # Enemy moves left
 
@@ -94,14 +94,11 @@ class Enemy(pygame.sprite.Sprite):
         global MobScore
         if Mob in list_mobs_hit:
             self.Mob_Health -= 1
-            if self.Mob_Health < 1:
+            if self.Mob_Health == 0:
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
                 list_mobs_hit.remove(Mob)
                 TotScore += MobScore
-
-
-
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
 # Randomly generates a new enemy at a random rate
@@ -148,7 +145,7 @@ while not done:
             list_bullet.add(Shot)
         # Mobs are spawned at random time intervals
         if event.type == SpawnEnemy:
-            Mob = Enemy(5)
+            Mob = Enemy(2)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
         if event.type == PilotHit:
