@@ -206,8 +206,8 @@ while not done:
         for Shot in list_shots_landed:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
-        pilot_damaged = pygame.sprite.spritecollide(Pilot, list_bullet, False)
-        if Pilot in pilot_damaged:
+        pilot_damaged = pygame.sprite.spritecollide(Pilot, list_mobs, False)
+        if pilot_damaged:
             print("hurt")
             pygame.time.set_timer(PilotHit, 1000)
             pygame.time.set_timer(PilotHitRecover, 2200)
