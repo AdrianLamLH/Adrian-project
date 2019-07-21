@@ -22,8 +22,12 @@ bullet_y = 0
 pilot_x_speed = 0
 pilot_y_speed = 0
 gravity = 2.5
+# Setting up an event for firing the projectiles and spawning mobs
 FireRate = pygame.USEREVENT
 SpawnEnemy = pygame.USEREVENT+1
+TimeShot = 500
+# Spawning mobs at random intervals in time range
+TimeMobs = random.randint(3500, 4200)
 # Setting up the screen
 size = (1024, 768)
 screen = pygame.display.set_mode(size)
@@ -79,6 +83,10 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.x -= 9
+# All sprites are refreshed in their positions
+pygame.time.set_timer(FireRate, TimeShot)
+# Randomly generates a new enemy at a random rate
+pygame.time.set_timer(SpawnEnemy, TimeMobs)
 
 # Player and projectiles are updated/stored in sprite group
 list_all_sprites = pygame.sprite.Group()
@@ -124,7 +132,6 @@ while not done:
             Mob = Enemy()
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
-            print("Enemy", TimeRand)
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
     pilot_y += pilot_y_speed + gravity
@@ -148,12 +155,6 @@ while not done:
     elif pilot_y < 2:
         pilot_y = 2
 
-    # All sprites are refreshed in their positions
-    pygame.time.set_timer(FireRate, 40)
-    # Randomly generates a new enemy at a random rate
-    TimeRand = random.randint(30, 35)
-    pygame.time.set_timer(SpawnEnemy, TimeRand)
-    print(int(pygame.time.get_ticks()/1000))
     list_all_sprites.update()
 
     # - - - - - Drawing code - - - - - - -
