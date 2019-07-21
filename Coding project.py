@@ -189,6 +189,11 @@ while not done:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
     list_all_sprites.draw(screen)
+    # Removes off-screen mobs
+    for Mob in list_mobs:
+        if Mob.rect.x <= 384 or Mob.rect.y >= 768:
+            list_all_sprites.remove(Mob)
+            list_bullet.remove(Mob)
 
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
