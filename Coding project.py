@@ -186,7 +186,7 @@ while not done:
     for Mob in list_mobs:
         if Mob.rect.x <= 384 or Mob.rect.y >= 768:
             list_all_sprites.remove(Mob)
-            list_bullet.remove(Mob)
+            list_mobs.remove(Mob)
 
     # Removes off-screen projectiles
     for Shot in list_bullet:
