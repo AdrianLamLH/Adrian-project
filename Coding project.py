@@ -24,6 +24,7 @@ pilot_y_speed = 0
 gravity = 2.5
 TotScore = 0
 MobScore = 2
+mob_health = 5
 # Setting up an event for firing the projectiles and spawning mobs
 FireRate = pygame.USEREVENT
 SpawnEnemy = pygame.USEREVENT+1
@@ -81,6 +82,7 @@ class Enemy(pygame.sprite.Sprite):
         # Generic and basic attributes of an enemy
         self.rect.x = random.randint(1024, 1030)
         self.rect.y = random.randint(10, 758)
+        self.mob_health = 5
     # Enemy moves left
 
     def update(self):
@@ -170,20 +172,21 @@ while not done:
 
     # Removes off-screen projectiles
     for Shot in list_bullet:
+        # Hit detection between bullet and Mob
+        list_mobs_hit = pygame.sprite.spritecollide(Shot, list_mobs, False)
+        # Score from hitting mobs
+        for Mob in list_mobs_hit:
+            TotScore += MobScore
+            mob_health -= 1
+        if mob_health == 0:
+            list_all_sprites.remove(Mob)
+            list_mobs.remove(Mob)
         if Shot.rect.x >= 1024 or Shot.rect.y >= 768:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
     list_all_sprites.draw(screen)
 
-    # Hit detection between bullet and Mob
-    list_mobs_hit = pygame.sprite.spritecollide(list_bullet, list_mobs, False)
-    # Score from hitting mobs
-    for Mob in list_mobs_hit:
-        TotScore += MobScore
-        Mob_health -= 1
-        if Mob_health == 0:
-            list_all_sprites.remove(Mob)
-            list_mobs.remove(Mob)
+
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
 
