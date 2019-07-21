@@ -202,7 +202,11 @@ while not done:
         for Mob in list_mobs_hit:
             TotScore += HitScore
             print(TotScore)
-            
+    for Mob in list_mobs:
+        list_shots_landed = pygame.sprite.spritecollide(Mob, list_bullet, True)
+        for Shot in list_shots_landed:
+            list_all_sprites.remove(Shot)
+            list_bullet.remove(Shot)
 
 
     list_all_sprites.draw(screen)
