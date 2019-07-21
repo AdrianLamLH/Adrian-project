@@ -25,7 +25,7 @@ gravity = 2.5
 # Setting up an event for firing the projectiles and spawning mobs
 FireRate = pygame.USEREVENT
 SpawnEnemy = pygame.USEREVENT+1
-TimeShot = 500
+TimeShot = 220
 # Spawning mobs at random intervals in time range
 TimeMobs = random.randint(3500, 4200)
 # Setting up the screen
@@ -82,7 +82,7 @@ class Enemy(pygame.sprite.Sprite):
     # Enemy moves left
 
     def update(self):
-        self.rect.x -= 9
+        self.rect.x -= 2
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
 # Randomly generates a new enemy at a random rate
