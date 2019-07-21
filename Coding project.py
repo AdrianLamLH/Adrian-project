@@ -88,12 +88,14 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.x -= 2
+        global TotScore
+        global MobScore
         if Mob in list_mobs_hit:
             self.Mob_Health -= 1
             if self.Mob_Health <= 0:
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
-                MobsDead += 1
+                TotScore += MobScore
 
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
@@ -187,10 +189,7 @@ while not done:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
     list_all_sprites.draw(screen)
-    # Add up bonus score from killing mob
-    if MobsDead != 0:
-        TotScore += MobScore
-        MobsDead = 0
+
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
 
