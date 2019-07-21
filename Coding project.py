@@ -87,6 +87,12 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.x -= 2
+        if Mob in list_mobs_hit:
+            self.Mob_Health -= 1
+            if self.Mob_Health <= 0:
+                list_mobs.remove(Mob)
+                list_all_sprites.remove(Mob)
+                TotScore += MobScore
 
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
@@ -161,7 +167,6 @@ while not done:
         pilot_y = 2
 
     list_all_sprites.update()
-
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, WHITE, [0, 0, 384, 768], 0)
     pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
@@ -175,15 +180,11 @@ while not done:
         # Score from hitting mobs
         for Mob in list_mobs_hit:
             TotScore += HitScore
-            Enemy.Mob_Health -= 1
-            if Enemy.Mob_Health <= 0:
-                TotScore += MobScore
-                list_mobs.remove(Mob)
-                list_all_sprites.remove(Mob)
         if Shot.rect.x >= 1024 or Shot.rect.y >= 768:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
     list_all_sprites.draw(screen)
+    print(TotScore)
 
 
     # - - - - - Update screen drawn - - -
