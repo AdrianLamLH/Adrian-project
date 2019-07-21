@@ -148,10 +148,12 @@ while not done:
             Mob = Enemy(2)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
+        # The pilot flashes red when it is hit
         if event.type == PilotHit:
             Pilot.image.fill(RED)
         elif event.type == PilotHitRecover:
             Pilot.image.fill(WHITE)
+
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
     pilot_y += pilot_y_speed + gravity
@@ -198,13 +200,17 @@ while not done:
         # Score from hitting mobs
         for Mob in list_mobs_hit:
             TotScore += HitScore
-            print(TotScore)
+    # Removing the projectiles if they land on an enemy
     for Mob in list_mobs:
         list_shots_landed = pygame.sprite.spritecollide(Mob, list_bullet, True)
         for Shot in list_shots_landed:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
-
+        pilot_damaged = pygame.sprite.spritecollide(Pilot, list_bullet, False)
+        if Pilot in pilot_damaged:
+            print("hurt")
+            pygame.time.set_timer(PilotHit, 1000)
+            pygame.time.set_timer(PilotHitRecover, 2200)
 
     list_all_sprites.draw(screen)
 
