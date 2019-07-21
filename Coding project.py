@@ -23,8 +23,9 @@ pilot_x_speed = 0
 pilot_y_speed = 0
 gravity = 2.5
 TotScore = 0
-MobScore = 10
 HitScore = 2
+MobScore = 10
+MobsDead = 0
 # Setting up an event for firing the projectiles and spawning mobs
 FireRate = pygame.USEREVENT
 SpawnEnemy = pygame.USEREVENT+1
@@ -92,7 +93,7 @@ class Enemy(pygame.sprite.Sprite):
             if self.Mob_Health <= 0:
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
-                TotScore += MobScore
+                MobsDead += 1
 
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
@@ -103,6 +104,7 @@ list_all_sprites = pygame.sprite.Group()
 list_bullet = pygame.sprite.Group()
 # Enemy are updated/stored in sprite group
 list_mobs = pygame.sprite.Group()
+list_mobs_dead = []
 # Player and bullet initialised
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
@@ -180,13 +182,15 @@ while not done:
         # Score from hitting mobs
         for Mob in list_mobs_hit:
             TotScore += HitScore
+            print(TotScore)
         if Shot.rect.x >= 1024 or Shot.rect.y >= 768:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
     list_all_sprites.draw(screen)
-    print(TotScore)
-
-
+    # Add up bonus score from killing mob
+    if MobsDead != 0:
+        TotScore += MobScore
+        MobsDead = 0
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
 
