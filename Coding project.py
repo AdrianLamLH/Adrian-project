@@ -29,6 +29,8 @@ MobsDead = 0
 # Setting up an event for firing the projectiles and spawning mobs
 FireRate = pygame.USEREVENT
 SpawnEnemy = pygame.USEREVENT+1
+PilotHit = pygame.USEREVENT+2
+PilotHitRecover = pygame.USEREVENT+3
 TimeShot = 220
 # Spawning mobs at random intervals in time range
 TimeMobs = random.randint(3500, 4200)
@@ -82,7 +84,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         # Generic and basic attributes of an enemy
         self.rect.x = random.randint(1024, 1030)
-        self.rect.y = random.randint(10, 758)
+        self.rect.y = random.randint(20, 758)
         self.Mob_Health = mob_health
     # Enemy moves left
 
@@ -92,10 +94,13 @@ class Enemy(pygame.sprite.Sprite):
         global MobScore
         if Mob in list_mobs_hit:
             self.Mob_Health -= 1
-            if self.Mob_Health <= 0:
+            if self.Mob_Health < 1:
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
+                list_mobs_hit.remove(Mob)
                 TotScore += MobScore
+
+
 
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
@@ -106,7 +111,6 @@ list_all_sprites = pygame.sprite.Group()
 list_bullet = pygame.sprite.Group()
 # Enemy are updated/stored in sprite group
 list_mobs = pygame.sprite.Group()
-list_mobs_dead = []
 # Player and bullet initialised
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
@@ -147,6 +151,10 @@ while not done:
             Mob = Enemy(5)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
+        if event.type == PilotHit:
+            Pilot.image.fill(RED)
+        elif event.type == PilotHitRecover:
+            Pilot.image.fill(WHITE)
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
     pilot_y += pilot_y_speed + gravity
@@ -177,23 +185,27 @@ while not done:
     pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
 
+    # Removes off-screen mobs
+    for Mob in list_mobs:
+        if Mob.rect.x <= 384 or Mob.rect.y >= 768:
+            list_all_sprites.remove(Mob)
+            list_bullet.remove(Mob)
+
     # Removes off-screen projectiles
     for Shot in list_bullet:
+        if Shot.rect.x >= 1024 or Shot.rect.y >= 768:
+            list_all_sprites.remove(Shot)
+            list_bullet.remove(Shot)
         # Hit detection between bullet and Mob
         list_mobs_hit = pygame.sprite.spritecollide(Shot, list_mobs, False)
         # Score from hitting mobs
         for Mob in list_mobs_hit:
             TotScore += HitScore
             print(TotScore)
-        if Shot.rect.x >= 1024 or Shot.rect.y >= 768:
-            list_all_sprites.remove(Shot)
-            list_bullet.remove(Shot)
+            
+
+
     list_all_sprites.draw(screen)
-    # Removes off-screen mobs
-    for Mob in list_mobs:
-        if Mob.rect.x <= 384 or Mob.rect.y >= 768:
-            list_all_sprites.remove(Mob)
-            list_bullet.remove(Mob)
 
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
