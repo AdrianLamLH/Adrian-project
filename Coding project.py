@@ -23,8 +23,8 @@ pilot_x_speed = 0
 pilot_y_speed = 0
 gravity = 2.5
 TotScore = 0
-MobScore = 2
-mob_health = 5
+MobScore = 10
+HitScore = 2
 # Setting up an event for firing the projectiles and spawning mobs
 FireRate = pygame.USEREVENT
 SpawnEnemy = pygame.USEREVENT+1
@@ -74,7 +74,7 @@ class Bullet(pygame.sprite.Sprite):
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, mob_health):
         super().__init__()
         self.image = pygame.Surface([30, 30])
         self.image.fill(GREEN)
@@ -82,7 +82,7 @@ class Enemy(pygame.sprite.Sprite):
         # Generic and basic attributes of an enemy
         self.rect.x = random.randint(1024, 1030)
         self.rect.y = random.randint(10, 758)
-        self.mob_health = 5
+        self.Mob_Health = mob_health
     # Enemy moves left
 
     def update(self):
@@ -92,7 +92,6 @@ class Enemy(pygame.sprite.Sprite):
 pygame.time.set_timer(FireRate, TimeShot)
 # Randomly generates a new enemy at a random rate
 pygame.time.set_timer(SpawnEnemy, TimeMobs)
-
 # Player and projectiles are updated/stored in sprite group
 list_all_sprites = pygame.sprite.Group()
 list_bullet = pygame.sprite.Group()
@@ -135,10 +134,9 @@ while not done:
             list_bullet.add(Shot)
         # Mobs are spawned at random time intervals
         if event.type == SpawnEnemy:
-            Mob = Enemy()
+            Mob = Enemy(5)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
-            Mob_health = 5
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
     pilot_y += pilot_y_speed + gravity
@@ -176,11 +174,12 @@ while not done:
         list_mobs_hit = pygame.sprite.spritecollide(Shot, list_mobs, False)
         # Score from hitting mobs
         for Mob in list_mobs_hit:
-            TotScore += MobScore
-            mob_health -= 1
-        if mob_health == 0:
-            list_all_sprites.remove(Mob)
-            list_mobs.remove(Mob)
+            TotScore += HitScore
+            Enemy.Mob_Health -= 1
+            if Enemy.Mob_Health <= 0:
+                TotScore += MobScore
+                list_mobs.remove(Mob)
+                list_all_sprites.remove(Mob)
         if Shot.rect.x >= 1024 or Shot.rect.y >= 768:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
