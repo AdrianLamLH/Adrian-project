@@ -95,6 +95,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x -= 2
         global TotScore
         global MobScore
+        global InvincibleOver
         if Mob in list_mobs_hit:
             self.Mob_Health -= 1
             if self.Mob_Health == 0:
@@ -102,6 +103,16 @@ class Enemy(pygame.sprite.Sprite):
                 list_all_sprites.remove(Mob)
                 list_mobs_hit.remove(Mob)
                 TotScore += MobScore
+        if Mob in list_mobs:
+            # Detects when pilot is hit and the pilot flashes
+            pilot_damaged = pygame.sprite.spritecollide(Pilot, list_mobs, False)
+            if InvincibleOver:
+                if pilot_damaged:
+                    print("hurt")
+                    pygame.time.set_timer(PilotHit, 1000)
+                    pygame.time.set_timer(PilotHitRecover, 2200)
+                    InvincibleOver = False
+                    pygame.time.set_timer(RecoverTime, 5000)
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
 # Randomly generates a new enemy at a random rate
@@ -114,6 +125,7 @@ list_mobs = pygame.sprite.Group()
 # Player and bullet initialised
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
+
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
@@ -211,16 +223,6 @@ while not done:
         for Shot in list_shots_landed:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
-        # Detects when pilot is hit and the pilot flashes
-        pilot_damaged = pygame.sprite.spritecollide(Pilot, list_mobs, False)
-        while InvincibleOver == True:
-            if pilot_damaged:
-                print("hurt")
-                pygame.time.set_timer(PilotHit, 1000)
-                pygame.time.set_timer(PilotHitRecover, 2200)
-                InvincibleOver == False
-                pygame.time.set_timer(RecoverTime, 5000)
-        InvincibleOver = True
 
     list_all_sprites.draw(screen)
 
