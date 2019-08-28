@@ -26,12 +26,14 @@ TotScore = 0
 HitScore = 2
 MobScore = 10
 MobsDead = 0
-InvincibleOver = True
+# Counts the number of flickers when hit
+flickercount = 5
 # Setting up an event for firing the projectiles and spawning mobs
 FireRate = pygame.USEREVENT
 SpawnEnemy = pygame.USEREVENT+1
 PilotHit = pygame.USEREVENT+2
 PilotHitRecover = pygame.USEREVENT+3
+Pilot_is_flickering = False
 # Grace period for the damage taken
 RecoverTime = pygame.USEREVENT+4
 TimeShot = 220
@@ -95,7 +97,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x -= 2
         global TotScore
         global MobScore
-        global InvincibleOver
+        global Pilot_is_flickering
         if Mob in list_mobs_hit:
             self.Mob_Health -= 1
             if self.Mob_Health == 0:
@@ -103,16 +105,16 @@ class Enemy(pygame.sprite.Sprite):
                 list_all_sprites.remove(Mob)
                 list_mobs_hit.remove(Mob)
                 TotScore += MobScore
+                print(TotScore)
         if Mob in list_mobs:
             # Detects when pilot is hit and the pilot flashes
             pilot_damaged = pygame.sprite.spritecollide(Pilot, list_mobs, False)
-            if InvincibleOver:
-                if pilot_damaged:
-                    print("hurt")
-                    pygame.time.set_timer(PilotHit, 1000)
-                    pygame.time.set_timer(PilotHitRecover, 2200)
-                    InvincibleOver = False
-                    pygame.time.set_timer(RecoverTime, 5000)
+            # Need to fix flicker timing so it only triggers the flicker once during the collision
+            # Introduced pilot_isflickering so it only triggers the flicker upon first collision
+            if pilot_damaged and Pilot_is_flickering:
+                print("hurt")
+                pygame.time.set_timer(PilotHit, 1000)
+                Pilot_is_flickering = True
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
 # Randomly generates a new enemy at a random rate
@@ -154,22 +156,29 @@ while not done:
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 pilot_x_speed = 0
         # The bullet continues to fire automatically
-        if event.type == FireRate:
+        elif event.type == FireRate:
             Shot = Bullet()
             list_all_sprites.add(Shot)
             list_bullet.add(Shot)
         # Mobs are spawned at random time intervals
-        if event.type == SpawnEnemy:
+        elif event.type == SpawnEnemy:
             Mob = Enemy(2)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
         # The pilot flashes red when it is hit
-        if event.type == PilotHit:
+        elif event.type == PilotHit:
             Pilot.image.fill(RED)
+            pygame.time.set_timer(PilotHitRecover, 1000)
+            print("hit")
         elif event.type == PilotHitRecover:
+            flickercount -= 1
             Pilot.image.fill(WHITE)
-        elif event.type == RecoverTime:
-            InvincibleOver = True
+        # Changed the flicker output so it only returns flicker when it is still in the flick cycle
+            if flickercount > 0:
+                pygame.time.set_timer(PilotHit, 1000)
+                print("flicker")
+            else:
+                Pilot_is_flickering = False
 
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
