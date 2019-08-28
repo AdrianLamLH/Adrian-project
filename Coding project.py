@@ -164,6 +164,7 @@ while not done:
                 print("hit")
                 pygame.time.set_timer(PilotHitRecover, 1000)
             else:
+                print("Done hit")
                 pygame.time.set_timer(PilotHit, 0)
             # Recolours the pilot to white once flicker cycle is over
                 Pilot.image.fill(WHITE)
@@ -175,9 +176,7 @@ while not done:
                 Pilot.image.fill(WHITE)
                 print("flicker")
             else:
-
                 Pilot_flickering = False
-                flickercount = 3
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
     pilot_y += pilot_y_speed + gravity
