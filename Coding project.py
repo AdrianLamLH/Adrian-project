@@ -105,7 +105,7 @@ class Enemy(pygame.sprite.Sprite):
             # Introduced pilot_flickering so it only triggers the flicker upon first collision
             if pilot_damaged and Pilot_flickering is False:
                 print("hurt")
-                pygame.time.set_timer(PilotHitRecover, 1000)
+                pygame.time.set_timer(PilotHit, 1000)
                 Pilot_flickering = True
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
@@ -159,10 +159,12 @@ while not done:
             list_mobs.add(Mob)
         # The pilot flashes red when it is hit
         elif event.type == PilotHit:
-            if flickercount > -1:
+            if flickercount > 0:
                 Pilot.image.fill(RED)
                 pygame.time.set_timer(PilotHitRecover, 1000)
                 print("hit")
+        # Recolours the pilot to white once flicker cycle is over
+            Pilot.image.fill(WHITE)
         elif event.type == PilotHitRecover:
             flickercount -= 1
             Pilot.image.fill(WHITE)
@@ -172,7 +174,9 @@ while not done:
                 print("flicker")
             else:
                 Pilot_flickering = False
-
+        elif Pilot_flickering is False:
+            pygame.time.set_timer(PilotHit, 0)
+            pygame.time.set_timer(PilotHitRecover, 0)
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
     pilot_y += pilot_y_speed + gravity
