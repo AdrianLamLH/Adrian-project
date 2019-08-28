@@ -27,7 +27,7 @@ HitScore = 2
 MobScore = 10
 MobsDead = 0
 # Counts the number of flickers when hit
-flickercount = 5
+flickercount = 3
 # Setting up an event for firing the projectiles and spawning mobs
 FireRate = pygame.USEREVENT
 SpawnEnemy = pygame.USEREVENT+1
@@ -105,7 +105,7 @@ class Enemy(pygame.sprite.Sprite):
             # Introduced pilot_flickering so it only triggers the flicker upon first collision
             if pilot_damaged and Pilot_flickering is False:
                 print("hurt")
-                pygame.time.set_timer(PilotHit, 2000)
+                pygame.time.set_timer(PilotHit, 1000)
                 Pilot_flickering = True
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
@@ -162,12 +162,14 @@ while not done:
             if flickercount > 0:
                 Pilot.image.fill(RED)
                 print("hit")
-                pygame.time.set_timer(PilotHitRecover, 1000)
+        # The time period for changing back to white is 500ms a.k.a half the time period of flickering pilot to red
+                pygame.time.set_timer(PilotHitRecover, 500)
             else:
                 print("Done hit")
                 pygame.time.set_timer(PilotHit, 0)
             # Recolours the pilot to white once flicker cycle is over
                 Pilot.image.fill(WHITE)
+                flickercount = 3
         elif event.type == PilotHitRecover:
             flickercount -= 1
         # Changed the flicker output so it only returns flicker when it is still in the flick cycle
