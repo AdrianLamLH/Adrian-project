@@ -98,19 +98,11 @@ class Enemy(pygame.sprite.Sprite):
         global TotScore
         global MobScore
         global Pilot_is_flickering
-        if Mob in list_mobs_hit:
-            self.Mob_Health -= 1
-            if self.Mob_Health == 0:
-                list_mobs.remove(Mob)
-                list_all_sprites.remove(Mob)
-                list_mobs_hit.remove(Mob)
-                TotScore += MobScore
-                print(TotScore)
         if Mob in list_mobs:
             # Detects when pilot is hit and the pilot flashes
             pilot_damaged = pygame.sprite.spritecollide(Pilot, list_mobs, False)
             # Need to fix flicker timing so it only triggers the flicker once during the collision
-            # Introduced pilot_isflickering so it only triggers the flicker upon first collision
+            # Introduced pilot_is_flickering so it only triggers the flicker upon first collision
             if pilot_damaged and Pilot_is_flickering:
                 print("hurt")
                 pygame.time.set_timer(PilotHit, 1000)
@@ -226,15 +218,21 @@ while not done:
         # Score from hitting mobs
         for Mob in list_mobs_hit:
             TotScore += HitScore
+            Mob.Mob_Health -= 1
+            if Mob.Mob_Health == 0:
+                list_mobs.remove(Mob)
+                list_all_sprites.remove(Mob)
+                list_mobs_hit.remove(Mob)
+                TotScore += MobScore
     # Removing the projectiles if they land on an enemy
     for Mob in list_mobs:
         list_shots_landed = pygame.sprite.spritecollide(Mob, list_bullet, True)
         for Shot in list_shots_landed:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
+            print(TotScore)
 
     list_all_sprites.draw(screen)
-
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
 
