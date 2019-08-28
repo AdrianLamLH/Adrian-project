@@ -159,9 +159,10 @@ while not done:
             list_mobs.add(Mob)
         # The pilot flashes red when it is hit
         elif event.type == PilotHit:
-            Pilot.image.fill(RED)
-            pygame.time.set_timer(PilotHitRecover, 1000)
-            print("hit")
+            if flickercount > -1:
+                Pilot.image.fill(RED)
+                pygame.time.set_timer(PilotHitRecover, 1000)
+                print("hit")
         elif event.type == PilotHitRecover:
             flickercount -= 1
             Pilot.image.fill(WHITE)
