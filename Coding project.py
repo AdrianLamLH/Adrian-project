@@ -33,7 +33,7 @@ FireRate = pygame.USEREVENT
 SpawnEnemy = pygame.USEREVENT+1
 PilotHit = pygame.USEREVENT+2
 PilotHitRecover = pygame.USEREVENT+3
-Pilot_is_flickering = True
+Pilot_flickering = False
 # Grace period for the damage taken
 RecoverTime = pygame.USEREVENT+4
 TimeShot = 220
@@ -97,16 +97,16 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x -= 2
         global TotScore
         global MobScore
-        global Pilot_is_flickering
+        global Pilot_flickering
         if Mob in list_mobs:
             # Detects when pilot is hit and the pilot flashes
             pilot_damaged = pygame.sprite.spritecollide(Pilot, list_mobs, False)
             # Need to fix flicker timing so it only triggers the flicker once during the collision
-            # Introduced pilot_is_flickering so it only triggers the flicker upon first collision
-            if pilot_damaged and Pilot_is_flickering:
+            # Introduced pilot_flickering so it only triggers the flicker upon first collision
+            if pilot_damaged and Pilot_flickering is False:
                 print("hurt")
-                pygame.time.set_timer(PilotHit, 1000)
-                Pilot_is_flickering = False
+                pygame.time.set_timer(PilotHitRecover, 1000)
+                Pilot_flickering = True
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
 # Randomly generates a new enemy at a random rate
@@ -170,7 +170,7 @@ while not done:
                 pygame.time.set_timer(PilotHit, 1000)
                 print("flicker")
             else:
-                Pilot_is_flickering = True
+                Pilot_flickering = False
 
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
