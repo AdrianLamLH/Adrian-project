@@ -114,7 +114,7 @@ class Enemy(pygame.sprite.Sprite):
 
 class IBlock(Enemy):
     def __init__(self, mob_health):
-        super().__init__(mob_health)
+        super(IBlock, self).__init__(mob_health)
         self.image = pygame.Surface([20, 80])
         self.image.fill(BLUE)
 
