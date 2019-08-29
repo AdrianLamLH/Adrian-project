@@ -83,7 +83,6 @@ class Bullet(pygame.sprite.Sprite):
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, mob_health):
-        super().__init__()
         self.image = pygame.Surface([30, 30])
         self.image.fill(GREEN)
         self.rect = self.image.get_rect()
@@ -107,6 +106,16 @@ class Enemy(pygame.sprite.Sprite):
                 print("hurt")
                 pygame.time.set_timer(PilotHit, 1000)
                 Pilot_flickering = True
+
+# Types of enemies
+# I Block
+
+
+class IBlock(Enemy):
+    def __init__(self):
+        self.image = pygame.Surface[30, 30]
+        self.image.fill(BLUE)
+        self.rect = self.image.get_rect(2, 6)
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
 # Randomly generates a new enemy at a random rate
@@ -154,7 +163,7 @@ while not done:
             list_bullet.add(Shot)
         # Mobs are spawned at random time intervals
         elif event.type == SpawnEnemy:
-            Mob = Enemy(2)
+            Mob = IBlock()
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
         # The pilot flashes red when it is hit
