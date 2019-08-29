@@ -82,6 +82,7 @@ class Bullet(pygame.sprite.Sprite):
 
 
 class Enemy(pygame.sprite.Sprite):
+    # No pass
     def __init__(self, mob_health):
         self.image = pygame.Surface([30, 30])
         self.image.fill(GREEN)
