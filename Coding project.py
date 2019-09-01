@@ -27,6 +27,7 @@ HitScore = 2
 MobScore = 10
 MobsDead = 0
 PilotHealth = 3
+killed_mob = 0
 # Counts the number of flickers when hit
 flickercount = 3
 # Setting up an event for firing the projectiles and spawning mobs
@@ -48,6 +49,9 @@ pygame.display.set_caption("Game name here")
 
 # To manage the fps
 clock = pygame.time.Clock()
+
+# Initialise block types
+BlockType = [IBlock, JBlock, LBlock, OBlock, SBlock, ZBlock]
 
 # Tetris board setup
 
@@ -85,8 +89,6 @@ def show_health():
         screen.blit(rescaled_heart_pic, (775, 20))
     elif PilotHealth == 1:
         screen.blit(rescaled_heart_pic, (700, 20))
-# Draw tetris grid
-
 
 
 # Setting up pilot sprite
@@ -157,10 +159,13 @@ class Enemy(pygame.sprite.Sprite):
 class IBlock(Enemy):
     def __init__(self, mob_health):
         super(IBlock, self).__init__(mob_health)
+        global killed_mob
         self.image = pygame.Surface([30, 120])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/IBlock.png")
         self.image = pygame.transform.scale(picture, [30, 120])
+        if mob_health == 0:
+            killed_mob = "I"
 
 
 # J Block
@@ -169,10 +174,13 @@ class IBlock(Enemy):
 class JBlock(Enemy):
     def __init__(self, mob_health):
         super(JBlock, self).__init__(mob_health)
+        global killed_mob
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/JBlock.png")
         self.image = pygame.transform.smoothscale(picture, [60, 90])
+        if mob_health == 0:
+            killed_mob = "J"
 
 # L Block
 
@@ -180,10 +188,13 @@ class JBlock(Enemy):
 class LBlock(Enemy):
     def __init__(self, mob_health):
         super(LBlock, self).__init__(mob_health)
+        global killed_mob
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/LBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
+        if mob_health == 0:
+            killed_mob = "L"
 
 # O Block
 
@@ -191,10 +202,13 @@ class LBlock(Enemy):
 class OBlock(Enemy):
     def __init__(self, mob_health):
         super(OBlock, self).__init__(mob_health)
+        global killed_mob
         self.image = pygame.Surface([60, 60])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/OBlock.png")
         self.image = pygame.transform.scale(picture, [60, 60])
+        if mob_health == 0:
+            killed_mob = "O"
 
 # T Block
 
@@ -202,10 +216,13 @@ class OBlock(Enemy):
 class TBlock(Enemy):
     def __init__(self, mob_health):
         super(TBlock, self).__init__(mob_health)
+        global killed_mob
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/TBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
+        if mob_health == 0:
+            killed_mob = "T"
 
 # S Block
 
@@ -213,10 +230,13 @@ class TBlock(Enemy):
 class SBlock(Enemy):
     def __init__(self, mob_health):
         super(SBlock, self).__init__(mob_health)
+        global killed_mob
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/SBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
+        if mob_health == 0:
+            killed_mob = "S"
 
 # O Block
 
@@ -224,10 +244,13 @@ class SBlock(Enemy):
 class ZBlock(Enemy):
     def __init__(self, mob_health):
         super(ZBlock, self).__init__(mob_health)
+        global killed_mob
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/ZBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
+        if mob_health == 0:
+            killed_mob = "Z"
 
 
 # All sprites are refreshed in their positions
@@ -243,8 +266,7 @@ list_mobs = pygame.sprite.Group()
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
 
-# Initialise block types
-BlockType = [IBlock, JBlock, LBlock, OBlock, SBlock, ZBlock]
+
 
 # Loop until the user clicks the close button
 done = False
