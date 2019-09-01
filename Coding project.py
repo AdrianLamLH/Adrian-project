@@ -118,6 +118,10 @@ class IBlock(Enemy):
         super(IBlock, self).__init__(mob_health)
         self.image = pygame.Surface([20, 80])
         self.image.fill(BLUE)
+        picture = pygame.image.load("/Users/adrianlam/Desktop/IBlock.png")
+        self.image = pygame.transform.scale(picture, [20, 80])
+
+
 # J Block
 
 
