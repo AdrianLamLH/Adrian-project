@@ -49,6 +49,15 @@ pygame.display.set_caption("Game name here")
 # To manage the fps
 clock = pygame.time.Clock()
 
+# Tetris board setup
+
+TGrid = []
+for TRow in range(0, 9):
+    TGrid.append([])
+    for TColumn in range(0,19):
+        TGrid.TRow.append(0)
+
+
 # Game classes
 
 # Draw function
@@ -76,6 +85,10 @@ def show_health():
         screen.blit(rescaled_heart_pic, (775, 20))
     elif PilotHealth == 1:
         screen.blit(rescaled_heart_pic, (700, 20))
+# Draw tetris grid
+
+
+
 # Setting up pilot sprite
 
 
@@ -215,6 +228,7 @@ class ZBlock(Enemy):
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/ZBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
+
 
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
@@ -358,6 +372,12 @@ while not done:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
             print(TotScore)
+
+    # Drawing tetris board
+
+    for TRow in range(0, 9):
+        for TColumn in range(0, 19):
+            draw_tgrid()
 
     list_all_sprites.draw(screen)
 
