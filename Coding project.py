@@ -28,8 +28,8 @@ MobScore = 10
 MobsDead = 0
 PilotHealth = 3
 killed_mob = 0
-column_spacing = 40
-row_spacing = 40
+column_spacing = 36
+row_spacing = 36
 # Counts the number of flickers when hit
 flickercount = 3
 # Setting up an event for firing the projectiles and spawning mobs
@@ -57,9 +57,9 @@ clock = pygame.time.Clock()
 # Tetris board setup
 
 TGrid = []
-for TRow in range(9):
+for TRow in range(10):
     TGrid.append([])
-    for TColumn in range(19):
+    for TColumn in range(20):
         TGrid[TRow].append(0)
 
 
@@ -357,7 +357,7 @@ while not done:
 
     list_all_sprites.update()
     # - - - - - Drawing code - - - - - - -
-    pygame.draw.rect(screen, WHITE, [0, 0, 384, 768], 0)
+    pygame.draw.rect(screen, BLACK, [0, 0, 384, 768], 0)
     pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
     pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
@@ -401,11 +401,11 @@ while not done:
 
     # Drawing tetris board
 
-    for TRow in range(9):
+    for TRow in range(10):
         row_pos = (TRow + 0.3) * row_spacing
-        for TColumn in range(19):
-            column_pos = (TColumn + 0.3) * column_spacing
-            pygame.draw.rect(screen, BLUE, [row_pos, column_pos, 33, 33])
+        for TColumn in range(20):
+            column_pos = (TColumn + 1.25) * column_spacing
+            pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
 
     list_all_sprites.draw(screen)
 
