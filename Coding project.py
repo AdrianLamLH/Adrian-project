@@ -129,6 +129,7 @@ class JBlock(Enemy):
     def __init__(self, mob_health):
         super(JBlock, self).__init__(mob_health)
         self.image = pygame.Surface([20, 80])
+        self.image = pygame.Surface([40, 20])
         self.image.fill(BLUE)
 # L Block
 
@@ -222,7 +223,7 @@ while not done:
             list_bullet.add(Shot)
         # Mobs are spawned at random time intervals
         elif event.type == SpawnEnemy:
-            Mob = IBlock(2)
+            Mob = JBlock(2)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
         # The pilot flashes red when it is hit
