@@ -4,7 +4,6 @@ import pygame
 import math
 import random
 
-print(pygame.font.get_fonts())
 # Define colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -27,7 +26,7 @@ TotScore = 0
 HitScore = 2
 MobScore = 10
 MobsDead = 0
-
+PilotHealth = 3
 # Counts the number of flickers when hit
 flickercount = 3
 # Setting up an event for firing the projectiles and spawning mobs
@@ -54,12 +53,20 @@ clock = pygame.time.Clock()
 
 # Draw function
 
+# Score
+
 
 def drawing(text, text_size, color, x_pos, y_pos):
     font_style = pygame.font.SysFont("pressstart2p", text_size)
     printtext = font_style.render(str(text), False, color)
     screen.blit(printtext, (x_pos, y_pos))
 
+# Health hearts
+
+
+def show_health(x_pos, y_pos):
+    heart_pic = pygame.image.load('heart_pic.png')
+    screen.blit(heart_pic, (x_pos, y_pos))
 # Setting up pilot sprite
 
 
@@ -118,6 +125,7 @@ class Enemy(pygame.sprite.Sprite):
                 print("hurt")
                 pygame.time.set_timer(PilotHit, 1000)
                 Pilot_flickering = True
+                PilotHealth -= 1
 
 # Types of enemies
 # I Block
@@ -308,6 +316,17 @@ while not done:
     drawing("Score:", 16, WHITE, 880, 20)
     drawing(TotScore, 16, WHITE, 980, 20)
 
+    # Health hearts
+    if PilotHealth >= 3:
+        show_health(700, 20)
+        show_health(660, 20)
+        show_health(620, 20)
+    elif PilotHealth == 2:
+        show_health(700, 20)
+        show_health(660, 20)
+    elif PilotHealth == 1:
+        show_health(700, 20)
+
     # Removes off-screen mobs
     for Mob in list_mobs:
         if Mob.rect.x <= 384 or Mob.rect.y >= 768:
@@ -339,6 +358,7 @@ while not done:
             print(TotScore)
 
     list_all_sprites.draw(screen)
+
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
 
