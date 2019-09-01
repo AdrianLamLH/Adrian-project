@@ -25,6 +25,7 @@ bullet_x = 0
 bullet_y = 0
 pilot_x_speed = 0
 pilot_y_speed = 0
+enemy_speed_change = 0
 gravity = 2.5
 TotScore = 0
 HitScore = 2
@@ -143,7 +144,7 @@ class Enemy(pygame.sprite.Sprite):
     # Enemy moves left
 
     def update(self):
-        self.rect.x -= 2
+        self.rect.x -= 2 + enemy_speed_change
         global TotScore
         global MobScore
         global Pilot_flickering
@@ -327,6 +328,7 @@ while not done:
             if flickercount > 0:
                 Pilot.image.fill(RED)
                 print("hit")
+                enemy_speed_change -= 0.2
         # The time period for changing back to white is 500ms a.k.a half the time period of flickering pilot to red
                 pygame.time.set_timer(PilotHitRecover, 500)
             else:
@@ -403,6 +405,8 @@ while not done:
                 list_all_sprites.remove(Mob)
                 list_mobs_hit.remove(Mob)
                 mob_got_killed = True
+                # Increase game scroll speed when enemy killed: difficulty progression
+                enemy_speed_change += 0.2
                 TotScore += MobScore
     # Removing the projectiles if they land on an enemy
     for Mob in list_mobs:
