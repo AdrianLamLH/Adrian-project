@@ -28,8 +28,8 @@ MobScore = 10
 MobsDead = 0
 PilotHealth = 3
 killed_mob = 0
-column_spacing = 30
-row_spacing = 20
+column_spacing = 40
+row_spacing = 40
 # Counts the number of flickers when hit
 flickercount = 3
 # Setting up an event for firing the projectiles and spawning mobs
@@ -401,11 +401,13 @@ while not done:
 
     # Drawing tetris board
 
-    for TRow in range(0, 9):
+    for TRow in range(9):
         row_pos = TRow * row_spacing
-        for TColumn in range(0, 19):
+        for TColumn in range(19):
             column_pos = TColumn * column_spacing
-            pygame.draw.rect(screen, BLUE, [row_pos, column_pos, 25, 25])
+            pygame.draw.rect(screen, BLUE, [row_pos, column_pos, 33, 33])
+
+    pygame.draw.rect(screen, BLUE, [340, 730, 34, 34])
 
     list_all_sprites.draw(screen)
 
