@@ -175,6 +175,7 @@ class IBlock(Enemy):
         self.image = pygame.transform.scale(picture, [30, 120])
         if mob_health == 0:
             killed_mob = GREEN
+            print("dead")
 
 
 # J Block
@@ -190,6 +191,7 @@ class JBlock(Enemy):
         self.image = pygame.transform.smoothscale(picture, [60, 90])
         if mob_health == 0:
             killed_mob = BLUE
+            print("dead")
 
 # L Block
 
@@ -218,6 +220,7 @@ class OBlock(Enemy):
         self.image = pygame.transform.scale(picture, [60, 60])
         if mob_health == 0:
             killed_mob = "RED"
+            print("dead")
 
 # T Block
 
@@ -232,6 +235,7 @@ class TBlock(Enemy):
         self.image = pygame.transform.scale(picture, [60, 90])
         if mob_health == 0:
             killed_mob = BROWN
+            print("dead")
 
 # S Block
 
@@ -246,6 +250,7 @@ class SBlock(Enemy):
         self.image = pygame.transform.scale(picture, [60, 90])
         if mob_health == 0:
             killed_mob = ORANGE
+            print("dead")
 
 # Z Block
 
@@ -260,6 +265,7 @@ class ZBlock(Enemy):
         self.image = pygame.transform.scale(picture, [60, 90])
         if mob_health == 0:
             killed_mob = PURPLE
+            print("dead")
 
 
 # All sprites are refreshed in their positions
@@ -412,10 +418,13 @@ while not done:
         row_pos = (TRow + 0.3) * row_spacing
         for TColumn in range(20):
             column_pos = (TColumn + 1.25) * column_spacing
-            if mob_got_killed is False:
-                pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
-            else:
-                pygame.draw.rect(screen, killed_mob, [row_pos, column_pos, 34, 34])
+            pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
+    if killed_mob == GREEN:
+        pygame.draw.rect(screen, GREEN, [(4 + 0.3) * row_spacing, 1.25 * column_spacing, 34, 34])
+        pygame.draw.rect(screen, GREEN, [(5 + 0.3) * row_spacing, 1.25 * column_spacing, 34, 34])
+        pygame.draw.rect(screen, GREEN, [(6 + 0.3) * row_spacing, 1.25 * column_spacing, 34, 34])
+        pygame.draw.rect(screen, GREEN, [(7 + 0.3) * row_spacing, 1.25 * column_spacing, 34, 34])
+
 
     list_all_sprites.draw(screen)
 
