@@ -64,9 +64,18 @@ def drawing(text, text_size, color, x_pos, y_pos):
 # Health hearts
 
 
-def show_health(x_pos, y_pos):
+def show_health():
     heart_pic = pygame.image.load('heart_pic.png')
-    screen.blit(heart_pic, (x_pos, y_pos))
+    rescaled_heart_pic = pygame.transform.smoothscale(heart_pic, (25, 25))
+    if PilotHealth >= 3:
+        screen.blit(rescaled_heart_pic, (750, 20))
+        screen.blit(rescaled_heart_pic, (775, 20))
+        screen.blit(rescaled_heart_pic, (800, 20))
+    elif PilotHealth == 2:
+        screen.blit(rescaled_heart_pic, (750, 20))
+        screen.blit(rescaled_heart_pic, (775, 20))
+    elif PilotHealth == 1:
+        screen.blit(rescaled_heart_pic, (700, 20))
 # Setting up pilot sprite
 
 
@@ -116,6 +125,7 @@ class Enemy(pygame.sprite.Sprite):
         global TotScore
         global MobScore
         global Pilot_flickering
+        global PilotHealth
         if Mob in list_mobs:
             # Detects when pilot is hit and the pilot flashes
             pilot_damaged = pygame.sprite.spritecollide(Pilot, list_mobs, False)
@@ -137,7 +147,7 @@ class IBlock(Enemy):
         self.image = pygame.Surface([30, 120])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/IBlock.png")
-        self.image = pygame.transform.scale(picture, [20, 80])
+        self.image = pygame.transform.scale(picture, [30, 120])
 
 
 # J Block
@@ -316,16 +326,8 @@ while not done:
     drawing("Score:", 16, WHITE, 880, 20)
     drawing(TotScore, 16, WHITE, 980, 20)
 
-    # Health hearts
-    if PilotHealth >= 3:
-        show_health(700, 20)
-        show_health(660, 20)
-        show_health(620, 20)
-    elif PilotHealth == 2:
-        show_health(700, 20)
-        show_health(660, 20)
-    elif PilotHealth == 1:
-        show_health(700, 20)
+    # Display health
+    show_health()
 
     # Removes off-screen mobs
     for Mob in list_mobs:
