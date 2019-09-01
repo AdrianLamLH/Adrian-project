@@ -118,6 +118,58 @@ class IBlock(Enemy):
         super(IBlock, self).__init__(mob_health)
         self.image = pygame.Surface([20, 80])
         self.image.fill(BLUE)
+# J Block
+
+
+class JBlock(Enemy):
+    def __init__(self, mob_health):
+        super(JBlock, self).__init__(mob_health)
+        self.image = pygame.Surface([20, 80])
+        self.image.fill(BLUE)
+# L Block
+
+
+class LBlock(Enemy):
+    def __init__(self, mob_health):
+        super(LBlock, self).__init__(mob_health)
+        self.image = pygame.Surface([20, 80])
+        self.image.fill(BLUE)
+
+# O Block
+
+
+class OBlock(Enemy):
+    def __init__(self, mob_health):
+        super(OBlock, self).__init__(mob_health)
+        self.image = pygame.Surface([20, 80])
+        self.image.fill(BLUE)
+
+# T Block
+
+
+class TBlock(Enemy):
+    def __init__(self, mob_health):
+        super(TBlock, self).__init__(mob_health)
+        self.image = pygame.Surface([20, 80])
+        self.image.fill(BLUE)
+
+# S Block
+
+
+class SBlock(Enemy):
+    def __init__(self, mob_health):
+        super(SBlock, self).__init__(mob_health)
+        self.image = pygame.Surface([20, 80])
+        self.image.fill(BLUE)
+
+# O Block
+
+
+class ZBlock(Enemy):
+    def __init__(self, mob_health):
+        super(ZBlock, self).__init__(mob_health)
+        self.image = pygame.Surface([20, 80])
+        self.image.fill(BLUE)
 
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
