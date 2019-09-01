@@ -116,7 +116,7 @@ class Enemy(pygame.sprite.Sprite):
 class IBlock(Enemy):
     def __init__(self, mob_health):
         super(IBlock, self).__init__(mob_health)
-        self.image = pygame.Surface([20, 80])
+        self.image = pygame.Surface([30, 120])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Desktop/IBlock.png")
         self.image = pygame.transform.scale(picture, [20, 80])
@@ -128,10 +128,10 @@ class IBlock(Enemy):
 class JBlock(Enemy):
     def __init__(self, mob_health):
         super(JBlock, self).__init__(mob_health)
-        self.image = pygame.Surface([40, 60])
+        self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Desktop/JBlock.png")
-        self.image = pygame.transform.scale(picture, [40, 60])
+        self.image = pygame.transform.smoothscale(picture, [60, 90])
 
 # L Block
 
@@ -139,10 +139,10 @@ class JBlock(Enemy):
 class LBlock(Enemy):
     def __init__(self, mob_health):
         super(LBlock, self).__init__(mob_health)
-        self.image = pygame.Surface([40, 60])
+        self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Desktop/LBlock.png")
-        self.image = pygame.transform.scale(picture, [40, 60])
+        self.image = pygame.transform.scale(picture, [60, 90])
 
 # O Block
 
@@ -150,10 +150,10 @@ class LBlock(Enemy):
 class OBlock(Enemy):
     def __init__(self, mob_health):
         super(OBlock, self).__init__(mob_health)
-        self.image = pygame.Surface([40, 40])
+        self.image = pygame.Surface([60, 60])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Desktop/OBlock.png")
-        self.image = pygame.transform.scale(picture, [40, 40])
+        self.image = pygame.transform.scale(picture, [60, 60])
 
 # T Block
 
@@ -161,10 +161,10 @@ class OBlock(Enemy):
 class TBlock(Enemy):
     def __init__(self, mob_health):
         super(TBlock, self).__init__(mob_health)
-        self.image = pygame.Surface([40, 60])
+        self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Desktop/TBlock.png")
-        self.image = pygame.transform.scale(picture, [40, 60])
+        self.image = pygame.transform.scale(picture, [60, 90])
 
 # S Block
 
@@ -172,10 +172,10 @@ class TBlock(Enemy):
 class SBlock(Enemy):
     def __init__(self, mob_health):
         super(SBlock, self).__init__(mob_health)
-        self.image = pygame.Surface([40, 60])
+        self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Desktop/SBlock.png")
-        self.image = pygame.transform.scale(picture, [40, 60])
+        self.image = pygame.transform.scale(picture, [60, 90])
 
 # O Block
 
@@ -183,10 +183,10 @@ class SBlock(Enemy):
 class ZBlock(Enemy):
     def __init__(self, mob_health):
         super(ZBlock, self).__init__(mob_health)
-        self.image = pygame.Surface([40, 60])
+        self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Desktop/ZBlock.png")
-        self.image = pygame.transform.scale(picture, [40, 60])
+        self.image = pygame.transform.scale(picture, [60, 90])
 
 # All sprites are refreshed in their positions
 pygame.time.set_timer(FireRate, TimeShot)
