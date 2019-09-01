@@ -28,6 +28,8 @@ MobScore = 10
 MobsDead = 0
 PilotHealth = 3
 killed_mob = 0
+column_spacing = 30
+row_spacing = 20
 # Counts the number of flickers when hit
 flickercount = 3
 # Setting up an event for firing the projectiles and spawning mobs
@@ -50,16 +52,15 @@ pygame.display.set_caption("Game name here")
 # To manage the fps
 clock = pygame.time.Clock()
 
-# Initialise block types
-BlockType = [IBlock, JBlock, LBlock, OBlock, SBlock, ZBlock]
+
 
 # Tetris board setup
 
 TGrid = []
-for TRow in range(0, 9):
+for TRow in range(9):
     TGrid.append([])
-    for TColumn in range(0,19):
-        TGrid.TRow.append(0)
+    for TColumn in range(19):
+        TGrid[TRow].append(0)
 
 
 # Game classes
@@ -151,6 +152,8 @@ class Enemy(pygame.sprite.Sprite):
                 pygame.time.set_timer(PilotHit, 1000)
                 Pilot_flickering = True
                 PilotHealth -= 1
+
+
 
 # Types of enemies
 # I Block
@@ -266,7 +269,8 @@ list_mobs = pygame.sprite.Group()
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
 
-
+# Initialise block types
+BlockType = [IBlock, JBlock, LBlock, OBlock, SBlock, ZBlock]
 
 # Loop until the user clicks the close button
 done = False
@@ -398,8 +402,10 @@ while not done:
     # Drawing tetris board
 
     for TRow in range(0, 9):
+        row_pos = TRow + row_spacing
         for TColumn in range(0, 19):
-            draw_tgrid()
+            column_pos = TColumn + column_spacing
+            pygame.draw.rect(screen, BLUE, [row_pos, column_pos, 25, 25])
 
     list_all_sprites.draw(screen)
 
