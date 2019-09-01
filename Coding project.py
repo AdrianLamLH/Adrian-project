@@ -43,6 +43,9 @@ RecoverTime = pygame.USEREVENT+4
 TimeShot = 220
 # Spawning mobs at random intervals in time range
 TimeMobs = random.randint(3500, 4200)
+
+
+
 # Setting up the screen
 size = (1024, 768)
 screen = pygame.display.set_mode(size)
@@ -55,12 +58,14 @@ clock = pygame.time.Clock()
 
 
 # Tetris board setup
-
+TGridBlock = []
 TGrid = []
 for TRow in range(10):
     TGrid.append([])
+    TGridBlock.append([])
     for TColumn in range(20):
         TGrid[TRow].append(0)
+        TGridBlock[TRow].append(0)
 
 
 # Game classes
@@ -241,7 +246,7 @@ class SBlock(Enemy):
         if mob_health == 0:
             killed_mob = "S"
 
-# O Block
+# Z Block
 
 
 class ZBlock(Enemy):
