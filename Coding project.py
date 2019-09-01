@@ -402,12 +402,10 @@ while not done:
     # Drawing tetris board
 
     for TRow in range(9):
-        row_pos = TRow * row_spacing
+        row_pos = (TRow + 0.3) * row_spacing
         for TColumn in range(19):
-            column_pos = TColumn * column_spacing
+            column_pos = (TColumn + 0.3) * column_spacing
             pygame.draw.rect(screen, BLUE, [row_pos, column_pos, 33, 33])
-
-    pygame.draw.rect(screen, BLUE, [340, 730, 34, 34])
 
     list_all_sprites.draw(screen)
 
