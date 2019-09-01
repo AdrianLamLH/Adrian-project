@@ -4,6 +4,7 @@ import pygame
 import math
 import random
 
+print(pygame.font.get_fonts())
 # Define colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
