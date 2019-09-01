@@ -26,8 +26,7 @@ TotScore = 0
 HitScore = 2
 MobScore = 10
 MobsDead = 0
-# Initialise block types
-BlockType = ["IBlock", "JBlock", "LBlock", "OBlock", "SBlock", "ZBlock"]
+
 # Counts the number of flickers when hit
 flickercount = 3
 # Setting up an event for firing the projectiles and spawning mobs
@@ -202,6 +201,9 @@ list_mobs = pygame.sprite.Group()
 # Player and bullet initialised
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
+
+# Initialise block types
+BlockType = [IBlock, JBlock, LBlock, OBlock, SBlock, ZBlock]
 
 # Loop until the user clicks the close button
 done = False
