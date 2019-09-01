@@ -26,6 +26,8 @@ TotScore = 0
 HitScore = 2
 MobScore = 10
 MobsDead = 0
+# Initialise block types
+BlockType = ["IBlock", "JBlock", "LBlock", "OBlock", "SBlock", "ZBlock"]
 # Counts the number of flickers when hit
 flickercount = 3
 # Setting up an event for firing the projectiles and spawning mobs
@@ -235,7 +237,8 @@ while not done:
             list_bullet.add(Shot)
         # Mobs are spawned at random time intervals
         elif event.type == SpawnEnemy:
-            Mob = JBlock(2)
+            BlockChoice = random.choice(BlockType)
+            Mob = BlockChoice(2)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
         # The pilot flashes red when it is hit
