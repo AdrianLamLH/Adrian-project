@@ -56,8 +56,8 @@ clock = pygame.time.Clock()
 
 
 def drawing(text, text_size, color, x_pos, y_pos):
-    pygame.font.Font("/Users/adrianlam/Documents/GitHub/PressStart2P.ttf", text_size)
-    printtext = pygame.font.Font.render(text, False, color)
+    font_style = pygame.font.SysFont("pressstart2p", text_size)
+    printtext = font_style.render(str(text), False, color)
     screen.blit(printtext, (x_pos, y_pos))
 
 # Setting up pilot sprite
@@ -128,7 +128,7 @@ class IBlock(Enemy):
         super(IBlock, self).__init__(mob_health)
         self.image = pygame.Surface([30, 120])
         self.image.fill(BLUE)
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/IBlock.png")
+        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/IBlock.png")
         self.image = pygame.transform.scale(picture, [20, 80])
 
 
@@ -140,7 +140,7 @@ class JBlock(Enemy):
         super(JBlock, self).__init__(mob_health)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/JBlock.png")
+        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/JBlock.png")
         self.image = pygame.transform.smoothscale(picture, [60, 90])
 
 # L Block
@@ -151,7 +151,7 @@ class LBlock(Enemy):
         super(LBlock, self).__init__(mob_health)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/LBlock.png")
+        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/LBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
 
 # O Block
@@ -162,7 +162,7 @@ class OBlock(Enemy):
         super(OBlock, self).__init__(mob_health)
         self.image = pygame.Surface([60, 60])
         self.image.fill(BLUE)
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/OBlock.png")
+        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/OBlock.png")
         self.image = pygame.transform.scale(picture, [60, 60])
 
 # T Block
@@ -173,7 +173,7 @@ class TBlock(Enemy):
         super(TBlock, self).__init__(mob_health)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/TBlock.png")
+        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/TBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
 
 # S Block
@@ -184,7 +184,7 @@ class SBlock(Enemy):
         super(SBlock, self).__init__(mob_health)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/SBlock.png")
+        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/SBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
 
 # O Block
@@ -195,7 +195,7 @@ class ZBlock(Enemy):
         super(ZBlock, self).__init__(mob_health)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/ZBlock.png")
+        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/ZBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
 
 # All sprites are refreshed in their positions
@@ -305,7 +305,8 @@ while not done:
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
 
     # Scoring
-    drawing(TotScore, 16, WHITE, 360, 740)
+    drawing("Score:", 16, WHITE, 880, 20)
+    drawing(TotScore, 16, WHITE, 980, 20)
 
     # Removes off-screen mobs
     for Mob in list_mobs:
