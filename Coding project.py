@@ -10,6 +10,10 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+ORANGE = (255, 165, 0)
+BROWN = (165, 42, 42)
+PURPLE = (128, 0, 128)
+YELLOW = (255, 255, 0)
 
 # Initialise the game engine
 pygame.init()
@@ -28,6 +32,7 @@ MobScore = 10
 MobsDead = 0
 PilotHealth = 3
 killed_mob = 0
+mob_got_killed = False
 column_spacing = 36
 row_spacing = 36
 # Counts the number of flickers when hit
@@ -44,8 +49,6 @@ TimeShot = 220
 # Spawning mobs at random intervals in time range
 TimeMobs = random.randint(3500, 4200)
 
-
-
 # Setting up the screen
 size = (1024, 768)
 screen = pygame.display.set_mode(size)
@@ -54,8 +57,6 @@ pygame.display.set_caption("Game name here")
 
 # To manage the fps
 clock = pygame.time.Clock()
-
-
 
 # Tetris board setup
 TGridBlock = []
@@ -173,7 +174,7 @@ class IBlock(Enemy):
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/IBlock.png")
         self.image = pygame.transform.scale(picture, [30, 120])
         if mob_health == 0:
-            killed_mob = "I"
+            killed_mob = GREEN
 
 
 # J Block
@@ -188,7 +189,7 @@ class JBlock(Enemy):
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/JBlock.png")
         self.image = pygame.transform.smoothscale(picture, [60, 90])
         if mob_health == 0:
-            killed_mob = "J"
+            killed_mob = BLUE
 
 # L Block
 
@@ -202,7 +203,7 @@ class LBlock(Enemy):
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/LBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
         if mob_health == 0:
-            killed_mob = "L"
+            killed_mob = YELLOW
 
 # O Block
 
@@ -216,7 +217,7 @@ class OBlock(Enemy):
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/OBlock.png")
         self.image = pygame.transform.scale(picture, [60, 60])
         if mob_health == 0:
-            killed_mob = "O"
+            killed_mob = "RED"
 
 # T Block
 
@@ -230,7 +231,7 @@ class TBlock(Enemy):
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/TBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
         if mob_health == 0:
-            killed_mob = "T"
+            killed_mob = BROWN
 
 # S Block
 
@@ -244,7 +245,7 @@ class SBlock(Enemy):
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/SBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
         if mob_health == 0:
-            killed_mob = "S"
+            killed_mob = ORANGE
 
 # Z Block
 
@@ -258,7 +259,7 @@ class ZBlock(Enemy):
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/ZBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
         if mob_health == 0:
-            killed_mob = "Z"
+            killed_mob = PURPLE
 
 
 # All sprites are refreshed in their positions
@@ -395,6 +396,7 @@ while not done:
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
                 list_mobs_hit.remove(Mob)
+                mob_got_killed = True
                 TotScore += MobScore
     # Removing the projectiles if they land on an enemy
     for Mob in list_mobs:
@@ -410,7 +412,10 @@ while not done:
         row_pos = (TRow + 0.3) * row_spacing
         for TColumn in range(20):
             column_pos = (TColumn + 1.25) * column_spacing
-            pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
+            if mob_got_killed is False:
+                pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
+            else:
+                pygame.draw.rect(screen, killed_mob, [row_pos, column_pos, 34, 34])
 
     list_all_sprites.draw(screen)
 
