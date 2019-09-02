@@ -132,7 +132,7 @@ class Bullet(pygame.sprite.Sprite):
 
 class Enemy(pygame.sprite.Sprite):
     # No pass
-    def __init__(self, mob_health, block_type):
+    def __init__(self, mob_health):
         super().__init__()
         self.image = pygame.Surface([30, 30])
         self.image.fill(GREEN)
@@ -141,7 +141,6 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x = random.randint(1024, 1030)
         self.rect.y = random.randint(20, 735)
         self.Mob_Health = mob_health
-        self.BlockActive = block_type
     # Enemy moves left
 
 
@@ -169,17 +168,81 @@ class Enemy(pygame.sprite.Sprite):
 
 # Draw the tetris boxes
 
-class DrawTBox:
+class MakeTBox:
+    # Drawing initial tetris piece on the screen
+    def __init__(self):
+        self.BlockType = block_type
 
+    def store_block(self, block_type):
+        global TRow
+        global TColumn
+        if block_type == IBlock:
+            TGrid[0][5] = GREEN
+            TGrid[1][5] = GREEN
+            TGrid[2][5] = GREEN
+            TGrid[3][5] = GREEN
+        elif block_type == JBlock:
+            TGrid[0][6] = BLUE
+            TGrid[1][6] = BLUE
+            TGrid[2][6] = BLUE
+            TGrid[2][5] = BLUE
+        elif block_type == LBlock:
+            TGrid[0][4] = YELLOW
+            TGrid[1][4] = YELLOW
+            TGrid[2][4] = YELLOW
+            TGrid[2][5] = YELLOW
+        elif block_type == OBlock:
+            TGrid[0][5] = RED
+            TGrid[0][6] = RED
+            TGrid[1][5] = RED
+            TGrid[1][6] = RED
+        elif block_type == TBlock:
+            TGrid[0][5] = BROWN
+            TGrid[0][4] = BROWN
+            TGrid[0][6] = BROWN
+            TGrid[1][5] = BROWN
+        elif block_type == SBlock:
+            TGrid[0][5] = ORANGE
+            TGrid[0][6] = ORANGE
+            TGrid[1][5] = ORANGE
+            TGrid[1][4] = ORANGE
+        elif block_type == ZBlock:
+            TGrid[0][4] = PURPLE
+            TGrid[0][5] = PURPLE
+            TGrid[1][5] = PURPLE
+            TGrid[1][6] = PURPLE
 
-
+    def draw_t_box(self):
+        global TRow
+        global TColumn
+        # Drawing tetris board
+        for TRow in range(10):
+            row_pos = (TRow + 0.3) * row_spacing
+            for TColumn in range(20):
+                column_pos = (TColumn + 1.25) * column_spacing
+                if TGrid[TRow][TColumn] == GREEN:
+                    pygame.draw.rect(screen, GREEN, [row_pos, column_pos, 34, 34])
+                elif TGRid[TRow][TColumn] == BLUE:
+                    pygame.draw.rect(screen, BLUE, [row_pos, column_pos, 34, 34])
+                elif TGRid[TRow][TColumn] == YELLOW:
+                    pygame.draw.rect(screen, YELLOW, [row_pos, column_pos, 34, 34])
+                elif TGRid[TRow][TColumn] == BROWN:
+                    pygame.draw.rect(screen, BROWN, [row_pos, column_pos, 34, 34])
+                elif TGRid[TRow][TColumn] == PURPLE:
+                    pygame.draw.rect(screen, PURPLE, [row_pos, column_pos, 34, 34])
+                elif TGRid[TRow][TColumn] == RED:
+                    pygame.draw.rect(screen, RED, [row_pos, column_pos, 34, 34])
+                elif TGRid[TRow][TColumn] == ORANGE:
+                    pygame.draw.rect(screen, ORANGE, [row_pos, column_pos, 34, 34])
+                else:
+                    pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
 # Types of enemies
 # I Block
 
 
 class IBlock(Enemy):
-    def __init__(self, mob_health, block_type):
-        super(IBlock, self).__init__(mob_health, block_type)
+    def __init__(self, mob_health):
+        super(IBlock, self).__init__(mob_health)
         self.image = pygame.Surface([30, 120])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/IBlock.png")
@@ -191,8 +254,8 @@ class IBlock(Enemy):
 
 
 class JBlock(Enemy):
-    def __init__(self, mob_health, block_type):
-        super(JBlock, self).__init__(mob_health, block_type)
+    def __init__(self, mob_health):
+        super(JBlock, self).__init__(mob_health)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/JBlock.png")
@@ -203,8 +266,8 @@ class JBlock(Enemy):
 
 
 class LBlock(Enemy):
-    def __init__(self, mob_health, block_type):
-        super(LBlock, self).__init__(mob_health, block_type)
+    def __init__(self, mob_health):
+        super(LBlock, self).__init__(mob_health)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/LBlock.png")
@@ -214,8 +277,8 @@ class LBlock(Enemy):
 
 
 class OBlock(Enemy):
-    def __init__(self, mob_health, block_type):
-        super(OBlock, self).__init__(mob_health, block_type)
+    def __init__(self, mob_health):
+        super(OBlock, self).__init__(mob_health)
         self.image = pygame.Surface([60, 60])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/OBlock.png")
@@ -226,8 +289,8 @@ class OBlock(Enemy):
 
 
 class TBlock(Enemy):
-    def __init__(self, mob_health, block_type):
-        super(TBlock, self).__init__(mob_health, block_type)
+    def __init__(self, mob_health):
+        super(TBlock, self).__init__(mob_health)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/TBlock.png")
@@ -238,8 +301,8 @@ class TBlock(Enemy):
 
 
 class SBlock(Enemy):
-    def __init__(self, mob_health, block_type):
-        super(SBlock, self).__init__(mob_health, block_type)
+    def __init__(self, mob_health):
+        super(SBlock, self).__init__(mob_health)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/SBlock.png")
@@ -250,8 +313,8 @@ class SBlock(Enemy):
 
 
 class ZBlock(Enemy):
-    def __init__(self, mob_health, block_type):
-        super(ZBlock, self).__init__(mob_health, block_type)
+    def __init__(self, mob_health):
+        super(ZBlock, self).__init__(mob_health)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/ZBlock.png")
@@ -310,7 +373,8 @@ while not done:
         # Mobs are spawned at random time intervals
         elif event.type == SpawnEnemy:
             BlockChoice = random.choice(BlockType)
-            Mob = BlockChoice(2, BlockChoice)
+            MakeTBox.store_block(BlockChoice)
+            Mob = BlockChoice(2)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
         # The pilot flashes red when it is hit
@@ -406,14 +470,7 @@ while not done:
             list_bullet.remove(Shot)
             print(TotScore)
 
-    # Drawing tetris board
-
-    for TRow in range(10):
-        row_pos = (TRow + 0.3) * row_spacing
-        for TColumn in range(20):
-            column_pos = (TColumn + 1.25) * column_spacing
-            pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
-
+    MakeTBox.draw_t_box()
 
     list_all_sprites.draw(screen)
 
