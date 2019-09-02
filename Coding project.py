@@ -132,7 +132,7 @@ class Bullet(pygame.sprite.Sprite):
 
 class Enemy(pygame.sprite.Sprite):
     # No pass
-    def __init__(self, mob_health):
+    def __init__(self, mob_health, block_type):
         super().__init__()
         self.image = pygame.Surface([30, 30])
         self.image.fill(GREEN)
@@ -141,7 +141,9 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x = random.randint(1024, 1030)
         self.rect.y = random.randint(20, 735)
         self.Mob_Health = mob_health
+        self.BlockActive = block_type
     # Enemy moves left
+
 
     def update(self):
         self.rect.x -= 2 + enemy_speed_change
@@ -159,6 +161,15 @@ class Enemy(pygame.sprite.Sprite):
                 pygame.time.set_timer(PilotHit, 1000)
                 Pilot_flickering = True
                 PilotHealth -= 1
+ #       if self.Mob_Health == 0:
+ #           if self.BlockActive == IBlock:
+
+
+            # def block_place(self):
+
+# Draw the tetris boxes
+
+class DrawTBox:
 
 
 
@@ -167,106 +178,85 @@ class Enemy(pygame.sprite.Sprite):
 
 
 class IBlock(Enemy):
-    def __init__(self, mob_health):
-        super(IBlock, self).__init__(mob_health)
-        global killed_mob
+    def __init__(self, mob_health, block_type):
+        super(IBlock, self).__init__(mob_health, block_type)
         self.image = pygame.Surface([30, 120])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/IBlock.png")
         self.image = pygame.transform.scale(picture, [30, 120])
-        if mob_health == 0:
-            killed_mob = GREEN
-            print("dead")
+
 
 
 # J Block
 
 
 class JBlock(Enemy):
-    def __init__(self, mob_health):
-        super(JBlock, self).__init__(mob_health)
-        global killed_mob
+    def __init__(self, mob_health, block_type):
+        super(JBlock, self).__init__(mob_health, block_type)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/JBlock.png")
         self.image = pygame.transform.smoothscale(picture, [60, 90])
-        if mob_health == 0:
-            killed_mob = BLUE
-            print("dead")
+
 
 # L Block
 
 
 class LBlock(Enemy):
-    def __init__(self, mob_health):
-        super(LBlock, self).__init__(mob_health)
-        global killed_mob
+    def __init__(self, mob_health, block_type):
+        super(LBlock, self).__init__(mob_health, block_type)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/LBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
-        if mob_health == 0:
-            killed_mob = YELLOW
 
 # O Block
 
 
 class OBlock(Enemy):
-    def __init__(self, mob_health):
-        super(OBlock, self).__init__(mob_health)
-        global killed_mob
+    def __init__(self, mob_health, block_type):
+        super(OBlock, self).__init__(mob_health, block_type)
         self.image = pygame.Surface([60, 60])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/OBlock.png")
         self.image = pygame.transform.scale(picture, [60, 60])
-        if mob_health == 0:
-            killed_mob = "RED"
-            print("dead")
+
 
 # T Block
 
 
 class TBlock(Enemy):
-    def __init__(self, mob_health):
-        super(TBlock, self).__init__(mob_health)
-        global killed_mob
+    def __init__(self, mob_health, block_type):
+        super(TBlock, self).__init__(mob_health, block_type)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/TBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
-        if mob_health == 0:
-            killed_mob = BROWN
-            print("dead")
+
 
 # S Block
 
 
 class SBlock(Enemy):
-    def __init__(self, mob_health):
-        super(SBlock, self).__init__(mob_health)
-        global killed_mob
+    def __init__(self, mob_health, block_type):
+        super(SBlock, self).__init__(mob_health, block_type)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/SBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
-        if mob_health == 0:
-            killed_mob = ORANGE
-            print("dead")
+
 
 # Z Block
 
 
 class ZBlock(Enemy):
-    def __init__(self, mob_health):
-        super(ZBlock, self).__init__(mob_health)
-        global killed_mob
+    def __init__(self, mob_health, block_type):
+        super(ZBlock, self).__init__(mob_health, block_type)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/ZBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
-        if mob_health == 0:
-            killed_mob = PURPLE
-            print("dead")
+
 
 
 # All sprites are refreshed in their positions
@@ -320,7 +310,7 @@ while not done:
         # Mobs are spawned at random time intervals
         elif event.type == SpawnEnemy:
             BlockChoice = random.choice(BlockType)
-            Mob = BlockChoice(2)
+            Mob = BlockChoice(2, BlockChoice)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
         # The pilot flashes red when it is hit
@@ -423,11 +413,6 @@ while not done:
         for TColumn in range(20):
             column_pos = (TColumn + 1.25) * column_spacing
             pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
-    if killed_mob == GREEN:
-        pygame.draw.rect(screen, GREEN, [(4 + 0.3) * row_spacing, 1.25 * column_spacing, 34, 34])
-        pygame.draw.rect(screen, GREEN, [(5 + 0.3) * row_spacing, 1.25 * column_spacing, 34, 34])
-        pygame.draw.rect(screen, GREEN, [(6 + 0.3) * row_spacing, 1.25 * column_spacing, 34, 34])
-        pygame.draw.rect(screen, GREEN, [(7 + 0.3) * row_spacing, 1.25 * column_spacing, 34, 34])
 
 
     list_all_sprites.draw(screen)
