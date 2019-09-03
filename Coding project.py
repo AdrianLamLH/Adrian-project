@@ -160,82 +160,82 @@ class Enemy(pygame.sprite.Sprite):
                 pygame.time.set_timer(PilotHit, 1000)
                 Pilot_flickering = True
                 PilotHealth -= 1
+
  #       if self.Mob_Health == 0:
  #           if self.BlockActive == IBlock:
 
 
             # def block_place(self):
 
-# Draw the tetris boxes
+# Initial positioning of the chosen tetris blocks in the grid
 
-class MakeTBox:
-    # Drawing initial tetris piece on the screen
-    def __init__(self):
-        self.BlockType = block_type
 
-    def store_block(self, block_type):
-        global TRow
-        global TColumn
-        if block_type == IBlock:
-            TGrid[0][5] = GREEN
-            TGrid[1][5] = GREEN
-            TGrid[2][5] = GREEN
-            TGrid[3][5] = GREEN
-        elif block_type == JBlock:
-            TGrid[0][6] = BLUE
-            TGrid[1][6] = BLUE
-            TGrid[2][6] = BLUE
-            TGrid[2][5] = BLUE
-        elif block_type == LBlock:
-            TGrid[0][4] = YELLOW
-            TGrid[1][4] = YELLOW
-            TGrid[2][4] = YELLOW
-            TGrid[2][5] = YELLOW
-        elif block_type == OBlock:
-            TGrid[0][5] = RED
-            TGrid[0][6] = RED
-            TGrid[1][5] = RED
-            TGrid[1][6] = RED
-        elif block_type == TBlock:
-            TGrid[0][5] = BROWN
-            TGrid[0][4] = BROWN
-            TGrid[0][6] = BROWN
-            TGrid[1][5] = BROWN
-        elif block_type == SBlock:
-            TGrid[0][5] = ORANGE
-            TGrid[0][6] = ORANGE
-            TGrid[1][5] = ORANGE
-            TGrid[1][4] = ORANGE
-        elif block_type == ZBlock:
-            TGrid[0][4] = PURPLE
-            TGrid[0][5] = PURPLE
-            TGrid[1][5] = PURPLE
-            TGrid[1][6] = PURPLE
+def store_block(block_type):
+    global TRow
+    global TColumn
+    if block_type == IBlock:
+        TGrid[5][0] = GREEN
+        TGrid[5][1] = GREEN
+        TGrid[5][2] = GREEN
+        TGrid[5][3] = GREEN
+    elif block_type == JBlock:
+        TGrid[5][0] = BLUE
+        TGrid[5][1] = BLUE
+        TGrid[5][1] = BLUE
+        TGrid[6][2] = BLUE
+    elif block_type == LBlock:
+        TGrid[0][5] = YELLOW
+        TGrid[4][1] = YELLOW
+        TGrid[4][2] = YELLOW
+        TGrid[5][2] = YELLOW
+    elif block_type == OBlock:
+        TGrid[0][5] = RED
+        TGrid[6][0] = RED
+        TGrid[5][1] = RED
+        TGrid[6][1] = RED
+    elif block_type == TBlock:
+        TGrid[0][5] = BROWN
+        TGrid[4][0] = BROWN
+        TGrid[6][0] = BROWN
+        TGrid[5][1] = BROWN
+    elif block_type == SBlock:
+        TGrid[0][5] = ORANGE
+        TGrid[6][0] = ORANGE
+        TGrid[5][1] = ORANGE
+        TGrid[4][1] = ORANGE
+    elif block_type == ZBlock:
+        TGrid[0][5] = PURPLE
+        TGrid[5][0] = PURPLE
+        TGrid[5][1] = PURPLE
+        TGrid[6][1] = PURPLE
 
-    def draw_t_box(self):
-        global TRow
-        global TColumn
-        # Drawing tetris board
-        for TRow in range(10):
-            row_pos = (TRow + 0.3) * row_spacing
-            for TColumn in range(20):
-                column_pos = (TColumn + 1.25) * column_spacing
-                if TGrid[TRow][TColumn] == GREEN:
-                    pygame.draw.rect(screen, GREEN, [row_pos, column_pos, 34, 34])
-                elif TGRid[TRow][TColumn] == BLUE:
-                    pygame.draw.rect(screen, BLUE, [row_pos, column_pos, 34, 34])
-                elif TGRid[TRow][TColumn] == YELLOW:
-                    pygame.draw.rect(screen, YELLOW, [row_pos, column_pos, 34, 34])
-                elif TGRid[TRow][TColumn] == BROWN:
-                    pygame.draw.rect(screen, BROWN, [row_pos, column_pos, 34, 34])
-                elif TGRid[TRow][TColumn] == PURPLE:
-                    pygame.draw.rect(screen, PURPLE, [row_pos, column_pos, 34, 34])
-                elif TGRid[TRow][TColumn] == RED:
-                    pygame.draw.rect(screen, RED, [row_pos, column_pos, 34, 34])
-                elif TGRid[TRow][TColumn] == ORANGE:
-                    pygame.draw.rect(screen, ORANGE, [row_pos, column_pos, 34, 34])
-                else:
-                    pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
+# Drawing the tetris boxes
+
+
+def draw_t_box():
+    global TRow
+    global TColumn
+    # Drawing tetris board
+    for TRow in range(10):
+        row_pos = (TRow + 0.3) * row_spacing
+        for TColumn in range(20):
+            column_pos = (TColumn + 1.25) * column_spacing
+            if TGrid[TRow][TColumn] == GREEN:
+                pygame.draw.rect(screen, GREEN, [row_pos, column_pos, 34, 34])
+            elif TGrid[TRow][TColumn] == BLUE:
+                pygame.draw.rect(screen, BLUE, [row_pos, column_pos, 34, 34])
+            elif TGrid[TRow][TColumn] == YELLOW:
+                pygame.draw.rect(screen, YELLOW, [row_pos, column_pos, 34, 34])
+            elif TGrid[TRow][TColumn] == BROWN:
+                pygame.draw.rect(screen, BROWN, [row_pos, column_pos, 34, 34])
+            elif TGrid[TRow][TColumn] == PURPLE:
+                pygame.draw.rect(screen, PURPLE, [row_pos, column_pos, 34, 34])
+            elif TGrid[TRow][TColumn] == RED:
+                pygame.draw.rect(screen, RED, [row_pos, column_pos, 34, 34])
+            elif TGrid[TRow][TColumn] == ORANGE:
+                pygame.draw.rect(screen, ORANGE, [row_pos, column_pos, 34, 34])
+            else:
+                pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
 # Types of enemies
 # I Block
 
@@ -373,7 +373,7 @@ while not done:
         # Mobs are spawned at random time intervals
         elif event.type == SpawnEnemy:
             BlockChoice = random.choice(BlockType)
-            MakeTBox.store_block(BlockChoice)
+            store_block(BlockChoice)
             Mob = BlockChoice(2)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
@@ -470,7 +470,7 @@ while not done:
             list_bullet.remove(Shot)
             print(TotScore)
 
-    MakeTBox.draw_t_box()
+    draw_t_box()
 
     list_all_sprites.draw(screen)
 
