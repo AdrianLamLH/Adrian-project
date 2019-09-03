@@ -47,6 +47,8 @@ Pilot_flickering = False
 # Grace period for the damage taken
 RecoverTime = pygame.USEREVENT+4
 TimeShot = 220
+# Time delay between movement of tetris blocks
+MoveBlocks = pygame.USEREVENT+5
 # Spawning mobs at random intervals in time range
 TimeMobs = random.randint(3500, 4200)
 
@@ -236,6 +238,16 @@ def draw_t_box():
                 pygame.draw.rect(screen, ORANGE, [row_pos, column_pos, 34, 34])
             else:
                 pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
+
+
+def move_t_grid():
+    global TRow
+    global TColumn
+    for TRow in range(10):
+        for TColumn in range(19):
+            if TGrid[TRow][TColumn + 1] == 0 and TGrid[TRow][TColumn] != WHITE:
+                TGrid[TRow][TColumn + 1] = TGrid[TRow][TColumn]
+                TGrid[TRow][TColumn] = 0
 # Types of enemies
 # I Block
 
@@ -326,6 +338,8 @@ class ZBlock(Enemy):
 pygame.time.set_timer(FireRate, TimeShot)
 # Randomly generates a new enemy at a random rate
 pygame.time.set_timer(SpawnEnemy, TimeMobs)
+# Moves the tetris blocks down one every 1.5 seconds
+pygame.time.set_timer(MoveBlocks, 1500)
 # Player and projectiles are updated/stored in sprite group
 list_all_sprites = pygame.sprite.Group()
 list_bullet = pygame.sprite.Group()
@@ -400,6 +414,8 @@ while not done:
                 print("flicker")
             else:
                 Pilot_flickering = False
+        elif event.type == MoveBlocks:
+            move_t_grid()
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
     pilot_y += pilot_y_speed + gravity
