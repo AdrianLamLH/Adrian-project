@@ -240,18 +240,17 @@ def move_t_grid():
     global TColumn
     global TRow
     global BlockMoving
-    for TRow in range(0, 19):
-        for TColumn in range(0, 9):
+    for TColumn in range(9):
+        for TRow in range(19):
             # if BlockMoving is True:
-            # If the current space occupies a block and the row below is empty
+                # If the current space occupies a block and the row below is empty
             if TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] == 0:
                 TGrid[TColumn][TRow + 1] = TGrid[TColumn][TRow]
                 TGrid[TColumn][TRow] = 0
-
             # If the current space occupies a block and the row below does too
-            elif TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] != 0:
+ #           elif TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] != 0:
                 # Signals when the block has reached the bottom
-                BlockMoving = False
+#                BlockMoving = False
 
 # Types of enemies
 # I Block
@@ -420,6 +419,7 @@ while not done:
                 Pilot_flickering = False
         elif event.type == MoveBlocks:
             move_t_grid()
+            print("moving")
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
     pilot_y += pilot_y_speed + gravity
@@ -483,6 +483,7 @@ while not done:
                 # Increase game scroll speed when enemy killed: difficulty progression
                 enemy_speed_change += 0.2
                 TotScore += MobScore
+
     # Removing the projectiles if they land on an enemy
     for Mob in list_mobs:
         list_shots_landed = pygame.sprite.spritecollide(Mob, list_bullet, True)
@@ -490,7 +491,6 @@ while not done:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
             print(TotScore)
-
     draw_t_box()
 
     list_all_sprites.draw(screen)
