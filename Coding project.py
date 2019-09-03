@@ -245,6 +245,7 @@ def move_t_grid():
             # if BlockMoving is True:
                 # If the current space occupies a block and the row below is empty
             if TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] == 0:
+                TGrid[TColumn][TRow] = 0
                 TGrid[TColumn][TRow + 1] = TGrid[TColumn][TRow]
                 TGrid[TColumn][TRow] = 0
             # If the current space occupies a block and the row below does too
@@ -489,6 +490,7 @@ while not done:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
             print(TotScore)
+
     draw_t_box()
 
     list_all_sprites.draw(screen)
