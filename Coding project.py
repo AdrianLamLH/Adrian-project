@@ -34,6 +34,7 @@ MobsDead = 0
 PilotHealth = 3
 killed_mob = 0
 mob_got_killed = False
+BlockMoving = True
 column_spacing = 36
 row_spacing = 36
 # Counts the number of flickers when hit
@@ -239,15 +240,20 @@ def draw_t_box():
             elif TGrid[TRow][TColumn] == 0:
                 pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
 
-
 def move_t_grid():
     global TRow
     global TColumn
+    global BlockMoving
     for TRow in range(0, 9):
         for TColumn in range(0, 19):
-            if TGrid[TRow][TColumn] != 0 and TGrid[TRow][TColumn + 1] == 0:
-                TGrid[TRow][TColumn + 1] = TGrid[TRow][TColumn]
-                TGrid[TRow][TColumn] = 0
+            if BlockMoving:
+                if TGrid[TRow][TColumn] != 0 and TGrid[TRow][TColumn + 1] == 0:
+                    TGrid[TRow][TColumn + 1] = TGrid[TRow][TColumn]
+                    TGrid[TRow][TColumn] = 0
+                elif TGrid[TRow][TColumn] != 0 and TGrid[TRow][TColumn + 1] != 0:
+                    # Signals when the block has reached the bottom
+                    BlockMoving = False
+
 # Types of enemies
 # I Block
 
@@ -461,7 +467,7 @@ while not done:
 
     # Removes off-screen projectiles
     for Shot in list_bullet:
-        if Shot.rect.x >= 1024 or Shot.rect.y >= 768:
+        if Shot.rect.x >= pilot_x + 300 or Shot.rect.y >= 768:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
         # Hit detection between bullet and Mob
