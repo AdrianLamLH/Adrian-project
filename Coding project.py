@@ -35,8 +35,8 @@ PilotHealth = 3
 killed_mob = 0
 mob_got_killed = False
 BlockMoving = True
-column_spacing = 36
 row_spacing = 36
+column_spacing = 36
 # Counts the number of flickers when hit
 flickercount = 3
 # Setting up an event for firing the projectiles and spawning mobs
@@ -65,12 +65,12 @@ clock = pygame.time.Clock()
 # Tetris board setup
 TGridBlock = []
 TGrid = []
-for TRow in range(10):
+for TColumn in range(10):
     TGrid.append([])
     TGridBlock.append([])
-    for TColumn in range(20):
-        TGrid[TRow].append(0)
-        TGridBlock[TRow].append(0)
+    for TRow in range(20):
+        TGrid[TColumn].append(0)
+        TGridBlock[TColumn].append(0)
 
 
 # Game classes
@@ -169,8 +169,8 @@ class Enemy(pygame.sprite.Sprite):
 
 
 def store_block(block_type):
-    global TRow
     global TColumn
+    global TRow
     if block_type == IBlock:
         TGrid[5][0] = GREEN
         TGrid[5][1] = GREEN
@@ -179,7 +179,7 @@ def store_block(block_type):
     elif block_type == JBlock:
         TGrid[5][0] = BLUE
         TGrid[5][1] = BLUE
-        TGrid[5][1] = BLUE
+        TGrid[5][2] = BLUE
         TGrid[6][2] = BLUE
     elif block_type == LBlock:
         TGrid[4][0] = YELLOW
@@ -211,44 +211,44 @@ def store_block(block_type):
 
 
 def draw_t_box():
-    global TRow
     global TColumn
+    global TRow
     # Drawing tetris board
-    for TRow in range(10):
-        row_pos = (TRow + 0.3) * row_spacing
-        for TColumn in range(20):
-            column_pos = (TColumn + 1.25) * column_spacing
-            if TGrid[TRow][TColumn] == GREEN:
-                pygame.draw.rect(screen, GREEN, [row_pos, column_pos, 34, 34])
-            elif TGrid[TRow][TColumn] == BLUE:
-                pygame.draw.rect(screen, BLUE, [row_pos, column_pos, 34, 34])
-            elif TGrid[TRow][TColumn] == YELLOW:
-                pygame.draw.rect(screen, YELLOW, [row_pos, column_pos, 34, 34])
-            elif TGrid[TRow][TColumn] == BROWN:
-                pygame.draw.rect(screen, BROWN, [row_pos, column_pos, 34, 34])
-            elif TGrid[TRow][TColumn] == PURPLE:
-                pygame.draw.rect(screen, PURPLE, [row_pos, column_pos, 34, 34])
-            elif TGrid[TRow][TColumn] == RED:
-                pygame.draw.rect(screen, RED, [row_pos, column_pos, 34, 34])
-            elif TGrid[TRow][TColumn] == ORANGE:
-                pygame.draw.rect(screen, ORANGE, [row_pos, column_pos, 34, 34])
-            elif TGrid[TRow][TColumn] == 0:
-                pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
+    for TColumn in range(10):
+        column_pos = (TColumn + 0.3) * column_spacing
+        for TRow in range(20):
+            row_pos = (TRow + 1.25) * row_spacing
+            if TGrid[TColumn][TRow] == GREEN:
+                pygame.draw.rect(screen, GREEN, [column_pos, row_pos, 34, 34])
+            elif TGrid[TColumn][TRow] == BLUE:
+                pygame.draw.rect(screen, BLUE, [column_pos, row_pos, 34, 34])
+            elif TGrid[TColumn][TRow] == YELLOW:
+                pygame.draw.rect(screen, YELLOW, [column_pos, row_pos, 34, 34])
+            elif TGrid[TColumn][TRow] == BROWN:
+                pygame.draw.rect(screen, BROWN, [column_pos, row_pos, 34, 34])
+            elif TGrid[TColumn][TRow] == PURPLE:
+                pygame.draw.rect(screen, PURPLE, [column_pos, row_pos, 34, 34])
+            elif TGrid[TColumn][TRow] == RED:
+                pygame.draw.rect(screen, RED, [column_pos, row_pos, 34, 34])
+            elif TGrid[TColumn][TRow] == ORANGE:
+                pygame.draw.rect(screen, ORANGE, [column_pos, row_pos, 34, 34])
+            elif TGrid[TColumn][TRow] == 0:
+                pygame.draw.rect(screen, WHITE, [column_pos, row_pos, 34, 34])
 
 
 def move_t_grid():
-    global TRow
     global TColumn
+    global TRow
     global BlockMoving
-    for TRow in range(0, 9):
-        for TColumn in range(0, 19):
+    for TColumn in range(0, 9):
+        for TRow in range(0, 19):
             # if BlockMoving is True:
                 # If the current space occupies a block and the row below is empty
-            if TGrid[TRow][TColumn] != 0 and TGrid[TRow][TColumn + 1] == 0:
-                TGrid[TRow][TColumn + 1] = TGrid[TRow][TColumn]
-                TGrid[TRow][TColumn] = 0
+            if TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] == 0:
+                TGrid[TColumn][TRow + 1] = TGrid[TColumn][TRow]
+                TGrid[TColumn][TRow] = 0
             # If the current space occupies a block and the row below does too
-            elif TGrid[TRow][TColumn] != 0 and TGrid[TRow][TColumn + 1] != 0:
+            elif TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] != 0:
                 # Signals when the block has reached the bottom
                 BlockMoving = False
 
