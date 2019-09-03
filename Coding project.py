@@ -186,27 +186,27 @@ def store_block(block_type):
         TGrid[5][1] = BLUE
         TGrid[6][2] = BLUE
     elif block_type == LBlock:
-        TGrid[0][5] = YELLOW
+        TGrid[5][0] = YELLOW
         TGrid[4][1] = YELLOW
         TGrid[4][2] = YELLOW
         TGrid[5][2] = YELLOW
     elif block_type == OBlock:
-        TGrid[0][5] = RED
+        TGrid[5][0] = RED
         TGrid[6][0] = RED
         TGrid[5][1] = RED
         TGrid[6][1] = RED
     elif block_type == TBlock:
-        TGrid[0][5] = BROWN
+        TGrid[5][0] = BROWN
         TGrid[4][0] = BROWN
         TGrid[6][0] = BROWN
         TGrid[5][1] = BROWN
     elif block_type == SBlock:
-        TGrid[0][5] = ORANGE
+        TGrid[5][0] = ORANGE
         TGrid[6][0] = ORANGE
         TGrid[5][1] = ORANGE
         TGrid[4][1] = ORANGE
     elif block_type == ZBlock:
-        TGrid[0][5] = PURPLE
+        TGrid[4][0] = PURPLE
         TGrid[5][0] = PURPLE
         TGrid[5][1] = PURPLE
         TGrid[6][1] = PURPLE
@@ -243,11 +243,11 @@ def draw_t_box():
 def move_t_grid():
     global TRow
     global TColumn
-    for TRow in range(1, 10):
-        for TColumn in range(1, 20):
-            if TGrid[TRow][TColumn - 1] != 0 and TGrid[TRow][TColumn] == 0:
-                TGrid[TRow][TColumn] = TGrid[TRow][TColumn - 1]
-                TGrid[TRow][TColumn - 1] = 0
+    for TRow in range(0, 9):
+        for TColumn in range(0, 19):
+            if TGrid[TRow][TColumn] != 0 and TGrid[TRow][TColumn + 1] == 0:
+                TGrid[TRow][TColumn + 1] = TGrid[TRow][TColumn]
+                TGrid[TRow][TColumn] = 0
 # Types of enemies
 # I Block
 
