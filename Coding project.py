@@ -135,7 +135,7 @@ class Bullet(pygame.sprite.Sprite):
 
 class Enemy(pygame.sprite.Sprite):
     # No pass
-    def __init__(self, mob_health):
+    def __init__(self, mob_health, block_choice):
         super().__init__()
         self.image = pygame.Surface([30, 30])
         self.image.fill(GREEN)
@@ -144,6 +144,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x = random.randint(1024, 1030)
         self.rect.y = random.randint(20, 735)
         self.Mob_Health = mob_health
+        self.Block_Choice = block_choice
     # Enemy moves left
 
 
@@ -259,8 +260,8 @@ def move_t_grid():
 
 
 class IBlock(Enemy):
-    def __init__(self, mob_health):
-        super(IBlock, self).__init__(mob_health)
+    def __init__(self, mob_health, block_choice):
+        super(IBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([30, 120])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/IBlock.png")
@@ -272,8 +273,8 @@ class IBlock(Enemy):
 
 
 class JBlock(Enemy):
-    def __init__(self, mob_health):
-        super(JBlock, self).__init__(mob_health)
+    def __init__(self, mob_health, block_choice):
+        super(JBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/JBlock.png")
@@ -284,8 +285,8 @@ class JBlock(Enemy):
 
 
 class LBlock(Enemy):
-    def __init__(self, mob_health):
-        super(LBlock, self).__init__(mob_health)
+    def __init__(self, mob_health, block_choice):
+        super(LBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/LBlock.png")
@@ -295,8 +296,8 @@ class LBlock(Enemy):
 
 
 class OBlock(Enemy):
-    def __init__(self, mob_health):
-        super(OBlock, self).__init__(mob_health)
+    def __init__(self, mob_health, block_choice):
+        super(OBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 60])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/OBlock.png")
@@ -307,8 +308,8 @@ class OBlock(Enemy):
 
 
 class TBlock(Enemy):
-    def __init__(self, mob_health):
-        super(TBlock, self).__init__(mob_health)
+    def __init__(self, mob_health, block_choice):
+        super(TBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/TBlock.png")
@@ -319,8 +320,8 @@ class TBlock(Enemy):
 
 
 class SBlock(Enemy):
-    def __init__(self, mob_health):
-        super(SBlock, self).__init__(mob_health)
+    def __init__(self, mob_health, block_choice):
+        super(SBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/SBlock.png")
@@ -331,8 +332,8 @@ class SBlock(Enemy):
 
 
 class ZBlock(Enemy):
-    def __init__(self, mob_health):
-        super(ZBlock, self).__init__(mob_health)
+    def __init__(self, mob_health, block_choice):
+        super(ZBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
         self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/ZBlock.png")
@@ -393,8 +394,7 @@ while not done:
         # Mobs are spawned at random time intervals
         elif event.type == SpawnEnemy:
             BlockChoice = random.choice(BlockType)
-            store_block(BlockChoice)
-            Mob = BlockChoice(2)
+            Mob = BlockChoice(2, BlockChoice)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
         # The pilot flashes red when it is hit
@@ -477,6 +477,7 @@ while not done:
             TotScore += HitScore
             Mob.Mob_Health -= 1
             if Mob.Mob_Health == 0:
+                store_block(Mob.Block_Choice)
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
                 list_mobs_hit.remove(Mob)
