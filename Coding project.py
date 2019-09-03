@@ -165,12 +165,6 @@ class Enemy(pygame.sprite.Sprite):
                 Pilot_flickering = True
                 PilotHealth -= 1
 
- #       if self.Mob_Health == 0:
- #           if self.BlockActive == IBlock:
-
-
-            # def block_place(self):
-
 # Initial positioning of the chosen tetris blocks in the grid
 
 
@@ -188,7 +182,7 @@ def store_block(block_type):
         TGrid[5][1] = BLUE
         TGrid[6][2] = BLUE
     elif block_type == LBlock:
-        TGrid[5][0] = YELLOW
+        TGrid[4][0] = YELLOW
         TGrid[4][1] = YELLOW
         TGrid[4][2] = YELLOW
         TGrid[5][2] = YELLOW
@@ -241,19 +235,22 @@ def draw_t_box():
             elif TGrid[TRow][TColumn] == 0:
                 pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
 
+
 def move_t_grid():
     global TRow
     global TColumn
     global BlockMoving
     for TRow in range(0, 9):
         for TColumn in range(0, 19):
-            if BlockMoving:
-                if TGrid[TRow][TColumn] != 0 and TGrid[TRow][TColumn + 1] == 0:
-                    TGrid[TRow][TColumn + 1] = TGrid[TRow][TColumn]
-                    TGrid[TRow][TColumn] = 0
-                elif TGrid[TRow][TColumn] != 0 and TGrid[TRow][TColumn + 1] != 0:
-                    # Signals when the block has reached the bottom
-                    BlockMoving = False
+            # if BlockMoving is True:
+                # If the current space occupies a block and the row below is empty
+            if TGrid[TRow][TColumn] != 0 and TGrid[TRow][TColumn + 1] == 0:
+                TGrid[TRow][TColumn + 1] = TGrid[TRow][TColumn]
+                TGrid[TRow][TColumn] = 0
+            # If the current space occupies a block and the row below does too
+            elif TGrid[TRow][TColumn] != 0 and TGrid[TRow][TColumn + 1] != 0:
+                # Signals when the block has reached the bottom
+                BlockMoving = False
 
 # Types of enemies
 # I Block
@@ -492,7 +489,6 @@ while not done:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
             print(TotScore)
-
     draw_t_box()
 
     list_all_sprites.draw(screen)
