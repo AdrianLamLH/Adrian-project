@@ -240,14 +240,14 @@ def move_t_grid():
     global TColumn
     global TRow
     global BlockMoving
-    for TColumn in range(0, 9):
-        for TRow in range(0, 19):
+    for TRow in range(0, 19):
+        for TColumn in range(0, 9):
             # if BlockMoving is True:
-                # If the current space occupies a block and the row below is empty
+            # If the current space occupies a block and the row below is empty
             if TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] == 0:
-                TGrid[TColumn][TRow] = 0
                 TGrid[TColumn][TRow + 1] = TGrid[TColumn][TRow]
                 TGrid[TColumn][TRow] = 0
+
             # If the current space occupies a block and the row below does too
             elif TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] != 0:
                 # Signals when the block has reached the bottom
