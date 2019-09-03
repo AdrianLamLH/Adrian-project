@@ -236,18 +236,18 @@ def draw_t_box():
                 pygame.draw.rect(screen, RED, [row_pos, column_pos, 34, 34])
             elif TGrid[TRow][TColumn] == ORANGE:
                 pygame.draw.rect(screen, ORANGE, [row_pos, column_pos, 34, 34])
-            else:
+            elif TGrid[TRow][TColumn] == 0:
                 pygame.draw.rect(screen, WHITE, [row_pos, column_pos, 34, 34])
 
 
 def move_t_grid():
     global TRow
     global TColumn
-    for TRow in range(10):
-        for TColumn in range(19):
-            if TGrid[TRow][TColumn + 1] == 0 and TGrid[TRow][TColumn] != WHITE:
-                TGrid[TRow][TColumn + 1] = TGrid[TRow][TColumn]
-                TGrid[TRow][TColumn] = 0
+    for TRow in range(1, 10):
+        for TColumn in range(1, 20):
+            if TGrid[TRow][TColumn - 1] != 0 and TGrid[TRow][TColumn] == 0:
+                TGrid[TRow][TColumn] = TGrid[TRow][TColumn - 1]
+                TGrid[TRow][TColumn - 1] = 0
 # Types of enemies
 # I Block
 
