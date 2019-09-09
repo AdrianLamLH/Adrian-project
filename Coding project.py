@@ -76,7 +76,6 @@ for TColumn in range(10):
         TGrid[TColumn].append(0)
         TGridBlock[TColumn].append(0)
 
-
 # Game classes
 
 # Draw function
@@ -187,40 +186,40 @@ def store_block(block_type):
     global TColumn
     global TRow
     if block_type == IBlock:
-        TGrid[5][0] = GREEN
-        TGrid[5][1] = GREEN
-        TGrid[5][2] = GREEN
-        TGrid[5][3] = GREEN
+        TGrid[5][0] = BlockColour[IBlock]
+        TGrid[5][1] = BlockColour[IBlock]
+        TGrid[5][2] = BlockColour[IBlock]
+        TGrid[5][3] = BlockColour[IBlock]
     elif block_type == JBlock:
-        TGrid[5][0] = BLUE
-        TGrid[5][1] = BLUE
-        TGrid[5][2] = BLUE
-        TGrid[6][2] = BLUE
+        TGrid[5][0] = BlockColour[JBlock]
+        TGrid[5][1] = BlockColour[JBlock]
+        TGrid[5][2] = BlockColour[JBlock]
+        TGrid[6][2] = BlockColour[JBlock]
     elif block_type == LBlock:
-        TGrid[4][0] = YELLOW
-        TGrid[4][1] = YELLOW
-        TGrid[4][2] = YELLOW
-        TGrid[5][2] = YELLOW
+        TGrid[4][0] = BlockColour[LBlock]
+        TGrid[4][1] = BlockColour[LBlock]
+        TGrid[4][2] = BlockColour[LBlock]
+        TGrid[5][2] = BlockColour[LBlock]
     elif block_type == OBlock:
-        TGrid[5][0] = RED
-        TGrid[6][0] = RED
-        TGrid[5][1] = RED
-        TGrid[6][1] = RED
+        TGrid[5][0] = BlockColour[OBlock]
+        TGrid[6][0] = BlockColour[OBlock]
+        TGrid[5][1] = BlockColour[OBlock]
+        TGrid[6][1] = BlockColour[OBlock]
     elif block_type == TBlock:
-        TGrid[5][0] = BROWN
-        TGrid[4][0] = BROWN
-        TGrid[6][0] = BROWN
-        TGrid[5][1] = BROWN
+        TGrid[5][0] = BlockColour[TBlock]
+        TGrid[4][0] = BlockColour[TBlock]
+        TGrid[6][0] = BlockColour[TBlock]
+        TGrid[5][1] = BlockColour[TBlock]
     elif block_type == SBlock:
-        TGrid[5][0] = ORANGE
-        TGrid[6][0] = ORANGE
-        TGrid[5][1] = ORANGE
-        TGrid[4][1] = ORANGE
+        TGrid[5][0] = BlockColour[SBlock]
+        TGrid[6][0] = BlockColour[SBlock]
+        TGrid[5][1] = BlockColour[SBlock]
+        TGrid[4][1] = BlockColour[SBlock]
     elif block_type == ZBlock:
-        TGrid[4][0] = PURPLE
-        TGrid[5][0] = PURPLE
-        TGrid[5][1] = PURPLE
-        TGrid[6][1] = PURPLE
+        TGrid[4][0] = BlockColour[ZBlock]
+        TGrid[5][0] = BlockColour[ZBlock]
+        TGrid[5][1] = BlockColour[ZBlock]
+        TGrid[6][1] = BlockColour[ZBlock]
 
 # Drawing the tetris boxes
 
@@ -362,10 +361,8 @@ list_mobs = pygame.sprite.Group()
 # Player and bullet initialised
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
-
 # Initialise block types
-BlockType = [IBlock, JBlock, LBlock, OBlock, SBlock, ZBlock]
-
+BlockColour = {IBlock: GREEN, JBlock: BLUE, LBlock: YELLOW, OBlock: RED, TBlock: BROWN, SBlock: ORANGE, ZBlock: PURPLE}
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
@@ -400,7 +397,7 @@ while not done:
             list_bullet.add(Shot)
         # Mobs are spawned at random time intervals
         elif event.type == SpawnEnemy:
-            BlockChoice = random.choice(BlockType)
+            BlockChoice = random.choice(list(BlockColour))
             Mob = BlockChoice(2, BlockChoice)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
