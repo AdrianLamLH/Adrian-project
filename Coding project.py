@@ -39,6 +39,8 @@ mob_got_killed = False
 BlockMoving = True
 row_spacing = 36
 column_spacing = 36
+ShortTimeMobs = 2500
+LongTimeMobs = 3200
 # Counts the number of flickers when hit
 flickercount = 3
 # Setting up an event for firing the projectiles and spawning mobs
@@ -53,7 +55,7 @@ TimeShot = 220
 # Time delay between movement of tetris blocks
 MoveBlocks = pygame.USEREVENT+5
 # Spawning mobs at random intervals in time range
-TimeMobs = random.randint(3500, 4200)
+TimeMobs = random.randint(ShortTimeMobs, LongTimeMobs)
 
 # Setting up the screen
 size = (1024, 768)
@@ -139,6 +141,7 @@ class Enemy(pygame.sprite.Sprite):
     # No pass
     def __init__(self, mob_health, block_choice):
         super().__init__()
+        # Sets the hitboxes according to which block it is
         global x_hitbox, y_hitbox
         if block_choice == JBlock or block_choice == LBlock or block_choice == TBlock or block_choice == SBlock or block_choice == ZBlock:
             x_hitbox = 60
@@ -154,7 +157,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         # Generic and basic attributes of an enemy
         self.rect.x = random.randint(1024, 1030)
-        self.rect.y = random.randint(20, 735)
+        self.rect.y = random.randint(40, 725)
         self.Mob_Health = mob_health
         self.Block_Choice = block_choice
     # Enemy moves left
@@ -466,7 +469,7 @@ while not done:
 
     # Removes off-screen mobs
     for Mob in list_mobs:
-        if Mob.rect.x <= 384 or Mob.rect.y >= 768:
+        if Mob.rect.x <= 384 or Mob.rect.y >= 740 or Mob.rect.y <= 20:
             list_all_sprites.remove(Mob)
             list_mobs.remove(Mob)
 
@@ -488,7 +491,10 @@ while not done:
                 list_mobs_hit.remove(Mob)
                 mob_got_killed = True
                 # Increase game scroll speed when enemy killed: difficulty progression
-                enemy_speed_change += 0.2
+                enemy_speed_change += 0.1
+                if ShortTimeMobs > 500:
+                    ShortTimeMobs -= 30
+                    LongTimeMobs -= 30
                 TotScore += MobScore
 
     # Removing the projectiles if they land on an enemy
