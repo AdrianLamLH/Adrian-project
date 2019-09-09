@@ -139,7 +139,17 @@ class Enemy(pygame.sprite.Sprite):
     # No pass
     def __init__(self, mob_health, block_choice):
         super().__init__()
-        self.image = pygame.Surface([60, 60])
+        global x_hitbox, y_hitbox
+        if block_choice == JBlock or block_choice == LBlock or block_choice == TBlock or block_choice == SBlock or block_choice == ZBlock:
+            x_hitbox = 60
+            y_hitbox = 90
+        elif block_choice == IBlock:
+            x_hitbox = 30
+            y_hitbox = 120
+        elif block_choice == OBlock:
+            x_hitbox = 60
+            y_hitbox = 60
+        self.image = pygame.Surface([x_hitbox, y_hitbox])
         self.image.fill(BLUE)
         self.rect = self.image.get_rect()
         # Generic and basic attributes of an enemy
