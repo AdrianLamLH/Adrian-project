@@ -27,6 +27,8 @@ pilot_x_speed = 0
 pilot_y_speed = 0
 enemy_speed_change = 0
 gravity = 2.5
+x_hitbox = 0
+y_hitbox = 0
 TotScore = 0
 HitScore = 2
 MobScore = 10
@@ -137,8 +139,8 @@ class Enemy(pygame.sprite.Sprite):
     # No pass
     def __init__(self, mob_health, block_choice):
         super().__init__()
-        self.image = pygame.Surface([30, 30])
-        self.image.fill(GREEN)
+        self.image = pygame.Surface([60, 60])
+        self.image.fill(BLUE)
         self.rect = self.image.get_rect()
         # Generic and basic attributes of an enemy
         self.rect.x = random.randint(1024, 1030)
@@ -261,6 +263,7 @@ class IBlock(Enemy):
         super(IBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([30, 120])
         self.image.fill(BLUE)
+        self.rect = self.image.get_rect()
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/IBlock.png")
         self.image = pygame.transform.scale(picture, [30, 120])
 
@@ -273,7 +276,6 @@ class JBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(JBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
-        self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/JBlock.png")
         self.image = pygame.transform.smoothscale(picture, [60, 90])
 
@@ -285,7 +287,6 @@ class LBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(LBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
-        self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/LBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
 
@@ -296,7 +297,6 @@ class OBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(OBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 60])
-        self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/OBlock.png")
         self.image = pygame.transform.scale(picture, [60, 60])
 
@@ -308,7 +308,6 @@ class TBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(TBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
-        self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/TBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
 
@@ -320,7 +319,6 @@ class SBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(SBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
-        self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/SBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
 
@@ -332,7 +330,6 @@ class ZBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(ZBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
-        self.image.fill(BLUE)
         picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/ZBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
 
@@ -491,6 +488,7 @@ while not done:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
             print(TotScore)
+
     draw_t_box()
 
     list_all_sprites.draw(screen)
