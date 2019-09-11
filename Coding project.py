@@ -503,6 +503,7 @@ while not done:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
             print(TotScore)
+        pygame.draw.rect(screen, RED, [Mob.rect.x, Mob.rect.x + 10, Mob.rect.y - 10, Mob.rect.y - 10])
 
     draw_t_box()
 
