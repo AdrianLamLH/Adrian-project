@@ -400,7 +400,7 @@ while not done:
         # Mobs are spawned at random time intervals
         elif event.type == SpawnEnemy:
             BlockChoice = random.choice(list(BlockColour))
-            Mob = BlockChoice(2, BlockChoice)
+            Mob = BlockChoice(4, BlockChoice)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
         # The pilot flashes red when it is hit
@@ -503,7 +503,8 @@ while not done:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
             print(TotScore)
-        pygame.draw.line(screen, RED, (Mob.rect.left, Mob.rect.bottom + 10), (Mob.rect.right, Mob.rect.bottom + 10), 4)
+        MobHealthPercent = (Mob.Mob_Health/4)
+        pygame.draw.line(screen, RED, (Mob.rect.left, Mob.rect.bottom + 10 * MobHealthPercent), (Mob.rect.right, Mob.rect.bottom + 10 * MobHealthPercent), 4)
 
     draw_t_box()
 
