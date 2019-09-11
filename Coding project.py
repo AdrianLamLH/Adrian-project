@@ -142,9 +142,12 @@ class Enemy(pygame.sprite.Sprite):
         super().__init__()
         # Sets the hitboxes according to which block it is
         global x_hitbox, y_hitbox
-        if block_choice == JBlock or block_choice == LBlock or block_choice == TBlock or block_choice == SBlock or block_choice == ZBlock:
+        if block_choice == JBlock or block_choice == LBlock or block_choice == SBlock or block_choice == ZBlock:
             x_hitbox = 60
             y_hitbox = 90
+        elif block_choice == TBlock:
+            x_hitbox = 90
+            y_hitbox = 60
         elif block_choice == IBlock:
             x_hitbox = 30
             y_hitbox = 120
@@ -276,7 +279,7 @@ class IBlock(Enemy):
         self.image = pygame.Surface([30, 120])
         self.image.fill(BLUE)
         self.rect = self.image.get_rect()
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/IBlock.png")
+        picture = pygame.image.load("IBlock.png")
         self.image = pygame.transform.scale(picture, [30, 120])
 
 
@@ -288,7 +291,7 @@ class JBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(JBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/JBlock.png")
+        picture = pygame.image.load("JBlock.png")
         self.image = pygame.transform.smoothscale(picture, [60, 90])
 
 
@@ -299,7 +302,7 @@ class LBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(LBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/LBlock.png")
+        picture = pygame.image.load("LBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
 
 # O Block
@@ -309,7 +312,7 @@ class OBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(OBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 60])
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/OBlock.png")
+        picture = pygame.image.load("OBlock.png")
         self.image = pygame.transform.scale(picture, [60, 60])
 
 
@@ -319,9 +322,8 @@ class OBlock(Enemy):
 class TBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(TBlock, self).__init__(mob_health, block_choice)
-        self.image = pygame.Surface([60, 90])
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/TBlock.png")
-        self.image = pygame.transform.scale(picture, [60, 90])
+        picture = pygame.image.load("TBlock.png")
+        self.image = pygame.transform.scale(picture, [90, 60])
 
 
 # S Block
@@ -331,7 +333,7 @@ class SBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(SBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/SBlock.png")
+        picture = pygame.image.load("SBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
 
 
@@ -342,7 +344,7 @@ class ZBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(ZBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([60, 90])
-        picture = pygame.image.load("/Users/adrianlam/Documents/GitHub/Adrian-project/ZBlock.png")
+        picture = pygame.image.load("ZBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
 
 
