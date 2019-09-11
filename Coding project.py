@@ -141,20 +141,19 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, mob_health, block_choice):
         super().__init__()
         # Sets the hitboxes according to which block it is
-        global x_hitbox, y_hitbox
         if block_choice == JBlock or block_choice == LBlock or block_choice == SBlock or block_choice == ZBlock:
-            x_hitbox = 60
-            y_hitbox = 90
+            self.x_hitbox = 60
+            self.y_hitbox = 90
         elif block_choice == TBlock:
-            x_hitbox = 90
-            y_hitbox = 60
+            self.x_hitbox = 90
+            self.y_hitbox = 60
         elif block_choice == IBlock:
-            x_hitbox = 30
-            y_hitbox = 120
+            self.x_hitbox = 30
+            self.y_hitbox = 120
         elif block_choice == OBlock:
-            x_hitbox = 60
-            y_hitbox = 60
-        self.image = pygame.Surface([x_hitbox, y_hitbox])
+            self.x_hitbox = 60
+            self.y_hitbox = 60
+        self.image = pygame.Surface([self.x_hitbox, self.y_hitbox])
         self.image.fill(BLUE)
         self.rect = self.image.get_rect()
         # Generic and basic attributes of an enemy
@@ -504,7 +503,7 @@ while not done:
             list_bullet.remove(Shot)
             print(TotScore)
         MobHealthPercent = (Mob.Mob_Health/4)
-        pygame.draw.line(screen, RED, (Mob.rect.left, Mob.rect.bottom + 10 * MobHealthPercent), (Mob.rect.right, Mob.rect.bottom + 10 * MobHealthPercent), 4)
+        pygame.draw.line(screen, RED, (Mob.rect.left, Mob.rect.bottom + 10), (Mob.rect.left + Mob.x_hitbox * MobHealthPercent, Mob.rect.bottom + 10), 4)
 
     draw_t_box()
 
