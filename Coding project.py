@@ -472,7 +472,7 @@ while not done:
 
     # Removes off-screen mobs
     for Mob in list_mobs:
-        if Mob.rect.x <= 384 or Mob.rect.y >= 740 or Mob.rect.y <= 20:
+        if Mob.rect.x <= 364 or Mob.rect.y >= 740 or Mob.rect.y <= 20:
             list_all_sprites.remove(Mob)
             list_mobs.remove(Mob)
 
