@@ -346,10 +346,6 @@ class ZBlock(Enemy):
         picture = pygame.image.load("ZBlock.png")
         self.image = pygame.transform.scale(picture, [60, 90])
 
-
-
-# All sprites are refreshed in their positions
-pygame.time.set_timer(FireRate, TimeShot)
 # Randomly generates a new enemy at a random rate
 pygame.time.set_timer(SpawnEnemy, TimeMobs)
 # Moves the tetris blocks down one every 1.5 seconds
@@ -384,6 +380,10 @@ while not done:
                         pilot_x_speed = -8
                 elif event.key == pygame.K_RIGHT:
                         pilot_x_speed = 8
+                elif event.key == pygame.K_SPACE:
+
+                    # Start shooting
+                    pygame.time.set_timer(FireRate, TimeShot)
 
         # Tells the pilot to stop moving when key not pressed
         elif event.type == pygame.KEYUP:
@@ -391,6 +391,11 @@ while not done:
                 pilot_y_speed = 0
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 pilot_x_speed = 0
+            elif event.key == pygame.K_SPACE:
+                Shot = Bullet()
+                list_all_sprites.add(Shot)
+                list_bullet.add(Shot)
+                pygame.time.set_timer(FireRate, 0)
         # The bullet continues to fire automatically
         elif event.type == FireRate:
             Shot = Bullet()
@@ -459,7 +464,7 @@ while not done:
     pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
 
     # Scoring
-    drawing("Score:", 16, WHITE, 880, 20)
+    drawing("Score:", 16, WHITE, 860, 20)
     drawing(TotScore, 16, WHITE, 980, 20)
 
     # Display health
@@ -473,7 +478,7 @@ while not done:
 
     # Removes off-screen projectiles
     for Shot in list_bullet:
-        if Shot.rect.x >= pilot_x + 300 or Shot.rect.y >= 768:
+        if Shot.rect.x >= pilot_x + 400 or Shot.rect.y >= 768:
             list_all_sprites.remove(Shot)
             list_bullet.remove(Shot)
         # Hit detection between bullet and Mob
