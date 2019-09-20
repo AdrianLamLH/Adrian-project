@@ -188,36 +188,43 @@ def check_t_space():
         TGrid[TColumn][TRow + 1] = BlockColour[IBlock]
         TGrid[TColumn][TRow + 2] = BlockColour[IBlock]
         TGrid[TColumn][TRow + 3] = BlockColour[IBlock]
+        print(IBlock)
     elif TGrid[TColumn][TRow] == BlockColour[JBlock] and TGrid[TColumn][TRow + 1] == BlockColour[JBlock] and TGrid[TColumn][TRow + 2] == BlockColour[JBlock] and TGrid[TColumn - 1][TRow + 2] == BlockColour[JBlock]:
         TGrid[TColumn][TRow] = BlockColour[JBlock]
         TGrid[TColumn][TRow + 1] = BlockColour[JBlock]
         TGrid[TColumn][TRow + 2] = BlockColour[JBlock]
         TGrid[TColumn + 1][TRow + 1] = BlockColour[JBlock]
+        print(JBlock)
     elif TGrid[TColumn][TRow] == BlockColour[LBlock] and TGrid[TColumn][TRow + 1] == BlockColour[LBlock] and TGrid[TColumn][TRow + 2] == BlockColour[LBlock] and TGrid[TColumn + 1][TRow + 2] == BlockColour[LBlock]:
         TGrid[TColumn][TRow] = BlockColour[LBlock]
         TGrid[TColumn][TRow + 1] = BlockColour[LBlock]
         TGrid[TColumn][TRow + 2] = BlockColour[LBlock]
         TGrid[TColumn + 1][TRow + 1] = BlockColour[LBlock]
+        print(LBlock)
     elif TGrid[TColumn][TRow] == BlockColour[OBlock] and TGrid[TColumn + 1][TRow] == BlockColour[OBlock] and TGrid[TColumn][TRow + 1] == BlockColour[OBlock] and TGrid[TColumn + 1][TRow + 1] == BlockColour[OBlock]:
         TGrid[TColumn][TRow] = BlockColour[OBlock]
         TGrid[TColumn + 1][TRow] = BlockColour[OBlock]
         TGrid[TColumn][TRow + 1] = BlockColour[OBlock]
         TGrid[TColumn + 1][TRow + 1] = BlockColour[OBlock]
+        print(OBlock)
     elif TGrid[TColumn][TRow] == BlockColour[TBlock] and TGrid[TColumn + 1][TRow] == BlockColour[TBlock] and TGrid[TColumn + 2][TRow] == BlockColour[TBlock] and TGrid[TColumn + 1][TRow + 1] == BlockColour[TBlock]:
         TGrid[TColumn][TRow] = BlockColour[TBlock]
         TGrid[TColumn + 1][TRow] = BlockColour[TBlock]
         TGrid[TColumn + 2][TRow] = BlockColour[TBlock]
         TGrid[TColumn + 1][TRow + 1] = BlockColour[TBlock]
+        print(TBlock)
     elif TGrid[TColumn + 1][TRow] == BlockColour[SBlock] and TGrid[TColumn + 2][TRow] == BlockColour[SBlock] and TGrid[TColumn + 1][TRow + 1] == BlockColour[SBlock] and TGrid[TColumn][TRow + 1] == BlockColour[SBlock]:
         TGrid[TColumn + 1][TRow] = BlockColour[SBlock]
         TGrid[TColumn + 2][TRow] = BlockColour[SBlock]
         TGrid[TColumn + 1][TRow + 1] = BlockColour[SBlock]
         TGrid[TColumn][TRow + 1] = BlockColour[SBlock]
+        print(SBlock)
     elif TGrid[TColumn][TRow] == BlockColour[ZBlock] and TGrid[TColumn + 1][TRow] == BlockColour[ZBlock] and TGrid[TColumn + 1][TRow + 1] == BlockColour[ZBlock] and TGrid[TColumn + 2][TRow + 1] == BlockColour[ZBlock]:
         TGrid[TColumn][TRow] = BlockColour[ZBlock]
         TGrid[TColumn + 1][TRow] = BlockColour[ZBlock]
         TGrid[TColumn + 1][TRow + 1] = BlockColour[ZBlock]
         TGrid[TColumn + 2][TRow + 1] = BlockColour[ZBlock]
+        print(ZBlock)
 # Initial positioning of the chosen tetris blocks in the grid
 
 def store_block(block_type):
