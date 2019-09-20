@@ -180,9 +180,45 @@ class Enemy(pygame.sprite.Sprite):
                 pygame.time.set_timer(PilotHit, 1000)
                 Pilot_flickering = True
                 PilotHealth -= 1
-
+def check_t_space():
+    global TColumn
+    global TRow
+    if TGrid[TColumn][TRow] == BlockColour[IBlock] and TGrid[TColumn][TRow + 1] == BlockColour[IBlock] and TGrid[TColumn][TRow + 2] == BlockColour[IBlock] and TGrid[TColumn][TRow + 3] == BlockColour[IBlock]:
+        TGrid[TColumn][TRow] = BlockColour[IBlock]
+        TGrid[TColumn][TRow + 1] = BlockColour[IBlock]
+        TGrid[TColumn][TRow + 2] = BlockColour[IBlock]
+        TGrid[TColumn][TRow + 3] = BlockColour[IBlock]
+    elif TGrid[TColumn][TRow] == BlockColour[JBlock] and TGrid[TColumn][TRow + 1] == BlockColour[JBlock] and TGrid[TColumn][TRow + 2] == BlockColour[JBlock] and TGrid[TColumn - 1][TRow + 2] == BlockColour[JBlock]:
+        TGrid[TColumn][TRow] = BlockColour[JBlock]
+        TGrid[TColumn][TRow + 1] = BlockColour[JBlock]
+        TGrid[TColumn][TRow + 2] = BlockColour[JBlock]
+        TGrid[TColumn + 1][TRow + 1] = BlockColour[JBlock]
+    elif TGrid[TColumn][TRow] == BlockColour[LBlock] and TGrid[TColumn][TRow + 1] == BlockColour[LBlock] and TGrid[TColumn][TRow + 2] == BlockColour[LBlock] and TGrid[TColumn + 1][TRow + 2] == BlockColour[LBlock]:
+        TGrid[TColumn][TRow] = BlockColour[LBlock]
+        TGrid[TColumn][TRow + 1] = BlockColour[LBlock]
+        TGrid[TColumn][TRow + 2] = BlockColour[LBlock]
+        TGrid[TColumn + 1][TRow + 1] = BlockColour[LBlock]
+    elif TGrid[TColumn][TRow] == BlockColour[OBlock] and TGrid[TColumn + 1][TRow] == BlockColour[OBlock] and TGrid[TColumn][TRow + 1] == BlockColour[OBlock] and TGrid[TColumn + 1][TRow + 1] == BlockColour[OBlock]:
+        TGrid[TColumn][TRow] = BlockColour[OBlock]
+        TGrid[TColumn + 1][TRow] = BlockColour[OBlock]
+        TGrid[TColumn][TRow + 1] = BlockColour[OBlock]
+        TGrid[TColumn + 1][TRow + 1] = BlockColour[OBlock]
+    elif TGrid[TColumn][TRow] == BlockColour[TBlock] and TGrid[TColumn + 1][TRow] == BlockColour[TBlock] and TGrid[TColumn + 2][TRow] == BlockColour[TBlock] and TGrid[TColumn + 1][TRow + 1] == BlockColour[TBlock]:
+        TGrid[TColumn][TRow] = BlockColour[TBlock]
+        TGrid[TColumn + 1][TRow] = BlockColour[TBlock]
+        TGrid[TColumn + 2][TRow] = BlockColour[TBlock]
+        TGrid[TColumn + 1][TRow + 1] = BlockColour[TBlock]
+    elif TGrid[TColumn + 1][TRow] == BlockColour[SBlock] and TGrid[TColumn + 2][TRow] == BlockColour[SBlock] and TGrid[TColumn + 1][TRow + 1] == BlockColour[SBlock] and TGrid[TColumn][TRow + 1] == BlockColour[SBlock]:
+        TGrid[TColumn + 1][TRow] = BlockColour[SBlock]
+        TGrid[TColumn + 2][TRow] = BlockColour[SBlock]
+        TGrid[TColumn + 1][TRow + 1] = BlockColour[SBlock]
+        TGrid[TColumn][TRow + 1] = BlockColour[SBlock]
+    elif TGrid[TColumn][TRow] == BlockColour[ZBlock] and TGrid[TColumn + 1][TRow] == BlockColour[ZBlock] and TGrid[TColumn + 1][TRow + 1] == BlockColour[ZBlock] and TGrid[TColumn + 2][TRow + 1] == BlockColour[ZBlock]:
+        TGrid[TColumn][TRow] = BlockColour[ZBlock]
+        TGrid[TColumn + 1][TRow] = BlockColour[ZBlock]
+        TGrid[TColumn + 1][TRow + 1] = BlockColour[ZBlock]
+        TGrid[TColumn + 2][TRow + 1] = BlockColour[ZBlock]
 # Initial positioning of the chosen tetris blocks in the grid
-
 
 def store_block(block_type):
     global TColumn
@@ -196,7 +232,7 @@ def store_block(block_type):
         TGrid[5][0] = BlockColour[JBlock]
         TGrid[5][1] = BlockColour[JBlock]
         TGrid[5][2] = BlockColour[JBlock]
-        TGrid[6][2] = BlockColour[JBlock]
+        TGrid[4][2] = BlockColour[JBlock]
     elif block_type == LBlock:
         TGrid[4][0] = BlockColour[LBlock]
         TGrid[4][1] = BlockColour[LBlock]
@@ -209,19 +245,19 @@ def store_block(block_type):
         TGrid[6][1] = BlockColour[OBlock]
     elif block_type == TBlock:
         TGrid[5][0] = BlockColour[TBlock]
-        TGrid[4][0] = BlockColour[TBlock]
         TGrid[6][0] = BlockColour[TBlock]
-        TGrid[5][1] = BlockColour[TBlock]
+        TGrid[7][0] = BlockColour[TBlock]
+        TGrid[6][1] = BlockColour[TBlock]
     elif block_type == SBlock:
-        TGrid[5][0] = BlockColour[SBlock]
         TGrid[6][0] = BlockColour[SBlock]
+        TGrid[7][0] = BlockColour[SBlock]
+        TGrid[6][1] = BlockColour[SBlock]
         TGrid[5][1] = BlockColour[SBlock]
-        TGrid[4][1] = BlockColour[SBlock]
     elif block_type == ZBlock:
-        TGrid[4][0] = BlockColour[ZBlock]
         TGrid[5][0] = BlockColour[ZBlock]
-        TGrid[5][1] = BlockColour[ZBlock]
+        TGrid[6][0] = BlockColour[ZBlock]
         TGrid[6][1] = BlockColour[ZBlock]
+        TGrid[7][1] = BlockColour[ZBlock]
 
 # Drawing the tetris boxes
 
@@ -256,8 +292,18 @@ def move_t_grid():
     global TColumn
     global TRow
     global BlockMoving
-    for TColumn in range(9):
+    for TColumn in range(10):
         for TRow in range(19):
+            # if BlockMoving is True:
+                # If the current space occupies a block and the row below is empty
+            if TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] == 0:
+                check_t_space()
+            print(TColumn, TRow)
+            TGrid[TColumn][TRow] = 0
+            # If the current space occupies a block and the row below does too
+ #           elif TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] != 0:
+                # Signals when the block has reached the bottom
+#                BlockMoving = False
 
 # Types of enemies
 # I Block
