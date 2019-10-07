@@ -264,7 +264,6 @@ def move_t_grid():
                 TGrid[TColumn][TRow + 1] = TGrid[TColumn][TRow]
                 TGridMovedCheck[TColumn][TRow + 1] = True  # Checks to see if grid block changed already this cycle
                 TGrid[TColumn][TRow] = 0
-                TGridMovedCheck[TColumn][TRow] = True
     for TColumn in range(9):
         for TRow in range(19):
             TGridMovedCheck[TColumn][TRow] = False  # Resets the edited grid checker to False after one complete cycle
