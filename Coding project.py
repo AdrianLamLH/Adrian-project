@@ -67,14 +67,14 @@ pygame.display.set_caption("Game name here")
 clock = pygame.time.Clock()
 
 # Tetris board setup
-TGridBlock = []
+TGridMovedCheck = []
 TGrid = []
 for TColumn in range(10):
     TGrid.append([])
-    TGridBlock.append([])
+    TGridMovedCheck.append([])
     for TRow in range(20):
         TGrid[TColumn].append(0)
-        TGridBlock[TColumn].append(0)
+        TGridMovedCheck[TColumn].append(False)
 
 # Game classes
 
@@ -260,9 +260,11 @@ def move_t_grid():
         for TRow in range(19):
             # if BlockMoving is True:
                 # If the current space occupies a block and the row below is empty
-            if TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] == 0:
+            if TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] == 0 and TGridMovedCheck[TColumn][TRow] == False:
                 TGrid[TColumn][TRow + 1] = TGrid[TColumn][TRow]
+                TGridMovedCheck[TColumn][TRow + 1] = True  # Checks to see if grid block changed already this cycle
                 TGrid[TColumn][TRow] = 0
+                TGridMovedCheck[TColumn][TRow] = True
             # If the current space occupies a block and the row below does too
  #           elif TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] != 0:
                 # Signals when the block has reached the bottom
