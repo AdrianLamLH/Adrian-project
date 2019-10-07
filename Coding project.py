@@ -265,10 +265,9 @@ def move_t_grid():
                 TGridMovedCheck[TColumn][TRow + 1] = True  # Checks to see if grid block changed already this cycle
                 TGrid[TColumn][TRow] = 0
                 TGridMovedCheck[TColumn][TRow] = True
-            # If the current space occupies a block and the row below does too
- #           elif TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] != 0:
-                # Signals when the block has reached the bottom
-#                BlockMoving = False
+    for TColumn in range(9):
+        for TRow in range(19):
+            TGridMovedCheck[TColumn][TRow] = False  # Resets the edited grid checker to False after one complete cycle
 
 # Types of enemies
 # I Block
