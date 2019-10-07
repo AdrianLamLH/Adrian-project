@@ -256,14 +256,15 @@ def move_t_grid():
     global TColumn
     global TRow
     global BlockMoving
-    for TColumn in range(9):
-        for TRow in range(19):
+    for TColumn in range(9, 0, -1):
+        for TRow in range(19, 0, -1):
             # if BlockMoving is True:
                 # If the current space occupies a block and the row below is empty
-            if TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] == 0 and TGridMovedCheck[TColumn][TRow] == False:
-                TGrid[TColumn][TRow + 1] = TGrid[TColumn][TRow]
-                TGridMovedCheck[TColumn][TRow + 1] = True  # Checks to see if grid block changed already this cycle
+            if TGrid[TColumn][TRow] != 0 and TGridMovedCheck[TColumn][TRow] == False:
+                TGrid[TColumn][TRow - 1] = TGrid[TColumn][TRow]
+                TGridMovedCheck[TColumn][TRow] = True  # Checks to see if grid block changed already this cycle
                 TGrid[TColumn][TRow] = 0
+                print("Column", TColumn)
     for TColumn in range(9):
         for TRow in range(19):
             TGridMovedCheck[TColumn][TRow] = False  # Resets the edited grid checker to False after one complete cycle
