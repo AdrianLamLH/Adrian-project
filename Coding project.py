@@ -196,7 +196,7 @@ def store_block(block_type):
         TGrid[5][0] = BlockColour[JBlock]
         TGrid[5][1] = BlockColour[JBlock]
         TGrid[5][2] = BlockColour[JBlock]
-        TGrid[6][2] = BlockColour[JBlock]
+        TGrid[4][2] = BlockColour[JBlock]
     elif block_type == LBlock:
         TGrid[4][0] = BlockColour[LBlock]
         TGrid[4][1] = BlockColour[LBlock]
@@ -208,8 +208,8 @@ def store_block(block_type):
         TGrid[5][1] = BlockColour[OBlock]
         TGrid[6][1] = BlockColour[OBlock]
     elif block_type == TBlock:
-        TGrid[5][0] = BlockColour[TBlock]
         TGrid[4][0] = BlockColour[TBlock]
+        TGrid[5][0] = BlockColour[TBlock]
         TGrid[6][0] = BlockColour[TBlock]
         TGrid[5][1] = BlockColour[TBlock]
     elif block_type == SBlock:
@@ -255,12 +255,87 @@ def draw_t_box():
 def move_t_grid():
     global TColumn
     global TRow
-    global BlockMoving
     for TColumn in range(9):
         for TRow in range(19):
-            # if BlockMoving is True:
+            if TGrid[TColumn][TRow] == BlockColour[IBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow + 1] == BlockColour[IBlock] and TGridMovedCheck[TColumn][TRow + 2] == BlockColour[IBlock] and TGrid[TColumn][TRow + 3] == BlockColour[IBlock] and TGrid[TColumn][TRow + 4] == 0:
+                TGrid[TColumn][TRow] = 0
+                TGrid[TColumn][TRow + 1] = BlockColour[IBlock]
+                TGrid[TColumn][TRow + 2] = BlockColour[IBlock]
+                TGrid[TColumn][TRow + 3] = BlockColour[IBlock]
+                TGrid[TColumn][TRow + 4] = BlockColour[IBlock]
+                #  Marking moved or edited spaces on grid
+                TGridMovedCheck[TColumn][TRow] = True
+                TGridMovedCheck[TColumn][TRow + 1] = True
+                TGridMovedCheck[TColumn][TRow + 2] = True
+                TGridMovedCheck[TColumn][TRow + 3] = True
+                TGridMovedCheck[TColumn][TRow + 4] = True
+            if TGrid[TColumn][TRow] == BlockColour[JBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow + 1] == BlockColour[JBlock] and TGridMovedCheck[TColumn][TRow + 2] == BlockColour[JBlock] and TGrid[TColumn][TRow + 3] == BlockColour[JBlock] and TGrid[TColumn - 1][TRow + 3] == 0:
+                TGrid[TColumn][TRow] = 0
+                TGrid[TColumn][TRow + 1] = BlockColour[JBlock]
+                TGrid[TColumn][TRow + 2] = BlockColour[JBlock]
+                TGrid[TColumn][TRow + 3] = BlockColour[JBlock]
+                TGrid[TColumn - 1][TRow + 3] = BlockColour[JBlock]
+                TGridMovedCheck[TColumn][TRow + 1] = True
+                TGridMovedCheck[TColumn][TRow + 2] = True
+                TGridMovedCheck[TColumn][TRow + 3] = True
+                TGridMovedCheck[TColumn - 1][TRow + 3] = True
+            if TGrid[TColumn][TRow] == BlockColour[LBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow + 1] and TGridMovedCheck[TColumn][TRow + 2] == 0 and TGrid[TColumn][TRow + 3] and TGrid[TColumn + 1][TRow + 3]:
+                TGrid[TColumn][TRow] = 0
+                TGrid[TColumn][TRow + 1] = BlockColour[LBlock]
+                TGrid[TColumn][TRow + 2] = BlockColour[LBlock]
+                TGrid[TColumn][TRow + 3] = BlockColour[LBlock]
+                TGrid[TColumn + 1][TRow + 3] = BlockColour[LBlock]
+
+                TGridMovedCheck[TColumn][TRow + 1] = True
+                TGridMovedCheck[TColumn][TRow + 2] = True
+                TGridMovedCheck[TColumn][TRow + 3] = True
+                TGridMovedCheck[TColumn + 1][TRow + 3] = True
+            if TGrid[TColumn][TRow] == BlockColour[OBlock] and TGridMovedCheck[TColumn][TRow] == 0 and TGrid[TColumn][TRow] and TGridMovedCheck[TColumn + 1][TRow] == 0 and TGrid[TColumn][TRow + 1] and TGrid[TColumn + 1][TRow + 1]:
+                TGrid[TColumn][TRow] = 0
+                TGrid[TColumn + 1][TRow + 1] = BlockColour[OBlock]
+                TGrid[TColumn + 2][TRow + 1] = BlockColour[OBlock]
+                TGrid[TColumn + 1][TRow + 2] = BlockColour[OBlock]
+                TGrid[TColumn + 2][TRow + 2] = BlockColour[OBlock]
+
+                TGridMovedCheck[TColumn + 1][TRow + 1] = True
+                TGridMovedCheck[TColumn + 2][TRow + 1] = True
+                TGridMovedCheck[TColumn + 1][TRow + 2] = True
+                TGridMovedCheck[TColumn + 2][TRow + 2] = True
+            if TGrid[TColumn][TRow] == BlockColour[TBlock] and TGridMovedCheck[TColumn][TRow] == 0 and TGrid[TColumn + 1][TRow + 1] and TGridMovedCheck[TColumn + 2][TRow + 1] == 0 and TGrid[TColumn + 3][TRow + 1] and TGrid[TColumn + 2][TRow + 2]:
+                TGrid[TColumn][TRow] = 0
+                TGrid[TColumn + 1][TRow + 1] = BlockColour[TBlock]
+                TGrid[TColumn + 2][TRow + 1] = BlockColour[TBlock]
+                TGrid[TColumn + 3][TRow + 1] = BlockColour[TBlock]
+                TGrid[TColumn + 2][TRow + 2] = BlockColour[TBlock]
+
+                TGridMovedCheck[TColumn + 1][TRow + 1] = True
+                TGridMovedCheck[TColumn + 2][TRow + 1] = True
+                TGridMovedCheck[TColumn + 3][TRow + 1] = True
+                TGridMovedCheck[TColumn + 2][TRow + 2] = True
+            if TGrid[TColumn][TRow] == BlockColour[SBlock] and TGridMovedCheck[TColumn][TRow] == 0 and TGrid[TColumn + 1][TRow + 1] and TGridMovedCheck[TColumn + 2][TRow + 1] == 0 and TGrid[TColumn + 3][TRow + 1] and TGrid[TColumn + 2][TRow + 2]:
+                TGrid[TColumn][TRow] = 0
+                TGrid[TColumn + 1][TRow + 1] = BlockColour[SBlock]
+                TGrid[TColumn + 2][TRow + 1] = BlockColour[SBlock]
+                TGrid[TColumn + 2][TRow] = BlockColour[SBlock]
+                TGrid[TColumn + 3][TRow] = BlockColour[SBlock]
+
+                TGridMovedCheck[TColumn + 1][TRow + 1] = True
+                TGridMovedCheck[TColumn + 2][TRow + 1] = True
+                TGridMovedCheck[TColumn + 2][TRow] = True
+                TGridMovedCheck[TColumn + 3][TRow] = True
+            if TGrid[TColumn][TRow] == BlockColour[ZBlock] and TGridMovedCheck[TColumn][TRow] == 0 and TGrid[TColumn + 1][TRow] and TGridMovedCheck[TColumn + 2][TRow] == 0 and TGrid[TColumn + 2][TRow + 1] and TGrid[TColumn + 3][TRow + 1]:
+                TGrid[TColumn][TRow] = 0
+                TGrid[TColumn + 1][TRow] = BlockColour[ZBlock]
+                TGrid[TColumn + 2][TRow] = BlockColour[ZBlock]
+                TGrid[TColumn + 2][TRow + 1] = BlockColour[ZBlock]
+                TGrid[TColumn + 3][TRow + 1] = BlockColour[ZBlock]
+
+                TGridMovedCheck[TColumn + 1][TRow] = True
+                TGridMovedCheck[TColumn + 2][TRow] = True
+                TGridMovedCheck[TColumn + 2][TRow + 1] = True
+                TGridMovedCheck[TColumn + 3][TRow + 1] = True
                 # If the current space occupies a block and the row below is empty
-            if TGrid[TColumn][TRow] != 0 and TGridMovedCheck[TColumn][TRow] == False and TGridMovedCheck[TColumn][TRow + 1] == False:
+            if TGrid[TColumn][TRow] != 0 and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow + 1] == 0:
                 TGrid[TColumn][TRow + 1] = TGrid[TColumn][TRow]
                 TGridMovedCheck[TColumn][TRow + 1] = True  # Checks to see if grid block changed already this cycle
                 TGrid[TColumn][TRow] = 0
