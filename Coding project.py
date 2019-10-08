@@ -257,7 +257,7 @@ def move_t_grid():
     global TRow
     for TColumn in range(9):
         for TRow in range(19):
-            if TGrid[TColumn][TRow] == BlockColour[IBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow + 1] == BlockColour[IBlock] and TGridMovedCheck[TColumn][TRow + 2] == BlockColour[IBlock] and TGrid[TColumn][TRow + 3] == BlockColour[IBlock] and TGrid[TColumn][TRow + 4] == 0:
+            if TGrid[TColumn][TRow] == BlockColour[IBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow + 1] == BlockColour[IBlock] and TGridMovedCheck[TColumn][TRow + 2] == BlockColour[IBlock] and TGrid[TColumn][TRow + 3] == BlockColour[IBlock] and TGrid[TColumn][TRow + 4] == BlockColour[IBlock] and TGridMovedCheck[TColumn][TRow + 1] == False and TGridMovedCheck[TColumn][TRow + 2] == False and TGridMovedCheck[TColumn][TRow + 3] == False and TGridMovedCheck[TColumn][TRow + 4] == False:
                 TGrid[TColumn][TRow] = 0
                 TGrid[TColumn][TRow + 1] = BlockColour[IBlock]
                 TGrid[TColumn][TRow + 2] = BlockColour[IBlock]
@@ -269,7 +269,7 @@ def move_t_grid():
                 TGridMovedCheck[TColumn][TRow + 2] = True
                 TGridMovedCheck[TColumn][TRow + 3] = True
                 TGridMovedCheck[TColumn][TRow + 4] = True
-            if TGrid[TColumn][TRow] == BlockColour[JBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow + 1] == BlockColour[JBlock] and TGridMovedCheck[TColumn][TRow + 2] == BlockColour[JBlock] and TGrid[TColumn][TRow + 3] == BlockColour[JBlock] and TGrid[TColumn - 1][TRow + 3] == 0:
+            if TGrid[TColumn][TRow] == BlockColour[JBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow + 1] == BlockColour[JBlock] and TGridMovedCheck[TColumn][TRow + 2] == BlockColour[JBlock] and TGrid[TColumn][TRow + 3] == BlockColour[JBlock] and TGrid[TColumn - 1][TRow + 3] == BlockColour[JBlock] and TGridMovedCheck[TColumn][TRow + 1] == False and TGridMovedCheck[TColumn][TRow + 2] == False and TGridMovedCheck[TColumn][TRow + 3] == False and TGridMovedCheck[TColumn - 1][TRow + 3] == False:
                 TGrid[TColumn][TRow] = 0
                 TGrid[TColumn][TRow + 1] = BlockColour[JBlock]
                 TGrid[TColumn][TRow + 2] = BlockColour[JBlock]
@@ -279,7 +279,7 @@ def move_t_grid():
                 TGridMovedCheck[TColumn][TRow + 2] = True
                 TGridMovedCheck[TColumn][TRow + 3] = True
                 TGridMovedCheck[TColumn - 1][TRow + 3] = True
-            if TGrid[TColumn][TRow] == BlockColour[LBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow + 1] and TGridMovedCheck[TColumn][TRow + 2] == 0 and TGrid[TColumn][TRow + 3] == 0 and TGrid[TColumn + 1][TRow + 3] == 0:
+            if TGrid[TColumn][TRow] == BlockColour[LBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow + 1] == BlockColour[LBlock] and TGrid[TColumn][TRow + 2] == BlockColour[LBlock] and TGrid[TColumn][TRow + 3] == BlockColour[LBlock] and TGrid[TColumn + 1][TRow + 3] == 0 and TGrid[TColumn][TRow + 1] == False and TGrid[TColumn][TRow + 2] == False and TGrid[TColumn][TRow + 3] == False and TGrid[TColumn + 1][TRow + 3] == False:
                 TGrid[TColumn][TRow] = 0
                 TGrid[TColumn][TRow + 1] = BlockColour[LBlock]
                 TGrid[TColumn][TRow + 2] = BlockColour[LBlock]
@@ -290,7 +290,7 @@ def move_t_grid():
                 TGridMovedCheck[TColumn][TRow + 2] = True
                 TGridMovedCheck[TColumn][TRow + 3] = True
                 TGridMovedCheck[TColumn + 1][TRow + 3] = True
-            if TGrid[TColumn][TRow] == BlockColour[OBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow] and TGridMovedCheck[TColumn + 1][TRow] == 0 and TGrid[TColumn][TRow + 1] == 0 and TGrid[TColumn + 1][TRow + 1] == 0:
+            if TGrid[TColumn][TRow] == BlockColour[OBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow] == BlockColour[OBlock] and TGrid[TColumn + 1][TRow] == BlockColour[OBlock] and TGrid[TColumn][TRow + 1] == BlockColour[OBlock] and TGrid[TColumn + 1][TRow + 1] == 0 and TGrid[TColumn + 1][TRow] == False and TGrid[TColumn][TRow + 1] == False and TGrid[TColumn + 1][TRow + 1] == False:
                 TGrid[TColumn][TRow] = 0
                 TGrid[TColumn + 1][TRow + 1] = BlockColour[OBlock]
                 TGrid[TColumn + 2][TRow + 1] = BlockColour[OBlock]
@@ -301,7 +301,7 @@ def move_t_grid():
                 TGridMovedCheck[TColumn + 2][TRow + 1] = True
                 TGridMovedCheck[TColumn + 1][TRow + 2] = True
                 TGridMovedCheck[TColumn + 2][TRow + 2] = True
-            if TGrid[TColumn][TRow] == BlockColour[TBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn + 1][TRow + 1] and TGridMovedCheck[TColumn + 2][TRow + 1] == 0 and TGrid[TColumn + 3][TRow + 1] == 0 and TGrid[TColumn + 2][TRow + 2] == 0:
+            if TGrid[TColumn][TRow] == BlockColour[TBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn + 1][TRow + 1] == BlockColour[TBlock] and TGridMovedCheck[TColumn + 2][TRow + 1] == BlockColour[TBlock] and TGrid[TColumn + 3][TRow + 1] == BlockColour[TBlock] and TGrid[TColumn + 2][TRow + 2] == 0:
                 TGrid[TColumn][TRow] = 0
                 TGrid[TColumn + 1][TRow + 1] = BlockColour[TBlock]
                 TGrid[TColumn + 2][TRow + 1] = BlockColour[TBlock]
