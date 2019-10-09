@@ -603,7 +603,15 @@ while not done:
             else:
                 Pilot_flickering = False
         elif event.type == MoveBlocks:
-            move_t_grid()
+            for TColumn in range(9):
+                for TRow in range(19):
+                    for BlockObject in list_blocks:
+                        list_blocks.check_t_grid(TColumn, TRow)
+                        # Resets the edited grid checker to False after one complete cycle
+            for TColumn in range(9):
+                for TRow in range(19):
+                    for BlockObject in list_blocks:
+                        list_blocks.move_t_grid(TColumn, TRow)
             print("moving")
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
@@ -687,14 +695,7 @@ while not done:
                     ShortTimeMobs -= 30
                     LongTimeMobs -= 30
                 TotScore += MobScore
-    for TColumn in range(9):
-        for TRow in range(19):
-            for BlockObject in list_blocks:
-                list_blocks.check_t_grid(TColumn, TRow) # Resets the edited grid checker to False after one complete cycle
-    for TColumn in range(9):
-        for TRow in range(19):
-            for BlockObject in list_blocks:
-                list_blocks.move_t_grid(TColumn, TRow)
+
     # Removing the projectiles if they land on an enemy
     for Mob in list_mobs:
         list_shots_landed = pygame.sprite.spritecollide(Mob, list_bullet, True)
