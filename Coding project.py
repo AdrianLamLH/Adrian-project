@@ -181,10 +181,17 @@ class Enemy(pygame.sprite.Sprite):
                 PilotHealth -= 1
 
 
-class IBlockBlock(pygame.sprite.Sprite):
-    def __init__(self):
+class BlockBlock(pygame.sprite.Sprite):
+    def __init__(self, column, row):
         super().__init__()
-        self.valid_block_move = True
+        self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are alr changed
+        self.column = column
+        self.row = row
+
+
+class IBlockBlock(pygame.sprite.Sprite):
+    def __init__(self, column, row):
+        super(IBlockBlock, self).__init__(column, row)
 
     # Initial positioning of the chosen tetris blocks in the grid
     def store_block(self):
@@ -214,10 +221,9 @@ class IBlockBlock(pygame.sprite.Sprite):
         TGridMovedCheck[column][row + 4] = False
 
 
-class JBlockBlock(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.valid_block_move = True
+class JBlockBlock(BlockBlock):
+    def __init__(self, column, row):
+        super(JBlockBlock, self).__init__(column, row)
 
     def store_block(self):
         TGrid[6][0] = BlockColour[JBlock]
@@ -246,10 +252,9 @@ class JBlockBlock(pygame.sprite.Sprite):
         TGridMovedCheck[column - 1][row + 3] = False
 
 
-class LBlockBlock(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are alr changed
+class LBlockBlock(BlockBlock):
+    def __init__(self, column, row):
+        super(LBlockBlock, self).__init__(column, row)
 
     def store_block(self):
         TGrid[5][0] = BlockColour[LBlock]
@@ -279,10 +284,9 @@ class LBlockBlock(pygame.sprite.Sprite):
             TGridMovedCheck[column + 1][row + 3] = False
 
 
-class OBlockBlock(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are alr changed
+class OBlockBlock(BlockBlock):
+    def __init__(self, column, row):
+        super(OBlockBlock, self).__init__(column, row)
 
     def store_block(self):
         TGrid[5][0] = BlockColour[OBlock]
@@ -312,10 +316,9 @@ class OBlockBlock(pygame.sprite.Sprite):
             TGridMovedCheck[column + 1][row + 2] = False
 
 
-class TBlockBlock(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are alr changed
+class TBlockBlock(BlockBlock):
+    def __init__(self, column, row):
+        super(TBlockBlock, self).__init__(column, row)
 
     def store_block(self):
         TGrid[5][0] = BlockColour[TBlock]
@@ -345,10 +348,9 @@ class TBlockBlock(pygame.sprite.Sprite):
             TGridMovedCheck[column + 1][row + 2] = False
 
 
-class SBlockBlock(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are alr changed
+class SBlockBlock(BlockBlock):
+    def __init__(self, column, row):
+        super(SBlockBlock, self).__init__(column, row)
 
     def store_block(self):
         TGrid[5][0] = BlockColour[SBlock]
@@ -378,10 +380,9 @@ class SBlockBlock(pygame.sprite.Sprite):
             TGridMovedCheck[column - 1][row + 2] = False
 
 
-class ZBlockBlock(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are alr changed
+class ZBlockBlock(BlockBlock):
+    def __init__(self, column, row):
+        super(ZBlockBlock, self).__init__(column, row)
 
     def store_block(self):
         TGrid[5][0] = BlockColour[ZBlock]
@@ -605,13 +606,11 @@ while not done:
         elif event.type == MoveBlocks:
             for TColumn in range(9):
                 for TRow in range(19):
-                    for BlockObject in list_blocks:
-                        list_blocks.check_t_grid(TColumn, TRow)
+                    list_blocks.check_t_grid(TColumn, TRow)
                         # Resets the edited grid checker to False after one complete cycle
             for TColumn in range(9):
                 for TRow in range(19):
-                    for BlockObject in list_blocks:
-                        list_blocks.move_t_grid(TColumn, TRow)
+                    list_blocks.move_t_grid(TColumn, TRow)
             print("moving")
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
