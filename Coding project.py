@@ -181,47 +181,228 @@ class Enemy(pygame.sprite.Sprite):
                 Pilot_flickering = True
                 PilotHealth -= 1
 
-# Initial positioning of the chosen tetris blocks in the grid
+class IBlockBlock(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.valid_block_move = True
 
-
-def store_block(block_type):
-    global TColumn
-    global TRow
-    if block_type == IBlock:
+    # Initial positioning of the chosen tetris blocks in the grid
+    def store_block(self):
         TGrid[5][0] = BlockColour[IBlock]
         TGrid[5][1] = BlockColour[IBlock]
         TGrid[5][2] = BlockColour[IBlock]
         TGrid[5][3] = BlockColour[IBlock]
-    elif block_type == JBlock:
-        TGrid[5][0] = BlockColour[JBlock]
-        TGrid[5][1] = BlockColour[JBlock]
+
+    def check_t_grid(self, column, row):
+        self.valid_block_move = TGridMovedCheck[column][row]
+        self.valid_block_move = TGridMovedCheck[column][row + 1]
+        self.valid_block_move = TGridMovedCheck[column][row + 2]
+        self.valid_block_move = TGridMovedCheck[column][row + 3]
+        self.valid_block_move = TGridMovedCheck[column][row + 4]
+        return self.valid_block_move
+
+    def move_t_grid(self, column, row):
+        TGrid[column][row] = 0
+        TGrid[column][row + 1] = BlockColour[IBlock]
+        TGrid[column][row + 2] = BlockColour[IBlock]
+        TGrid[column][row + 3] = BlockColour[IBlock]
+        TGrid[column][row + 4] = BlockColour[IBlock]
+        TGridMovedCheck[column][row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
+        TGridMovedCheck[column][row + 1] = False
+        TGridMovedCheck[column][row + 2] = False
+        TGridMovedCheck[column][row + 3] = False
+        TGridMovedCheck[column][row + 4] = False
+
+class JBlockBlock(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.valid_block_move = True
+
+    def store_block(self):
+        TGrid[6][0] = BlockColour[JBlock]
+        TGrid[6][1] = BlockColour[JBlock]
+        TGrid[6][2] = BlockColour[JBlock]
         TGrid[5][2] = BlockColour[JBlock]
-        TGrid[4][2] = BlockColour[JBlock]
-    elif block_type == LBlock:
-        TGrid[4][0] = BlockColour[LBlock]
-        TGrid[4][1] = BlockColour[LBlock]
-        TGrid[4][2] = BlockColour[LBlock]
+
+    def check_t_grid(self, column, row):
+        self.valid_block_move = TGridMovedCheck[column][row]
+        self.valid_block_move = TGridMovedCheck[column][row + 1]
+        self.valid_block_move = TGridMovedCheck[column][row + 2]
+        self.valid_block_move = TGridMovedCheck[column][row + 3]
+        self.valid_block_move = TGridMovedCheck[column - 1][row + 3]
+        return self.valid_block_move
+
+    def move_t_grid(self, column, row):
+        TGrid[column][row] = 0
+        TGrid[column][row + 1] = BlockColour[JBlock]
+        TGrid[column][row + 2] = BlockColour[JBlock]
+        TGrid[column][row + 3] = BlockColour[JBlock]
+        TGrid[column - 1][row + 3] = BlockColour[JBlock]
+        TGridMovedCheck[column][row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
+        TGridMovedCheck[column][row + 1] = False
+        TGridMovedCheck[column][row + 2] = False
+        TGridMovedCheck[column][row + 3] = False
+        TGridMovedCheck[column - 1][row + 3] = False
+
+class LBlockBlock(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.valid_block_move = True #  Initializes the valid_block_move variable for checking if spaces are alr changed
+
+    def store_block(self):
+        TGrid[5][0] = BlockColour[LBlock]
+        TGrid[5][1] = BlockColour[LBlock]
         TGrid[5][2] = BlockColour[LBlock]
-    elif block_type == OBlock:
+        TGrid[6][2] = BlockColour[LBlock]
+
+    def check_t_grid(self, column, row):
+        self.valid_block_move = TGridMovedCheck[column][row]
+        self.valid_block_move = TGridMovedCheck[column][row + 1]
+        self.valid_block_move = TGridMovedCheck[column][row + 2]
+        self.valid_block_move = TGridMovedCheck[column][row + 3]
+        self.valid_block_move = TGridMovedCheck[column + 1][row + 3]
+        return self.valid_block_move #  Checks to see if all spaces haven't been edited this cycle. Otherwise returns False
+
+    def move_t_grid(self, column, row):
+        if self.valid_block_move:
+            TGrid[column][row] = 0
+            TGrid[column][row + 1] = BlockColour[LBlock] #  Blocks are stored into the next spaces
+            TGrid[column][row + 2] = BlockColour[LBlock]
+            TGrid[column][row + 3] = BlockColour[LBlock]
+            TGrid[column + 1][row + 3] = BlockColour[LBlock]
+            TGridMovedCheck[column][row] = True #  Spaces the blocks occupy are marked as edited (i.e. True)
+            TGridMovedCheck[column][row + 1] = False
+            TGridMovedCheck[column][row + 2] = False
+            TGridMovedCheck[column][row + 3] = False
+            TGridMovedCheck[column + 1][row + 3] = False
+
+class OBlockBlock(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are alr changed
+
+    def store_block(self):
         TGrid[5][0] = BlockColour[OBlock]
         TGrid[6][0] = BlockColour[OBlock]
         TGrid[5][1] = BlockColour[OBlock]
         TGrid[6][1] = BlockColour[OBlock]
-    elif block_type == TBlock:
-        TGrid[4][0] = BlockColour[TBlock]
+
+    def check_t_grid(self, column, row):
+        self.valid_block_move = TGridMovedCheck[column][row]
+        self.valid_block_move = TGridMovedCheck[column][row + 1]
+        self.valid_block_move = TGridMovedCheck[column + 1][row + 1]
+        self.valid_block_move = TGridMovedCheck[column][row + 2]
+        self.valid_block_move = TGridMovedCheck[column + 1][row + 2]
+        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Otherwise returns False
+
+    def move_t_grid(self, column, row):
+        if self.valid_block_move:
+            TGrid[column][row] = 0
+            TGrid[column][row + 1] = BlockColour[OBlock]  # Blocks are stored into the next spaces
+            TGrid[column + 1][row + 1] = BlockColour[OBlock]
+            TGrid[column][row + 2] = BlockColour[OBlock]
+            TGrid[column + 1][row + 2] = BlockColour[OBlock]
+            TGridMovedCheck[column][row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
+            TGridMovedCheck[column][row + 1] = False
+            TGridMovedCheck[column + 1][row + 1] = False
+            TGridMovedCheck[column][row + 2] = False
+            TGridMovedCheck[column + 1][row + 2] = False
+
+class TBlockBlock(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are alr changed
+
+    def store_block(self):
         TGrid[5][0] = BlockColour[TBlock]
         TGrid[6][0] = BlockColour[TBlock]
-        TGrid[5][1] = BlockColour[TBlock]
-    elif block_type == SBlock:
+        TGrid[7][0] = BlockColour[TBlock]
+        TGrid[6][1] = BlockColour[TBlock]
+
+    def check_t_grid(self, column, row):
+        self.valid_block_move = TGridMovedCheck[column][row]
+        self.valid_block_move = TGridMovedCheck[column][row + 1]
+        self.valid_block_move = TGridMovedCheck[column + 1][row + 1]
+        self.valid_block_move = TGridMovedCheck[column + 2][row + 1]
+        self.valid_block_move = TGridMovedCheck[column + 1][row + 2]
+        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Otherwise returns False
+
+    def move_t_grid(self, column, row):
+        if self.valid_block_move:
+            TGrid[column][row] = 0
+            TGrid[column][row + 1] = BlockColour[TBlock]  # Blocks are stored into the next spaces
+            TGrid[column + 1][row + 1] = BlockColour[TBlock]
+            TGrid[column + 2][row + 1] = BlockColour[TBlock]
+            TGrid[column + 1][row + 2] = BlockColour[TBlock]
+            TGridMovedCheck[column][row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
+            TGridMovedCheck[column][row + 1] = False
+            TGridMovedCheck[column + 1][row + 1] = False
+            TGridMovedCheck[column + 2][row + 1] = False
+            TGridMovedCheck[column + 1][row + 2] = False
+
+class SBlockBlock(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are alr changed
+
+    def store_block(self):
         TGrid[5][0] = BlockColour[SBlock]
         TGrid[6][0] = BlockColour[SBlock]
         TGrid[5][1] = BlockColour[SBlock]
         TGrid[4][1] = BlockColour[SBlock]
-    elif block_type == ZBlock:
-        TGrid[4][0] = BlockColour[ZBlock]
+
+    def check_t_grid(self, column, row):
+        self.valid_block_move = TGridMovedCheck[column][row]
+        self.valid_block_move = TGridMovedCheck[column][row + 1]
+        self.valid_block_move = TGridMovedCheck[column + 1][row + 1]
+        self.valid_block_move = TGridMovedCheck[column][row + 2]
+        self.valid_block_move = TGridMovedCheck[column - 1][row + 2]
+        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Otherwise returns False
+
+    def move_t_grid(self, column, row):
+        if self.valid_block_move:
+            TGrid[column][row] = 0
+            TGrid[column][row + 1] = BlockColour[SBlock]  # Blocks are stored into the next spaces
+            TGrid[column + 1][row + 1] = BlockColour[SBlock]
+            TGrid[column][row + 2] = BlockColour[SBlock]
+            TGrid[column - 1][row + 2] = BlockColour[SBlock]
+            TGridMovedCheck[column][row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
+            TGridMovedCheck[column][row + 1] = False
+            TGridMovedCheck[column + 1][row + 1] = False
+            TGridMovedCheck[column][row + 2] = False
+            TGridMovedCheck[column - 1][row + 2] = False
+
+class ZBlockBlock(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are alr changed
+
+    def store_block(self):
         TGrid[5][0] = BlockColour[ZBlock]
-        TGrid[5][1] = BlockColour[ZBlock]
+        TGrid[6][0] = BlockColour[ZBlock]
         TGrid[6][1] = BlockColour[ZBlock]
+        TGrid[7][1] = BlockColour[ZBlock]
+
+    def check_t_grid(self, column, row):
+        self.valid_block_move = TGridMovedCheck[column][row]
+        self.valid_block_move = TGridMovedCheck[column][row + 1]
+        self.valid_block_move = TGridMovedCheck[column + 1][row + 1]
+        self.valid_block_move = TGridMovedCheck[column + 1][row + 2]
+        self.valid_block_move = TGridMovedCheck[column + 2][row + 2]
+        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Otherwise returns False
+
+    def move_t_grid(self, column, row):
+        if self.valid_block_move:
+            TGrid[column][row] = 0
+            TGrid[column][row + 1] = BlockColour[ZBlock]  # Blocks are stored into the next spaces
+            TGrid[column + 1][row + 1] = BlockColour[ZBlock]
+            TGrid[column + 1][row + 2] = BlockColour[ZBlock]
+            TGrid[column + 2][row + 2] = BlockColour[ZBlock]
+            TGridMovedCheck[column][row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
+            TGridMovedCheck[column][row + 1] = False
+            TGridMovedCheck[column + 1][row + 1] = False
+            TGridMovedCheck[column + 1][row + 2] = False
+            TGridMovedCheck[column + 2][row + 2] = False
 
 # Drawing the tetris boxes
 
@@ -250,101 +431,6 @@ def draw_t_box():
                 pygame.draw.rect(screen, ORANGE, [column_pos, row_pos, 34, 34])
             elif TGrid[TColumn][TRow] == 0:
                 pygame.draw.rect(screen, WHITE, [column_pos, row_pos, 34, 34])
-
-
-def move_t_grid():
-    global TColumn
-    global TRow
-    for TColumn in range(9):
-        for TRow in range(19):
-            if TGrid[TColumn][TRow] == BlockColour[IBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow + 1] == BlockColour[IBlock] and TGridMovedCheck[TColumn][TRow + 2] == BlockColour[IBlock] and TGrid[TColumn][TRow + 3] == BlockColour[IBlock] and TGrid[TColumn][TRow + 4] == BlockColour[IBlock] and TGridMovedCheck[TColumn][TRow + 1] == False and TGridMovedCheck[TColumn][TRow + 2] == False and TGridMovedCheck[TColumn][TRow + 3] == False and TGridMovedCheck[TColumn][TRow + 4] == False:
-                TGrid[TColumn][TRow] = 0
-                TGrid[TColumn][TRow + 1] = BlockColour[IBlock]
-                TGrid[TColumn][TRow + 2] = BlockColour[IBlock]
-                TGrid[TColumn][TRow + 3] = BlockColour[IBlock]
-                TGrid[TColumn][TRow + 4] = BlockColour[IBlock]
-                #  Marking moved or edited spaces on grid
-                TGridMovedCheck[TColumn][TRow] = True
-                TGridMovedCheck[TColumn][TRow + 1] = True
-                TGridMovedCheck[TColumn][TRow + 2] = True
-                TGridMovedCheck[TColumn][TRow + 3] = True
-                TGridMovedCheck[TColumn][TRow + 4] = True
-            if TGrid[TColumn][TRow] == BlockColour[JBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow + 1] == BlockColour[JBlock] and TGridMovedCheck[TColumn][TRow + 2] == BlockColour[JBlock] and TGrid[TColumn][TRow + 3] == BlockColour[JBlock] and TGrid[TColumn - 1][TRow + 3] == BlockColour[JBlock] and TGridMovedCheck[TColumn][TRow + 1] == False and TGridMovedCheck[TColumn][TRow + 2] == False and TGridMovedCheck[TColumn][TRow + 3] == False and TGridMovedCheck[TColumn - 1][TRow + 3] == False:
-                TGrid[TColumn][TRow] = 0
-                TGrid[TColumn][TRow + 1] = BlockColour[JBlock]
-                TGrid[TColumn][TRow + 2] = BlockColour[JBlock]
-                TGrid[TColumn][TRow + 3] = BlockColour[JBlock]
-                TGrid[TColumn - 1][TRow + 3] = BlockColour[JBlock]
-                TGridMovedCheck[TColumn][TRow + 1] = True
-                TGridMovedCheck[TColumn][TRow + 2] = True
-                TGridMovedCheck[TColumn][TRow + 3] = True
-                TGridMovedCheck[TColumn - 1][TRow + 3] = True
-            if TGrid[TColumn][TRow] == BlockColour[LBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow + 1] == BlockColour[LBlock] and TGrid[TColumn][TRow + 2] == BlockColour[LBlock] and TGrid[TColumn][TRow + 3] == BlockColour[LBlock] and TGrid[TColumn + 1][TRow + 3] == 0 and TGrid[TColumn][TRow + 1] == False and TGrid[TColumn][TRow + 2] == False and TGrid[TColumn][TRow + 3] == False and TGrid[TColumn + 1][TRow + 3] == False:
-                TGrid[TColumn][TRow] = 0
-                TGrid[TColumn][TRow + 1] = BlockColour[LBlock]
-                TGrid[TColumn][TRow + 2] = BlockColour[LBlock]
-                TGrid[TColumn][TRow + 3] = BlockColour[LBlock]
-                TGrid[TColumn + 1][TRow + 3] = BlockColour[LBlock]
-
-                TGridMovedCheck[TColumn][TRow + 1] = True
-                TGridMovedCheck[TColumn][TRow + 2] = True
-                TGridMovedCheck[TColumn][TRow + 3] = True
-                TGridMovedCheck[TColumn + 1][TRow + 3] = True
-            if TGrid[TColumn][TRow] == BlockColour[OBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][TRow] == BlockColour[OBlock] and TGrid[TColumn + 1][TRow] == BlockColour[OBlock] and TGrid[TColumn][TRow + 1] == BlockColour[OBlock] and TGrid[TColumn + 1][TRow + 1] == 0 and TGrid[TColumn + 1][TRow] == False and TGrid[TColumn][TRow + 1] == False and TGrid[TColumn + 1][TRow + 1] == False:
-                TGrid[TColumn][TRow] = 0
-                TGrid[TColumn + 1][TRow + 1] = BlockColour[OBlock]
-                TGrid[TColumn + 2][TRow + 1] = BlockColour[OBlock]
-                TGrid[TColumn + 1][TRow + 2] = BlockColour[OBlock]
-                TGrid[TColumn + 2][TRow + 2] = BlockColour[OBlock]
-
-                TGridMovedCheck[TColumn + 1][TRow + 1] = True
-                TGridMovedCheck[TColumn + 2][TRow + 1] = True
-                TGridMovedCheck[TColumn + 1][TRow + 2] = True
-                TGridMovedCheck[TColumn + 2][TRow + 2] = True
-            if TGrid[TColumn][TRow] == BlockColour[TBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn + 1][TRow + 1] == BlockColour[TBlock] and TGridMovedCheck[TColumn + 2][TRow + 1] == BlockColour[TBlock] and TGrid[TColumn + 3][TRow + 1] == BlockColour[TBlock] and TGrid[TColumn + 2][TRow + 2] == 0:
-                TGrid[TColumn][TRow] = 0
-                TGrid[TColumn + 1][TRow + 1] = BlockColour[TBlock]
-                TGrid[TColumn + 2][TRow + 1] = BlockColour[TBlock]
-                TGrid[TColumn + 3][TRow + 1] = BlockColour[TBlock]
-                TGrid[TColumn + 2][TRow + 2] = BlockColour[TBlock]
-
-                TGridMovedCheck[TColumn + 1][TRow + 1] = True
-                TGridMovedCheck[TColumn + 2][TRow + 1] = True
-                TGridMovedCheck[TColumn + 3][TRow + 1] = True
-                TGridMovedCheck[TColumn + 2][TRow + 2] = True
-            if TGrid[TColumn][TRow] == BlockColour[SBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn + 1][TRow + 1] and TGridMovedCheck[TColumn + 2][TRow + 1] == 0 and TGrid[TColumn + 3][TRow + 1] == 0 and TGrid[TColumn + 2][TRow + 2] == 0:
-                TGrid[TColumn][TRow] = 0
-                TGrid[TColumn + 1][TRow + 1] = BlockColour[SBlock]
-                TGrid[TColumn + 2][TRow + 1] = BlockColour[SBlock]
-                TGrid[TColumn + 2][TRow] = BlockColour[SBlock]
-                TGrid[TColumn + 3][TRow] = BlockColour[SBlock]
-
-                TGridMovedCheck[TColumn + 1][TRow + 1] = True
-                TGridMovedCheck[TColumn + 2][TRow + 1] = True
-                TGridMovedCheck[TColumn + 2][TRow] = True
-                TGridMovedCheck[TColumn + 3][TRow] = True
-            if TGrid[TColumn][TRow] == BlockColour[ZBlock] and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn + 1][TRow] and TGridMovedCheck[TColumn + 2][TRow] == 0 and TGrid[TColumn + 2][TRow + 1] == 0 and TGrid[TColumn + 3][TRow + 1] == 0:
-                TGrid[TColumn][TRow] = 0
-                TGrid[TColumn + 1][TRow] = BlockColour[ZBlock]
-                TGrid[TColumn + 2][TRow] = BlockColour[ZBlock]
-                TGrid[TColumn + 2][TRow + 1] = BlockColour[ZBlock]
-                TGrid[TColumn + 3][TRow + 1] = BlockColour[ZBlock]
-
-                TGridMovedCheck[TColumn + 1][TRow] = True
-                TGridMovedCheck[TColumn + 2][TRow] = True
-                TGridMovedCheck[TColumn + 2][TRow + 1] = True
-                TGridMovedCheck[TColumn + 3][TRow + 1] = True
-         #   # If the current space occupies a block and the row below is empty
-          #  if TGrid[TColumn][TRow] != 0 and TGridMovedCheck[TColumn][TRow] == False and TGrid[TColumn][
-           #             TRow + 1] == 0:
-            #    TGrid[TColumn][TRow + 1] = TGrid[TColumn][TRow]
-             #   TGridMovedCheck[TColumn][TRow + 1] = True  # Checks to see if grid block changed already this cycle
-              #  TGrid[TColumn][TRow] = 0
-               # TGridMovedCheck[TColumn][TRow] = True
-    for TColumn in range(9):
-        for TRow in range(19):
-            TGridMovedCheck[TColumn][TRow] = False  # Resets the edited grid checker to False after one complete cycle
-
 
 # Types of enemies
 # I Block
@@ -433,6 +519,8 @@ list_all_sprites = pygame.sprite.Group()
 list_bullet = pygame.sprite.Group()
 # Enemy are updated/stored in sprite group
 list_mobs = pygame.sprite.Group()
+# All tetris blocks on the grid stored in sprite group
+list_blocks = pygame.sprite.Group()
 # Player and bullet initialised
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
@@ -566,7 +654,28 @@ while not done:
             TotScore += HitScore
             Mob.Mob_Health -= 1
             if Mob.Mob_Health == 0:
-                store_block(Mob.Block_Choice)
+                BlockChosen = Mob.Block_Choice
+                if BlockChosen == BlockColour[IBlock]:
+                    IBlockBlock.store_block(self)
+                    list_blocks.add(IBlockBLock)
+                elif BlockChosen == BlockColour[JBlock]:
+                    JBlockBlock.store_block(self)
+                    list_blocks.add(JBlockBlock)
+                elif BlockChosen == BlockColour[LBlock]:
+                    LBlockBlock.store_block(self)
+                    list_blocks.add(LBlockBlock)
+                elif BlockChosen == BlockColour[OBlock]:
+                    OBlockBlock.store_block(self)
+                    list_blocks.add(OBlockBlock)
+                elif BlockChosen == BlockColour[TBlock]:
+                    TBlockBlock.store_block(self)
+                    list_blocks.add(TBlockBlock)
+                elif BlockChosen == BlockColour[SBlock]:
+                    SblockBlock.store_block(self)
+                    list_blocks.add(SBlockBlock)
+                elif BlockChosen == BlockColour[ZBlock]:
+                    ZBlockBlock.store_block(self)
+                    list_blocks.add(ZBlockBlock)
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
                 list_mobs_hit.remove(Mob)
@@ -577,7 +686,12 @@ while not done:
                     ShortTimeMobs -= 30
                     LongTimeMobs -= 30
                 TotScore += MobScore
-
+    for TColumn in range(9):
+        for TRow in range(19):
+            list_blocks.check_t_grid(TColumn, TRow) # Resets the edited grid checker to False after one complete cycle
+    for TColumn in range(9):
+        for TRow in range(19):
+            list_blocks.move_t_grid(TColumn, TRow)
     # Removing the projectiles if they land on an enemy
     for Mob in list_mobs:
         list_shots_landed = pygame.sprite.spritecollide(Mob, list_bullet, True)
