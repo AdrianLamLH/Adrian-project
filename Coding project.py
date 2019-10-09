@@ -669,19 +669,19 @@ while not done:
             Mob.Mob_Health -= 1
             if Mob.Mob_Health == 0:
                 BlockChosen = Mob.Block_Choice
-                if BlockChosen == BlockColour[IBlock]:
+                if BlockChosen == IBlock:
                     BlockObject = IBlockBlock()
-                elif BlockChosen == BlockColour[JBlock]:
+                elif BlockChosen == JBlock:
                     BlockObject = JBlockBlock()
-                elif BlockChosen == BlockColour[LBlock]:
+                elif BlockChosen == LBlock:
                     BlockObject = LBlockBlock()
-                elif BlockChosen == BlockColour[OBlock]:
+                elif BlockChosen == OBlock:
                     BlockObject = OBlockBlock()
-                elif BlockChosen == BlockColour[TBlock]:
+                elif BlockChosen == TBlock:
                     BlockObject = TBlockBlock()
-                elif BlockChosen == BlockColour[SBlock]:
+                elif BlockChosen == SBlock:
                     BlockObject = SBlockBlock()
-                elif BlockChosen == BlockColour[ZBlock]:
+                elif BlockChosen == ZBlock:
                     BlockObject = ZBlockBlock()
                 BlockObject.store_block()
                 list_blocks.add(BlockObject)
