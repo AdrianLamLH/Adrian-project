@@ -74,7 +74,7 @@ for TColumn in range(10):
     TGridMovedCheck.append([])
     for TRow in range(20):
         TGrid[TColumn].append(0)
-        TGridMovedCheck[TColumn].append(False)
+        TGridMovedCheck[TColumn].append(True)
 
 # Game classes
 
@@ -609,12 +609,15 @@ while not done:
                 for TRow in range(19):
                     for BlockObject in list_blocks:
                         BlockObject.check_t_grid(TColumn, TRow)
-                        # Resets the edited grid checker to False after one complete cycle
             for TColumn in range(9):
                 for TRow in range(19):
                     for BlockObject in list_blocks:
                         if BlockObject.check_t_grid(TColumn, TRow):
                             BlockObject.move_t_grid(TColumn, TRow)
+            for TColumn in range(9):
+                for TRow in range(19):
+                    TGridMovedCheck[TColumn][TRow] = True
+            # Resets the edited grid checker to False after one complete cycle
             print("moving")
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
