@@ -188,7 +188,6 @@ class BlockBlock(pygame.sprite.Sprite):
         self.column = column
         self.row = row
 
-
 class IBlockBlock(pygame.sprite.Sprite):
     def __init__(self, column, row):
         super(IBlockBlock, self).__init__(column, row)
@@ -606,11 +605,13 @@ while not done:
         elif event.type == MoveBlocks:
             for TColumn in range(9):
                 for TRow in range(19):
-                    list_blocks.check_t_grid(TColumn, TRow)
+                    for BlockObject in list_blocks:
+                        BlockObject.check_t_grid(TColumn, TRow)
                         # Resets the edited grid checker to False after one complete cycle
             for TColumn in range(9):
                 for TRow in range(19):
-                    list_blocks.move_t_grid(TColumn, TRow)
+                    for BlockObject in list_blocks:
+                        BlockObject.move_t_grid(TColumn, TRow)
             print("moving")
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
@@ -669,19 +670,19 @@ while not done:
             if Mob.Mob_Health == 0:
                 BlockChosen = Mob.Block_Choice
                 if BlockChosen == IBlock:
-                    BlockObject = IBlockBlock()
+                    BlockObject = IBlockBlock(0, 0)
                 elif BlockChosen == JBlock:
-                    BlockObject = JBlockBlock()
+                    BlockObject = JBlockBlock(0, 0)
                 elif BlockChosen == LBlock:
-                    BlockObject = LBlockBlock()
+                    BlockObject = LBlockBlock(0, 0)
                 elif BlockChosen == OBlock:
-                    BlockObject = OBlockBlock()
+                    BlockObject = OBlockBlock(0, 0)
                 elif BlockChosen == TBlock:
-                    BlockObject = TBlockBlock()
+                    BlockObject = TBlockBlock(0, 0)
                 elif BlockChosen == SBlock:
-                    BlockObject = SBlockBlock()
+                    BlockObject = SBlockBlock(0, 0)
                 elif BlockChosen == ZBlock:
-                    BlockObject = ZBlockBlock()
+                    BlockObject = ZBlockBlock(0, 0)
                 BlockObject.store_block()
                 list_blocks.add(BlockObject)
                 list_mobs.remove(Mob)
