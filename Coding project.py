@@ -163,7 +163,6 @@ class Enemy(pygame.sprite.Sprite):
         self.Block_Choice = block_choice
     # Enemy moves left
 
-
     def update(self):
         self.rect.x -= 2 + enemy_speed_change
         global TotScore
@@ -180,6 +179,7 @@ class Enemy(pygame.sprite.Sprite):
                 pygame.time.set_timer(PilotHit, 1000)
                 Pilot_flickering = True
                 PilotHealth -= 1
+
 
 class IBlockBlock(pygame.sprite.Sprite):
     def __init__(self):
@@ -213,6 +213,7 @@ class IBlockBlock(pygame.sprite.Sprite):
         TGridMovedCheck[column][row + 3] = False
         TGridMovedCheck[column][row + 4] = False
 
+
 class JBlockBlock(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -244,10 +245,11 @@ class JBlockBlock(pygame.sprite.Sprite):
         TGridMovedCheck[column][row + 3] = False
         TGridMovedCheck[column - 1][row + 3] = False
 
+
 class LBlockBlock(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.valid_block_move = True #  Initializes the valid_block_move variable for checking if spaces are alr changed
+        self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are alr changed
 
     def store_block(self):
         TGrid[5][0] = BlockColour[LBlock]
@@ -261,20 +263,21 @@ class LBlockBlock(pygame.sprite.Sprite):
         self.valid_block_move = TGridMovedCheck[column][row + 2]
         self.valid_block_move = TGridMovedCheck[column][row + 3]
         self.valid_block_move = TGridMovedCheck[column + 1][row + 3]
-        return self.valid_block_move #  Checks to see if all spaces haven't been edited this cycle. Otherwise returns False
+        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self, column, row):
         if self.valid_block_move:
             TGrid[column][row] = 0
-            TGrid[column][row + 1] = BlockColour[LBlock] #  Blocks are stored into the next spaces
+            TGrid[column][row + 1] = BlockColour[LBlock]  # Blocks are stored into the next spaces
             TGrid[column][row + 2] = BlockColour[LBlock]
             TGrid[column][row + 3] = BlockColour[LBlock]
             TGrid[column + 1][row + 3] = BlockColour[LBlock]
-            TGridMovedCheck[column][row] = True #  Spaces the blocks occupy are marked as edited (i.e. True)
+            TGridMovedCheck[column][row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
             TGridMovedCheck[column][row + 1] = False
             TGridMovedCheck[column][row + 2] = False
             TGridMovedCheck[column][row + 3] = False
             TGridMovedCheck[column + 1][row + 3] = False
+
 
 class OBlockBlock(pygame.sprite.Sprite):
     def __init__(self):
@@ -293,7 +296,7 @@ class OBlockBlock(pygame.sprite.Sprite):
         self.valid_block_move = TGridMovedCheck[column + 1][row + 1]
         self.valid_block_move = TGridMovedCheck[column][row + 2]
         self.valid_block_move = TGridMovedCheck[column + 1][row + 2]
-        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Otherwise returns False
+        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self, column, row):
         if self.valid_block_move:
@@ -307,6 +310,7 @@ class OBlockBlock(pygame.sprite.Sprite):
             TGridMovedCheck[column + 1][row + 1] = False
             TGridMovedCheck[column][row + 2] = False
             TGridMovedCheck[column + 1][row + 2] = False
+
 
 class TBlockBlock(pygame.sprite.Sprite):
     def __init__(self):
@@ -325,7 +329,7 @@ class TBlockBlock(pygame.sprite.Sprite):
         self.valid_block_move = TGridMovedCheck[column + 1][row + 1]
         self.valid_block_move = TGridMovedCheck[column + 2][row + 1]
         self.valid_block_move = TGridMovedCheck[column + 1][row + 2]
-        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Otherwise returns False
+        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self, column, row):
         if self.valid_block_move:
@@ -339,6 +343,7 @@ class TBlockBlock(pygame.sprite.Sprite):
             TGridMovedCheck[column + 1][row + 1] = False
             TGridMovedCheck[column + 2][row + 1] = False
             TGridMovedCheck[column + 1][row + 2] = False
+
 
 class SBlockBlock(pygame.sprite.Sprite):
     def __init__(self):
@@ -357,7 +362,7 @@ class SBlockBlock(pygame.sprite.Sprite):
         self.valid_block_move = TGridMovedCheck[column + 1][row + 1]
         self.valid_block_move = TGridMovedCheck[column][row + 2]
         self.valid_block_move = TGridMovedCheck[column - 1][row + 2]
-        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Otherwise returns False
+        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self, column, row):
         if self.valid_block_move:
@@ -371,6 +376,7 @@ class SBlockBlock(pygame.sprite.Sprite):
             TGridMovedCheck[column + 1][row + 1] = False
             TGridMovedCheck[column][row + 2] = False
             TGridMovedCheck[column - 1][row + 2] = False
+
 
 class ZBlockBlock(pygame.sprite.Sprite):
     def __init__(self):
@@ -389,7 +395,7 @@ class ZBlockBlock(pygame.sprite.Sprite):
         self.valid_block_move = TGridMovedCheck[column + 1][row + 1]
         self.valid_block_move = TGridMovedCheck[column + 1][row + 2]
         self.valid_block_move = TGridMovedCheck[column + 2][row + 2]
-        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Otherwise returns False
+        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self, column, row):
         if self.valid_block_move:
@@ -656,26 +662,21 @@ while not done:
             if Mob.Mob_Health == 0:
                 BlockChosen = Mob.Block_Choice
                 if BlockChosen == BlockColour[IBlock]:
-                    IBlockBlock.store_block(self)
-                    list_blocks.add(IBlockBLock)
+                    BlockObject = IBlockBlock()
                 elif BlockChosen == BlockColour[JBlock]:
-                    JBlockBlock.store_block(self)
-                    list_blocks.add(JBlockBlock)
+                    BlockObject = JBlockBlock()
                 elif BlockChosen == BlockColour[LBlock]:
-                    LBlockBlock.store_block(self)
-                    list_blocks.add(LBlockBlock)
+                    BlockObject = LBlockBlock()
                 elif BlockChosen == BlockColour[OBlock]:
-                    OBlockBlock.store_block(self)
-                    list_blocks.add(OBlockBlock)
+                    BlockObject = OBlockBlock()
                 elif BlockChosen == BlockColour[TBlock]:
-                    TBlockBlock.store_block(self)
-                    list_blocks.add(TBlockBlock)
+                    BlockObject = TBlockBlock()
                 elif BlockChosen == BlockColour[SBlock]:
-                    SblockBlock.store_block(self)
-                    list_blocks.add(SBlockBlock)
+                    BlockObject = SBlockBlock()
                 elif BlockChosen == BlockColour[ZBlock]:
-                    ZBlockBlock.store_block(self)
-                    list_blocks.add(ZBlockBlock)
+                    BlockObject = ZBlockBlock()
+                BlockObject.store_block()
+                list_blocks.add(BlockObject)
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
                 list_mobs_hit.remove(Mob)
