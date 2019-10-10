@@ -241,16 +241,17 @@ class JBlockBlock(BlockBlock):
         return self.valid_block_move
 
     def move_t_grid(self, column, row):
-        TGrid[column][row] = 0
-        TGrid[column][row + 1] = BlockColour[JBlock]
-        TGrid[column][row + 2] = BlockColour[JBlock]
-        TGrid[column][row + 3] = BlockColour[JBlock]
-        TGrid[column - 1][row + 3] = BlockColour[JBlock]
-        TGridMovedCheck[column][row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
-        TGridMovedCheck[column][row + 1] = False
-        TGridMovedCheck[column][row + 2] = False
-        TGridMovedCheck[column][row + 3] = False
-        TGridMovedCheck[column - 1][row + 3] = False
+        if column >= 1 and row <= 16:
+            TGrid[column][row] = 0
+            TGrid[column][row + 1] = BlockColour[JBlock]
+            TGrid[column][row + 2] = BlockColour[JBlock]
+            TGrid[column][row + 3] = BlockColour[JBlock]
+            TGrid[column - 1][row + 3] = BlockColour[JBlock]
+            TGridMovedCheck[column][row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
+            TGridMovedCheck[column][row + 1] = False
+            TGridMovedCheck[column][row + 2] = False
+            TGridMovedCheck[column][row + 3] = False
+            TGridMovedCheck[column - 1][row + 3] = False
 
 
 class LBlockBlock(BlockBlock):
@@ -273,16 +274,17 @@ class LBlockBlock(BlockBlock):
         return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self, column, row):
-        TGrid[column][row] = 0
-        TGrid[column][row + 1] = BlockColour[LBlock]  # Blocks are stored into the next spaces
-        TGrid[column][row + 2] = BlockColour[LBlock]
-        TGrid[column][row + 3] = BlockColour[LBlock]
-        TGrid[column + 1][row + 3] = BlockColour[LBlock]
-        TGridMovedCheck[column][row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
-        TGridMovedCheck[column][row + 1] = False
-        TGridMovedCheck[column][row + 2] = False
-        TGridMovedCheck[column][row + 3] = False
-        TGridMovedCheck[column + 1][row + 3] = False
+        if column <= 8 and row <= 16:
+            TGrid[column][row] = 0
+            TGrid[column][row + 1] = BlockColour[LBlock]  # Blocks are stored into the next spaces
+            TGrid[column][row + 2] = BlockColour[LBlock]
+            TGrid[column][row + 3] = BlockColour[LBlock]
+            TGrid[column + 1][row + 3] = BlockColour[LBlock]
+            TGridMovedCheck[column][row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
+            TGridMovedCheck[column][row + 1] = False
+            TGridMovedCheck[column][row + 2] = False
+            TGridMovedCheck[column][row + 3] = False
+            TGridMovedCheck[column + 1][row + 3] = False
 
 
 class OBlockBlock(BlockBlock):
@@ -305,16 +307,17 @@ class OBlockBlock(BlockBlock):
         return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self, column, row):
-        TGrid[column][row] = 0
-        TGrid[column][row + 1] = BlockColour[OBlock]  # Blocks are stored into the next spaces
-        TGrid[column + 1][row + 1] = BlockColour[OBlock]
-        TGrid[column][row + 2] = BlockColour[OBlock]
-        TGrid[column + 1][row + 2] = BlockColour[OBlock]
-        TGridMovedCheck[column][row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
-        TGridMovedCheck[column][row + 1] = False
-        TGridMovedCheck[column + 1][row + 1] = False
-        TGridMovedCheck[column][row + 2] = False
-        TGridMovedCheck[column + 1][row + 2] = False
+        if column <= 8 and row <= 17:
+            TGrid[column][row] = 0
+            TGrid[column][row + 1] = BlockColour[OBlock]  # Blocks are stored into the next spaces
+            TGrid[column + 1][row + 1] = BlockColour[OBlock]
+            TGrid[column][row + 2] = BlockColour[OBlock]
+            TGrid[column + 1][row + 2] = BlockColour[OBlock]
+            TGridMovedCheck[column][row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
+            TGridMovedCheck[column][row + 1] = False
+            TGridMovedCheck[column + 1][row + 1] = False
+            TGridMovedCheck[column][row + 2] = False
+            TGridMovedCheck[column + 1][row + 2] = False
 
 
 class TBlockBlock(BlockBlock):
