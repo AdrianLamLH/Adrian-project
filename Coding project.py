@@ -188,7 +188,12 @@ class BlockBlock(pygame.sprite.Sprite):
         self.column = column
         self.row = row
 
-class IBlockBlock(pygame.sprite.Sprite):
+    def reset_valid(self):
+        # if true valid move is reset
+        self.valid_block_move = True
+
+
+class IBlockBlock(BlockBlock):
     def __init__(self, column, row):
         super(IBlockBlock, self).__init__(column, row)
 
@@ -217,9 +222,6 @@ class IBlockBlock(pygame.sprite.Sprite):
         TGridMovedCheck[column][row + 3] = False
         TGridMovedCheck[column][row + 4] = False
 
-    def reset_valid(self):
-        # if true valid move is reset
-        self.valid_block_move = True
 
 class JBlockBlock(BlockBlock):
     def __init__(self, column, row):
@@ -249,10 +251,6 @@ class JBlockBlock(BlockBlock):
             TGridMovedCheck[column][row + 2] = False
             TGridMovedCheck[column][row + 3] = False
             TGridMovedCheck[column - 1][row + 3] = False
-
-    def reset_valid(self):
-        # if true valid move is reset
-        self.valid_block_move = True
 
 
 class LBlockBlock(BlockBlock):
@@ -284,10 +282,6 @@ class LBlockBlock(BlockBlock):
             TGridMovedCheck[column][row + 3] = False
             TGridMovedCheck[column + 1][row + 3] = False
 
-    def reset_valid(self):
-        # if true valid move is reset
-        self.valid_block_move = True
-
 
 class OBlockBlock(BlockBlock):
     def __init__(self, column, row):
@@ -318,9 +312,6 @@ class OBlockBlock(BlockBlock):
             TGridMovedCheck[column][row + 2] = False
             TGridMovedCheck[column + 1][row + 2] = False
 
-    def reset_valid(self):
-        # if true valid move is reset
-        self.valid_block_move = True
 
 class TBlockBlock(BlockBlock):
     def __init__(self, column, row):
@@ -350,9 +341,6 @@ class TBlockBlock(BlockBlock):
         TGridMovedCheck[column + 2][row + 1] = False
         TGridMovedCheck[column + 1][row + 2] = False
 
-    def reset_valid(self):
-        # if true valid move is reset
-        self.valid_block_move = True
 
 class SBlockBlock(BlockBlock):
     def __init__(self, column, row):
@@ -382,9 +370,6 @@ class SBlockBlock(BlockBlock):
         TGridMovedCheck[column][row + 2] = False
         TGridMovedCheck[column - 1][row + 2] = False
 
-    def reset_valid(self):
-        # if true valid move is reset
-        self.valid_block_move = True
 
 class ZBlockBlock(BlockBlock):
     def __init__(self, column, row):
@@ -414,11 +399,6 @@ class ZBlockBlock(BlockBlock):
         TGridMovedCheck[column + 1][row + 2] = False
         TGridMovedCheck[column + 2][row + 2] = False
 
-    def reset_valid(self):
-        # if true valid move is reset
-        print(TGrid)
-        print(TGridMovedCheck)
-        self.valid_block_move = True
 # Drawing the tetris boxes
 
 
