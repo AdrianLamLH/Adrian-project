@@ -182,7 +182,7 @@ class Enemy(pygame.sprite.Sprite):
 
 
 class BlockBlock(pygame.sprite.Sprite):
-    def __init__(self, column, row):
+    def __init__(self):
         super().__init__()
         self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are alr changed
         self.column = column
@@ -196,7 +196,7 @@ class BlockBlock(pygame.sprite.Sprite):
 
 class IBlockBlock(BlockBlock):
     def __init__(self):
-        super(IBlockBlock, self).__init__(column, row)
+        super(IBlockBlock, self).__init__()
 
     # Initial positioning of the chosen tetris blocks in the grid
     def store_block(self):
@@ -226,7 +226,7 @@ class IBlockBlock(BlockBlock):
 
 class JBlockBlock(BlockBlock):
     def __init__(self):
-        super(JBlockBlock, self).__init__(column, row)
+        super(JBlockBlock, self).__init__()
 
     def store_block(self):
         TGrid[6][0] = BlockColour[JBlock]
@@ -256,7 +256,7 @@ class JBlockBlock(BlockBlock):
 
 class LBlockBlock(BlockBlock):
     def __init__(self):
-        super(LBlockBlock, self).__init__(column, row)
+        super(LBlockBlock, self).__init__()
 
     def store_block(self):
         TGrid[5][0] = BlockColour[LBlock]
