@@ -201,11 +201,8 @@ class IBlockBlock(pygame.sprite.Sprite):
 
     def check_t_grid(self, column, row):
         if row < 16:
-            self.valid_block_move = TGridMovedCheck[column][row]
-            self.valid_block_move = TGridMovedCheck[column][row + 1]
-            self.valid_block_move = TGridMovedCheck[column][row + 2]
-            self.valid_block_move = TGridMovedCheck[column][row + 3]
-            self.valid_block_move = TGridMovedCheck[column][row + 4]
+            if TGridMovedCheck[column][row] != True or TGridMovedCheck[column][row + 1] != True or TGridMovedCheck[column][row + 2] != True or TGridMovedCheck[column][row + 3] != True or TGridMovedCheck[column][row + 4] != True:
+                self.valid_block_move = False
         return self.valid_block_move
 
     def move_t_grid(self, column, row):
@@ -233,11 +230,8 @@ class JBlockBlock(BlockBlock):
 
     def check_t_grid(self, column, row):
         if column > 0 and row < 17:
-            self.valid_block_move = TGridMovedCheck[column][row]
-            self.valid_block_move = TGridMovedCheck[column][row + 1]
-            self.valid_block_move = TGridMovedCheck[column][row + 2]
-            self.valid_block_move = TGridMovedCheck[column][row + 3]
-            self.valid_block_move = TGridMovedCheck[column - 1][row + 3]
+            if TGridMovedCheck[column][row] != True or TGridMovedCheck[column][row + 1] != True or TGridMovedCheck[column][row + 2] != True or TGridMovedCheck[column][row + 3] != True or TGridMovedCheck[column - 1][row + 3] != True:
+                self.valid_block_move = False
         return self.valid_block_move
 
     def move_t_grid(self, column, row):
@@ -266,11 +260,8 @@ class LBlockBlock(BlockBlock):
 
     def check_t_grid(self, column, row):
         if column < 9 and row < 17:
-            self.valid_block_move = TGridMovedCheck[column][row]
-            self.valid_block_move = TGridMovedCheck[column][row + 1]
-            self.valid_block_move = TGridMovedCheck[column][row + 2]
-            self.valid_block_move = TGridMovedCheck[column][row + 3]
-            self.valid_block_move = TGridMovedCheck[column + 1][row + 3]
+            if TGridMovedCheck[column][row] != True or TGridMovedCheck[column][row + 1] != True or TGridMovedCheck[column][row + 2] != True or TGridMovedCheck[column][row + 3] != True or TGridMovedCheck[column + 1][row + 3] != True:
+                self.valid_block_move = False
         return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self, column, row):
@@ -299,11 +290,8 @@ class OBlockBlock(BlockBlock):
 
     def check_t_grid(self, column, row):
         if column < 9 and row < 18:
-            self.valid_block_move = TGridMovedCheck[column][row]
-            self.valid_block_move = TGridMovedCheck[column][row + 1]
-            self.valid_block_move = TGridMovedCheck[column + 1][row + 1]
-            self.valid_block_move = TGridMovedCheck[column][row + 2]
-            self.valid_block_move = TGridMovedCheck[column + 1][row + 2]
+            if TGridMovedCheck[column][row] != True or TGridMovedCheck[column][row + 1] != True or TGridMovedCheck[column + 1][row + 1] != True or TGridMovedCheck[column][row + 2] != True or TGridMovedCheck[column + 1][row + 2] != True:
+                self.valid_block_move = False
         return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self, column, row):
@@ -332,11 +320,8 @@ class TBlockBlock(BlockBlock):
 
     def check_t_grid(self, column, row):
         if column < 8 and row < 18:
-            self.valid_block_move = TGridMovedCheck[column][row]
-            self.valid_block_move = TGridMovedCheck[column][row + 1]
-            self.valid_block_move = TGridMovedCheck[column + 1][row + 1]
-            self.valid_block_move = TGridMovedCheck[column + 2][row + 1]
-            self.valid_block_move = TGridMovedCheck[column + 1][row + 2]
+            if TGridMovedCheck[column][row] != True or TGridMovedCheck[column][row + 1] != True or TGridMovedCheck[column + 1][row + 1] != True or TGridMovedCheck[column + 2][row + 1] != True or TGridMovedCheck[column + 1][row + 2] != True:
+                self.valid_block_move = False
         return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self, column, row):
@@ -364,11 +349,8 @@ class SBlockBlock(BlockBlock):
 
     def check_t_grid(self, column, row):
         if column >= 1 and column < 9 and row < 18:
-            self.valid_block_move = TGridMovedCheck[column][row]
-            self.valid_block_move = TGridMovedCheck[column][row + 1]
-            self.valid_block_move = TGridMovedCheck[column + 1][row + 1]
-            self.valid_block_move = TGridMovedCheck[column][row + 2]
-            self.valid_block_move = TGridMovedCheck[column - 1][row + 2]
+            if TGridMovedCheck[column][row] != True or TGridMovedCheck[column][row + 1] != True or TGridMovedCheck[column + 1][row + 1] != True or TGridMovedCheck[column][row + 2] != True or TGridMovedCheck[column - 1][row + 2] != True:
+                self.valid_block_move = False
         return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self, column, row):
@@ -396,11 +378,8 @@ class ZBlockBlock(BlockBlock):
 
     def check_t_grid(self, column, row):
         if column < 8 and row < 18:
-            self.valid_block_move = TGridMovedCheck[column][row]
-            self.valid_block_move = TGridMovedCheck[column][row + 1]
-            self.valid_block_move = TGridMovedCheck[column + 1][row + 1]
-            self.valid_block_move = TGridMovedCheck[column + 1][row + 2]
-            self.valid_block_move = TGridMovedCheck[column + 2][row + 2]
+            if TGridMovedCheck[column][row] != True or TGridMovedCheck[column][row + 1] != True or TGridMovedCheck[column + 1][row + 1] != True or TGridMovedCheck[column + 1][row + 2] != True or TGridMovedCheck[column + 2][row + 2] != True:
+                self.valid_block_move = False
         return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self, column, row):
@@ -612,7 +591,6 @@ while not done:
                 for TRow in range(19):
                     for BlockObject in list_blocks:
                         if BlockObject.check_t_grid(TColumn, TRow):
-                            print("Column:", TColumn, "Row:", TRow)
                             BlockObject.move_t_grid(TColumn, TRow)
 
             for TColumn in range(9):
