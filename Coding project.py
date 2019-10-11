@@ -182,7 +182,7 @@ class Enemy(pygame.sprite.Sprite):
 
 
 class BlockBlock(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, column, row):
         super().__init__()
         self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are alr changed
         self.column = column
@@ -195,8 +195,8 @@ class BlockBlock(pygame.sprite.Sprite):
 
 
 class IBlockBlock(BlockBlock):
-    def __init__(self):
-        super(IBlockBlock, self).__init__()
+    def __init__(self, column, row):
+        super(IBlockBlock, self).__init__(column, row)
 
     # Initial positioning of the chosen tetris blocks in the grid
     def store_block(self):
@@ -222,11 +222,12 @@ class IBlockBlock(BlockBlock):
         TGridMovedCheck[self.column][self.row + 2] = False
         TGridMovedCheck[self.column][self.row + 3] = False
         TGridMovedCheck[self.column][self.row + 4] = False
+        self.row += 1
 
 
 class JBlockBlock(BlockBlock):
-    def __init__(self):
-        super(JBlockBlock, self).__init__()
+    def __init__(self, column, row):
+        super(JBlockBlock, self).__init__(column, row)
 
     def store_block(self):
         TGrid[6][0] = BlockColour[JBlock]
@@ -252,11 +253,12 @@ class JBlockBlock(BlockBlock):
             TGridMovedCheck[self.column][self.row + 2] = False
             TGridMovedCheck[self.column][self.row + 3] = False
             TGridMovedCheck[self.column - 1][self.row + 3] = False
+            self.row += 1
 
 
 class LBlockBlock(BlockBlock):
-    def __init__(self):
-        super(LBlockBlock, self).__init__()
+    def __init__(self, column, row):
+        super(LBlockBlock, self).__init__(column, row)
 
     def store_block(self):
         TGrid[5][0] = BlockColour[LBlock]
@@ -282,10 +284,11 @@ class LBlockBlock(BlockBlock):
             TGridMovedCheck[self.column][self.row + 2] = False
             TGridMovedCheck[self.column][self.row + 3] = False
             TGridMovedCheck[self.column + 1][self.row + 3] = False
+            self.row += 1
 
 
 class OBlockBlock(BlockBlock):
-    def __init__(self):
+    def __init__(self, column, row):
         super(OBlockBlock, self).__init__(column, row)
 
     def store_block(self):
@@ -312,10 +315,11 @@ class OBlockBlock(BlockBlock):
             TGridMovedCheck[self.column + 1][self.row + 1] = False
             TGridMovedCheck[self.column][self.row + 2] = False
             TGridMovedCheck[self.column + 1][self.row + 2] = False
+            self.row += 1
 
 
 class TBlockBlock(BlockBlock):
-    def __init__(self):
+    def __init__(self, column, row):
         super(TBlockBlock, self).__init__(column, row)
 
     def store_block(self):
@@ -341,10 +345,11 @@ class TBlockBlock(BlockBlock):
         TGridMovedCheck[self.column + 1][self.row + 1] = False
         TGridMovedCheck[self.column + 2][self.row + 1] = False
         TGridMovedCheck[self.column + 1][self.row + 2] = False
+        self.row += 1
 
 
 class SBlockBlock(BlockBlock):
-    def __init__(self):
+    def __init__(self, column, row):
         super(SBlockBlock, self).__init__(column, row)
 
     def store_block(self):
@@ -370,10 +375,11 @@ class SBlockBlock(BlockBlock):
         TGridMovedCheck[self.column + 1][self.row + 1] = False
         TGridMovedCheck[self.column][self.row + 2] = False
         TGridMovedCheck[self.column - 1][self.row + 2] = False
+        self.row += 1
 
 
 class ZBlockBlock(BlockBlock):
-    def __init__(self):
+    def __init__(self, column, row):
         super(ZBlockBlock, self).__init__(column, row)
 
     def store_block(self):
@@ -399,6 +405,7 @@ class ZBlockBlock(BlockBlock):
         TGridMovedCheck[self.column + 1][self.row + 1] = False
         TGridMovedCheck[self.column + 1][self.row + 2] = False
         TGridMovedCheck[self.column + 2][self.row + 2] = False
+        self.row += 1
 
 # Drawing the tetris boxes
 
@@ -509,7 +516,7 @@ class ZBlock(Enemy):
 # Randomly generates a new enemy at a random rate
 pygame.time.set_timer(SpawnEnemy, TimeMobs)
 # Moves the tetris blocks down one every 1.5 seconds
-pygame.time.set_timer(MoveBlocks, 1500)
+pygame.time.set_timer(MoveBlocks, 4000)
 # Player and projectiles are updated/stored in sprite group
 list_all_sprites = pygame.sprite.Group()
 list_bullet = pygame.sprite.Group()
@@ -594,9 +601,9 @@ while not done:
                 Pilot_flickering = False
         elif event.type == MoveBlocks:
             for BlockObject in list_blocks:
-                if BlockObject.check_t_grid(TColumn, TRow):
-                    BlockObject.move_t_grid(TColumn, TRow)
-                    print("Column", TColumn, "Row", TRow)
+                if BlockObject.check_t_grid():
+                    BlockObject.move_t_grid()
+                    print(TGrid)
                 BlockObject.reset_valid()
 
             print("moving")
@@ -657,19 +664,19 @@ while not done:
             if Mob.Mob_Health == 0:
                 BlockChosen = Mob.Block_Choice
                 if BlockChosen == IBlock:
-                    BlockObject = IBlockBlock()
+                    BlockObject = IBlockBlock(0, 0)
                 elif BlockChosen == JBlock:
-                    BlockObject = JBlockBlock()
+                    BlockObject = JBlockBlock(0, 0)
                 elif BlockChosen == LBlock:
-                    BlockObject = LBlockBlock()
+                    BlockObject = LBlockBlock(0, 0)
                 elif BlockChosen == OBlock:
-                    BlockObject = OBlockBlock()
+                    BlockObject = OBlockBlock(0, 0)
                 elif BlockChosen == TBlock:
-                    BlockObject = TBlockBlock()
+                    BlockObject = TBlockBlock(0, 0)
                 elif BlockChosen == SBlock:
-                    BlockObject = SBlockBlock()
+                    BlockObject = SBlockBlock(0, 0)
                 elif BlockChosen == ZBlock:
-                    BlockObject = ZBlockBlock()
+                    BlockObject = ZBlockBlock(0, 0)
                 BlockObject.store_block()
                 list_blocks.add(BlockObject)
                 list_mobs.remove(Mob)
