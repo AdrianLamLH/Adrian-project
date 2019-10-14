@@ -1,566 +1,221 @@
-# Import the libraries for pygame, math functions
-# used for enemy AI and random for generating behaviours
-import pygame
-import math
-import random
+from random import randrange as rand
+import pygame, sys
 
-# Define colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-ORANGE = (255, 165, 0)
-BROWN = (165, 42, 42)
-PURPLE = (128, 0, 128)
-YELLOW = (255, 255, 0)
+# The configuration
+config = {
+    'cell_size': 20,
+    'cols': 8,
+    'rows': 16,
+    'delay': 750,
+    'maxfps': 30
+}
 
-# Initialise the game engine
-pygame.init()
+colors = [
+    (0, 0, 0),
+    (255, 0, 0),
+    (0, 150, 0),
+    (0, 0, 255),
+    (255, 120, 0),
+    (255, 255, 0),
+    (180, 0, 255),
+    (0, 220, 220)
+]
 
-# Initialise variables
-pilot_x = 400
-pilot_y = 384
-bullet_x = 0
-bullet_y = 0
-pilot_x_speed = 0
-pilot_y_speed = 0
-enemy_speed_change = 0
-gravity = 2.5
-x_hitbox = 0
-y_hitbox = 0
-TotScore = 0
-HitScore = 2
-MobScore = 10
-MobsDead = 0
-PilotHealth = 3
-killed_mob = 0
-mob_got_killed = False
-BlockMoving = True
-row_spacing = 36
-column_spacing = 36
-ShortTimeMobs = 2500
-LongTimeMobs = 3200
-# Counts the number of flickers when hit
-flickercount = 3
-# Setting up an event for firing the projectiles and spawning mobs
-FireRate = pygame.USEREVENT
-SpawnEnemy = pygame.USEREVENT+1
-PilotHit = pygame.USEREVENT+2
-PilotHitRecover = pygame.USEREVENT+3
-Pilot_flickering = False
-# Grace period for the damage taken
-RecoverTime = pygame.USEREVENT+4
-TimeShot = 220
-# Time delay between movement of tetris blocks
-MoveBlocks = pygame.USEREVENT+5
-# Spawning mobs at random intervals in time range
-TimeMobs = random.randint(ShortTimeMobs, LongTimeMobs)
+# Define the shapes of the single parts
+tetris_shapes = [
+    [[1, 1, 1],
+     [0, 1, 0]],
 
-# Setting up the screen
-size = (1024, 768)
-screen = pygame.display.set_mode(size)
-# Labelling the program
-pygame.display.set_caption("Game name here")
+    [[0, 2, 2],
+     [2, 2, 0]],
 
-# To manage the fps
-clock = pygame.time.Clock()
+    [[3, 3, 0],
+     [0, 3, 3]],
 
-# Tetris board setup
-TGridBlock = []
-TGrid = []
-for TColumn in range(10):
-    TGrid.append([])
-    TGridBlock.append([])
-    for TRow in range(20):
-        TGrid[TColumn].append(0)
-        TGridBlock[TColumn].append(0)
+    [[4, 0, 0],
+     [4, 4, 4]],
 
-# Game classes
+    [[0, 0, 5],
+     [5, 5, 5]],
 
-# Draw function
+    [[6, 6, 6, 6]],
 
-# Score
+    [[7, 7],
+     [7, 7]]
+]
 
 
-def drawing(text, text_size, color, x_pos, y_pos):
-    font_style = pygame.font.SysFont("pressstart2p", text_size)
-    printtext = font_style.render(str(text), False, color)
-    screen.blit(printtext, (x_pos, y_pos))
-
-# Health hearts
+def rotate_clockwise(shape):
+    return [[shape[y][x]
+             for y in range(len(shape))]
+            for x in range(len(shape[0]) - 1, -1, -1)]
 
 
-def show_health():
-    heart_pic = pygame.image.load('heart_pic.png')
-    rescaled_heart_pic = pygame.transform.smoothscale(heart_pic, (25, 25))
-    if PilotHealth >= 3:
-        screen.blit(rescaled_heart_pic, (750, 20))
-        screen.blit(rescaled_heart_pic, (775, 20))
-        screen.blit(rescaled_heart_pic, (800, 20))
-    elif PilotHealth == 2:
-        screen.blit(rescaled_heart_pic, (750, 20))
-        screen.blit(rescaled_heart_pic, (775, 20))
-    elif PilotHealth == 1:
-        screen.blit(rescaled_heart_pic, (700, 20))
+def check_collision(board, shape, offset):
+    off_x, off_y = offset
+    for cy, row in enumerate(shape):
+        for cx, cell in enumerate(row):
+            try:
+                if cell and board[cy + off_y][cx + off_x]:
+                    return True
+            except IndexError:
+                return True
+    return False
 
 
-# Setting up pilot sprite
+def remove_row(board, row):
+    del board[row]
+    return [[0 for i in range(config['cols'])]] + board
 
 
-class Pilot(pygame.sprite.Sprite):
+def join_matrixes(mat1, mat2, mat2_off):
+    off_x, off_y = mat2_off
+    for cy, row in enumerate(mat2):
+        for cx, val in enumerate(row):
+            mat1[cy + off_y - 1][cx + off_x] += val
+    return mat1
+
+
+def new_board():
+    board = [[0 for x in range(config['cols'])]
+             for y in range(config['rows'])]
+    board += [[1 for x in range(config['cols'])]]
+    return board
+
+
+class TetrisApp(object):
     def __init__(self):
-        super().__init__()
-        self.image = pygame.Surface([25, 25])
-        # Creates the image of the pilot
-        self.image.fill(WHITE)
-        self.rect = self.image.get_rect()
+        pygame.init()
+        pygame.key.set_repeat(250, 25)
+        self.width = config['cell_size'] * config['cols']
+        self.height = config['cell_size'] * config['rows']
 
-    def update(self):
-        self.rect.x = pilot_x
-        self.rect.y = pilot_y
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        pygame.event.set_blocked(pygame.MOUSEMOTION)  # We do not need
+        # mouse movement
+        # events, so we
+        # block them.
+        self.init_game()
 
+    def new_stone(self):
+        self.stone = tetris_shapes[rand(len(tetris_shapes))]
+        self.stone_x = int(config['cols'] / 2 - len(self.stone[0]) / 2)
+        self.stone_y = 0
 
-class Bullet(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        # Setting up the design of the projectiles
-        self.image = pygame.Surface([10, 10])
-        self.image.fill(BLUE)
-        self.rect = self.image.get_rect()
-        self.rect.x = pilot_x
-        self.rect.y = pilot_y
+        if check_collision(self.board, self.stone, (self.stone_x, self.stone_y)):
+            self.gameover = True
 
-    def update(self):
-        # Projectile starts with same coordinates as player but then moves over time
-        self.rect.x += 12
+    def init_game(self):
+        self.board = new_board()
+        self.new_stone()
 
+    def center_msg(self, msg):
+        for i, line in enumerate(msg.splitlines()):
+            msg_image = pygame.font.Font(
+                pygame.font.get_default_font(), 12).render(line, False, (255, 255, 255), (0, 0, 0))
 
-class Enemy(pygame.sprite.Sprite):
-    # No pass
-    def __init__(self, mob_health, block_choice):
-        super().__init__()
-        # Sets the hitboxes according to which block it is
-        if block_choice == JBlock or block_choice == LBlock or block_choice == SBlock or block_choice == ZBlock:
-            self.x_hitbox = 60
-            self.y_hitbox = 90
-        elif block_choice == TBlock:
-            self.x_hitbox = 90
-            self.y_hitbox = 60
-        elif block_choice == IBlock:
-            self.x_hitbox = 30
-            self.y_hitbox = 120
-        elif block_choice == OBlock:
-            self.x_hitbox = 60
-            self.y_hitbox = 60
-        self.image = pygame.Surface([self.x_hitbox, self.y_hitbox])
-        self.image.fill(BLUE)
-        self.rect = self.image.get_rect()
-        # Generic and basic attributes of an enemy
-        self.rect.x = random.randint(1024, 1030)
-        self.rect.y = random.randint(40, 725)
-        self.Mob_Health = mob_health
-        self.Block_Choice = block_choice
-    # Enemy moves left
+            msgim_center_x, msgim_center_y = msg_image.get_size()
+            msgim_center_x //= 2
+            msgim_center_y //= 2
 
+            self.screen.blit(msg_image, (self.width // 2 - msgim_center_x, self.height // 2 - msgim_center_y + i * 22))
 
-    def update(self):
-        self.rect.x -= 2 + enemy_speed_change
-        global TotScore
-        global MobScore
-        global Pilot_flickering
-        global PilotHealth
-        if Mob in list_mobs:
-            # Detects when pilot is hit and the pilot flashes
-            pilot_damaged = pygame.sprite.spritecollide(Pilot, list_mobs, False)
-            # Need to fix flicker timing so it only triggers the flicker once during the collision
-            # Introduced pilot_flickering so it only triggers the flicker upon first collision
-            if pilot_damaged and Pilot_flickering is False:
-                print("hurt")
-                pygame.time.set_timer(PilotHit, 1000)
-                Pilot_flickering = True
-                PilotHealth -= 1
-def check_t_space():
-    global TColumn
-    global TRow
-    if TGrid[TColumn][TRow] == BlockColour[IBlock] and TGrid[TColumn][TRow + 1] == BlockColour[IBlock] and TGrid[TColumn][TRow + 2] == BlockColour[IBlock] and TGrid[TColumn][TRow + 3] == BlockColour[IBlock]:
-        TGrid[TColumn][TRow + 1] = BlockColour[IBlock]
-        TGrid[TColumn][TRow + 2] = BlockColour[IBlock]
-        TGrid[TColumn][TRow + 3] = BlockColour[IBlock]
-        TGrid[TColumn][TRow + 4] = BlockColour[IBlock]
-        print(IBlock)
-    elif TGrid[TColumn][TRow] == BlockColour[JBlock] and TGrid[TColumn][TRow + 1] == BlockColour[JBlock] and TGrid[TColumn][TRow + 2] == BlockColour[JBlock] and TGrid[TColumn - 1][TRow + 2] == BlockColour[JBlock]:
-        TGrid[TColumn][TRow + 1] = BlockColour[JBlock]
-        TGrid[TColumn][TRow + 2] = BlockColour[JBlock]
-        TGrid[TColumn][TRow + 3] = BlockColour[JBlock]
-        TGrid[TColumn + 1][TRow + 2] = BlockColour[JBlock]
-        print(JBlock)
-    elif TGrid[TColumn][TRow] == BlockColour[LBlock] and TGrid[TColumn][TRow + 1] == BlockColour[LBlock] and TGrid[TColumn][TRow + 2] == BlockColour[LBlock] and TGrid[TColumn + 1][TRow + 2] == BlockColour[LBlock]:
-        TGrid[TColumn][TRow + 1] = BlockColour[LBlock]
-        TGrid[TColumn][TRow + 2] = BlockColour[LBlock]
-        TGrid[TColumn][TRow + 3] = BlockColour[LBlock]
-        TGrid[TColumn + 1][TRow + 2] = BlockColour[LBlock]
-        print(LBlock)
-    elif TGrid[TColumn][TRow] == BlockColour[OBlock] and TGrid[TColumn + 1][TRow] == BlockColour[OBlock] and TGrid[TColumn][TRow + 1] == BlockColour[OBlock] and TGrid[TColumn + 1][TRow + 1] == BlockColour[OBlock]:
-        TGrid[TColumn][TRow + 1] = BlockColour[OBlock]
-        TGrid[TColumn + 1][TRow + 1] = BlockColour[OBlock]
-        TGrid[TColumn][TRow + 2] = BlockColour[OBlock]
-        TGrid[TColumn + 1][TRow + 2] = BlockColour[OBlock]
-        print(OBlock)
-    elif TGrid[TColumn][TRow] == BlockColour[TBlock] and TGrid[TColumn + 1][TRow] == BlockColour[TBlock] and TGrid[TColumn + 2][TRow] == BlockColour[TBlock] and TGrid[TColumn + 1][TRow + 1] == BlockColour[TBlock]:
-        TGrid[TColumn][TRow + 1] = BlockColour[TBlock]
-        TGrid[TColumn + 1][TRow + 1] = BlockColour[TBlock]
-        TGrid[TColumn + 2][TRow + 1] = BlockColour[TBlock]
-        TGrid[TColumn + 1][TRow + 2] = BlockColour[TBlock]
-        print(TBlock)
-    elif TGrid[TColumn + 1][TRow] == BlockColour[SBlock] and TGrid[TColumn + 2][TRow] == BlockColour[SBlock] and TGrid[TColumn + 1][TRow + 1] == BlockColour[SBlock] and TGrid[TColumn][TRow + 1] == BlockColour[SBlock]:
-        TGrid[TColumn + 1][TRow + 1] = BlockColour[SBlock]
-        TGrid[TColumn + 2][TRow + 1] = BlockColour[SBlock]
-        TGrid[TColumn + 1][TRow + 2] = BlockColour[SBlock]
-        TGrid[TColumn][TRow + 2] = BlockColour[SBlock]
-        print(SBlock)
-    elif TGrid[TColumn][TRow] == BlockColour[ZBlock] and TGrid[TColumn + 1][TRow] == BlockColour[ZBlock] and TGrid[TColumn + 1][TRow + 1] == BlockColour[ZBlock] and TGrid[TColumn + 2][TRow + 1] == BlockColour[ZBlock]:
-        TGrid[TColumn][TRow + 1] = BlockColour[ZBlock]
-        TGrid[TColumn + 1][TRow + 1] = BlockColour[ZBlock]
-        TGrid[TColumn + 1][TRow + 2] = BlockColour[ZBlock]
-        TGrid[TColumn + 2][TRow + 2] = BlockColour[ZBlock]
-        print(ZBlock)
-# Initial positioning of the chosen tetris blocks in the grid
+    def draw_matrix(self, matrix, offset):
+        off_x, off_y = offset
+        for y, row in enumerate(matrix):
+            for x, val in enumerate(row):
+                if val:
+                    pygame.draw.rect(
+                        self.screen,
+                        colors[val],
+                        pygame.Rect((off_x + x) * config['cell_size'], (off_y + y) * config['cell_size'], config['cell_size'], config['cell_size']), 0)
 
-def store_block(block_type):
-    global TColumn
-    global TRow
-    if block_type == IBlock:
-        TGrid[5][0] = BlockColour[IBlock]
-        TGrid[5][1] = BlockColour[IBlock]
-        TGrid[5][2] = BlockColour[IBlock]
-        TGrid[5][3] = BlockColour[IBlock]
-    elif block_type == JBlock:
-        TGrid[5][0] = BlockColour[JBlock]
-        TGrid[5][1] = BlockColour[JBlock]
-        TGrid[5][2] = BlockColour[JBlock]
-        TGrid[4][2] = BlockColour[JBlock]
-    elif block_type == LBlock:
-        TGrid[4][0] = BlockColour[LBlock]
-        TGrid[4][1] = BlockColour[LBlock]
-        TGrid[4][2] = BlockColour[LBlock]
-        TGrid[5][2] = BlockColour[LBlock]
-    elif block_type == OBlock:
-        TGrid[5][0] = BlockColour[OBlock]
-        TGrid[6][0] = BlockColour[OBlock]
-        TGrid[5][1] = BlockColour[OBlock]
-        TGrid[6][1] = BlockColour[OBlock]
-    elif block_type == TBlock:
-        TGrid[5][0] = BlockColour[TBlock]
-        TGrid[6][0] = BlockColour[TBlock]
-        TGrid[7][0] = BlockColour[TBlock]
-        TGrid[6][1] = BlockColour[TBlock]
-    elif block_type == SBlock:
-        TGrid[6][0] = BlockColour[SBlock]
-        TGrid[7][0] = BlockColour[SBlock]
-        TGrid[6][1] = BlockColour[SBlock]
-        TGrid[5][1] = BlockColour[SBlock]
-    elif block_type == ZBlock:
-        TGrid[5][0] = BlockColour[ZBlock]
-        TGrid[6][0] = BlockColour[ZBlock]
-        TGrid[6][1] = BlockColour[ZBlock]
-        TGrid[7][1] = BlockColour[ZBlock]
+    def move(self, delta_x):
+        if not self.gameover and not self.paused:
+            new_x = self.stone_x + delta_x
+            if new_x < 0:
+                new_x = 0
+            if new_x > config['cols'] - len(self.stone[0]):
+                new_x = config['cols'] - len(self.stone[0])
+            if not check_collision(self.board, self.stone, (new_x, self.stone_y)):
+                self.stone_x = new_x
 
-# Drawing the tetris boxes
+    def quit(self):
+        self.center_msg("Exiting...")
+        pygame.display.update()
+        sys.exit()
 
+    def drop(self):
+        if not self.gameover and not self.paused:
+            self.stone_y += 1
+            if check_collision(self.board,
+                               self.stone,
+                               (self.stone_x, self.stone_y)):
+                self.board = join_matrixes(self.board, self.stone, (self.stone_x, self.stone_y))
+                self.new_stone()
+                while True:
+                    for i, row in enumerate(self.board[:-1]):
+                        if 0 not in row:
+                            self.board = remove_row(self.board, i)
+                            break
+                    else:
+                        break
 
-def draw_t_box():
-    global TColumn
-    global TRow
-    # Drawing tetris board
-    for TColumn in range(10):
-        column_pos = (TColumn + 0.3) * column_spacing
-        for TRow in range(20):
-            row_pos = (TRow + 1.25) * row_spacing
-            if TGrid[TColumn][TRow] == GREEN:
-                pygame.draw.rect(screen, GREEN, [column_pos, row_pos, 34, 34])
-            elif TGrid[TColumn][TRow] == BLUE:
-                pygame.draw.rect(screen, BLUE, [column_pos, row_pos, 34, 34])
-            elif TGrid[TColumn][TRow] == YELLOW:
-                pygame.draw.rect(screen, YELLOW, [column_pos, row_pos, 34, 34])
-            elif TGrid[TColumn][TRow] == BROWN:
-                pygame.draw.rect(screen, BROWN, [column_pos, row_pos, 34, 34])
-            elif TGrid[TColumn][TRow] == PURPLE:
-                pygame.draw.rect(screen, PURPLE, [column_pos, row_pos, 34, 34])
-            elif TGrid[TColumn][TRow] == RED:
-                pygame.draw.rect(screen, RED, [column_pos, row_pos, 34, 34])
-            elif TGrid[TColumn][TRow] == ORANGE:
-                pygame.draw.rect(screen, ORANGE, [column_pos, row_pos, 34, 34])
-            elif TGrid[TColumn][TRow] == 0:
-                pygame.draw.rect(screen, WHITE, [column_pos, row_pos, 34, 34])
+    def rotate_stone(self):
+        if not self.gameover and not self.paused:
+            new_stone = rotate_clockwise(self.stone)
+            if not check_collision(self.board, new_stone, (self.stone_x, self.stone_y)):
+                self.stone = new_stone
 
+    def toggle_pause(self):
+        self.paused = not self.paused
 
-def move_t_grid():
-    global TColumn
-    global TRow
-    global BlockMoving
-    for TColumn in range(8):
-        for TRow in range(19):
-            # if BlockMoving is True:
-                # If the current space occupies a block and the row below is empty
-            check_t_space()
-            print(TColumn, TRow)
-            # If the current space occupies a block and the row below does too
- #           elif TGrid[TColumn][TRow] != 0 and TGrid[TColumn][TRow + 1] != 0:
-                # Signals when the block has reached the bottom
-#                BlockMoving = False
+    def start_game(self):
+        if self.gameover:
+            self.init_game()
+            self.gameover = False
 
-# Types of enemies
-# I Block
+    def run(self):
+        key_actions = {
+            'ESCAPE': self.quit,
+            'LEFT': lambda: self.move(-1),
+            'RIGHT': lambda: self.move(+1),
+            'DOWN': self.drop,
+            'UP': self.rotate_stone,
+            'p': self.toggle_pause,
+            'SPACE': self.start_game
+        }
 
+        self.gameover = False
+        self.paused = False
 
-class IBlock(Enemy):
-    def __init__(self, mob_health, block_choice):
-        super(IBlock, self).__init__(mob_health, block_choice)
-        self.image = pygame.Surface([30, 120])
-        self.image.fill(BLUE)
-        self.rect = self.image.get_rect()
-        picture = pygame.image.load("IBlock.png")
-        self.image = pygame.transform.scale(picture, [30, 120])
-
-
-
-# J Block
-
-
-class JBlock(Enemy):
-    def __init__(self, mob_health, block_choice):
-        super(JBlock, self).__init__(mob_health, block_choice)
-        self.image = pygame.Surface([60, 90])
-        picture = pygame.image.load("JBlock.png")
-        self.image = pygame.transform.smoothscale(picture, [60, 90])
-
-
-# L Block
-
-
-class LBlock(Enemy):
-    def __init__(self, mob_health, block_choice):
-        super(LBlock, self).__init__(mob_health, block_choice)
-        self.image = pygame.Surface([60, 90])
-        picture = pygame.image.load("LBlock.png")
-        self.image = pygame.transform.scale(picture, [60, 90])
-
-# O Block
-
-
-class OBlock(Enemy):
-    def __init__(self, mob_health, block_choice):
-        super(OBlock, self).__init__(mob_health, block_choice)
-        self.image = pygame.Surface([60, 60])
-        picture = pygame.image.load("OBlock.png")
-        self.image = pygame.transform.scale(picture, [60, 60])
-
-
-# T Block
-
-
-class TBlock(Enemy):
-    def __init__(self, mob_health, block_choice):
-        super(TBlock, self).__init__(mob_health, block_choice)
-        picture = pygame.image.load("TBlock.png")
-        self.image = pygame.transform.scale(picture, [90, 60])
-
-
-# S Block
-
-
-class SBlock(Enemy):
-    def __init__(self, mob_health, block_choice):
-        super(SBlock, self).__init__(mob_health, block_choice)
-        self.image = pygame.Surface([60, 90])
-        picture = pygame.image.load("SBlock.png")
-        self.image = pygame.transform.scale(picture, [60, 90])
-
-
-# Z Block
-
-
-class ZBlock(Enemy):
-    def __init__(self, mob_health, block_choice):
-        super(ZBlock, self).__init__(mob_health, block_choice)
-        self.image = pygame.Surface([60, 90])
-        picture = pygame.image.load("ZBlock.png")
-        self.image = pygame.transform.scale(picture, [60, 90])
-
-# Randomly generates a new enemy at a random rate
-pygame.time.set_timer(SpawnEnemy, TimeMobs)
-# Moves the tetris blocks down one every 1.5 seconds
-pygame.time.set_timer(MoveBlocks, 1500)
-# Player and projectiles are updated/stored in sprite group
-list_all_sprites = pygame.sprite.Group()
-list_bullet = pygame.sprite.Group()
-# Enemy are updated/stored in sprite group
-list_mobs = pygame.sprite.Group()
-# Player and bullet initialised
-Pilot = Pilot()
-list_all_sprites.add(Pilot)
-# Initialise block types
-BlockColour = {IBlock: GREEN, JBlock: BLUE, LBlock: YELLOW, OBlock: RED, TBlock: BROWN, SBlock: ORANGE, ZBlock: PURPLE}
-# Loop until the user clicks the close button
-done = False
-# - - - - - - - - - Main program loop - - - - - - - - -
-while not done:
-
-    # - - - - - - - Main event loop - - - - - - - - - -
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            print("User asked to quit.")
-            done = True  # Signals the program to end
-        # Sets controls for the pilot
-        elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                        pilot_y_speed = -10.5
-                elif event.key == pygame.K_DOWN:
-                        pilot_y_speed = 8
-                elif event.key == pygame.K_LEFT:
-                        pilot_x_speed = -8
-                elif event.key == pygame.K_RIGHT:
-                        pilot_x_speed = 8
-                elif event.key == pygame.K_SPACE:
-
-                    # Start shooting
-                    pygame.time.set_timer(FireRate, TimeShot)
-
-        # Tells the pilot to stop moving when key not pressed
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                pilot_y_speed = 0
-            elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
-                pilot_x_speed = 0
-            elif event.key == pygame.K_SPACE:
-                Shot = Bullet()
-                list_all_sprites.add(Shot)
-                list_bullet.add(Shot)
-                pygame.time.set_timer(FireRate, 0)
-        # The bullet continues to fire automatically
-        elif event.type == FireRate:
-            Shot = Bullet()
-            list_all_sprites.add(Shot)
-            list_bullet.add(Shot)
-        # Mobs are spawned at random time intervals
-        elif event.type == SpawnEnemy:
-            BlockChoice = random.choice(list(BlockColour))
-            Mob = BlockChoice(4, BlockChoice)
-            list_all_sprites.add(Mob)
-            list_mobs.add(Mob)
-        # The pilot flashes red when it is hit
-        elif event.type == PilotHit:
-            if flickercount > 0:
-                Pilot.image.fill(RED)
-                print("hit")
-                enemy_speed_change -= 0.2
-        # The time period for changing back to white is 500ms a.k.a half the time period of flickering pilot to red
-                pygame.time.set_timer(PilotHitRecover, 500)
+        pygame.time.set_timer(pygame.USEREVENT + 1, config['delay'])
+        dont_burn_my_cpu = pygame.time.Clock()
+        while 1:
+            self.screen.fill((0, 0, 0))
+            if self.gameover:
+                self.center_msg("""Game Over! Press space to continue""")
             else:
-                print("Done hit")
-                pygame.time.set_timer(PilotHit, 0)
-            # Recolours the pilot to white once flicker cycle is over
-                Pilot.image.fill(WHITE)
-                flickercount = 3
-        elif event.type == PilotHitRecover:
-            flickercount -= 1
-        # Changed the flicker output so it only returns flicker when it is still in the flick cycle
-            pygame.time.set_timer(PilotHitRecover, 0)
-            if flickercount > 0:
-                Pilot.image.fill(WHITE)
-                print("flicker")
-            else:
-                Pilot_flickering = False
-        elif event.type == MoveBlocks:
-            move_t_grid()
-            print("moving")
-    # - - - - - Game logic - - - - - - - -
-    pilot_x += pilot_x_speed
-    pilot_y += pilot_y_speed + gravity
-    # Setting up the wall boundaries for the pilot
-    if pilot_x > 997 and pilot_y > 741:
-        pilot_x = 997
-        pilot_y = 741
-    elif pilot_x < 390 and pilot_y < 2:
-        pilot_x = 390
-        pilot_y = 2
-    elif pilot_x > 997:
-        pilot_x = 997
-        if pilot_y < 2:
-            pilot_y = 2
-    elif pilot_x < 390:
-        pilot_x = 390
-        if pilot_y > 741:
-            pilot_y = 741
-    elif pilot_y > 741:
-        pilot_y = 741
-    elif pilot_y < 2:
-        pilot_y = 2
+                if self.paused:
+                    self.center_msg("Paused")
+                else:
+                    self.draw_matrix(self.board, (0, 0))
+                    self.draw_matrix(self.stone, (self.stone_x, self.stone_y))
+            pygame.display.update()
 
-    list_all_sprites.update()
-    # - - - - - Drawing code - - - - - - -
-    pygame.draw.rect(screen, BLACK, [0, 0, 384, 768], 0)
-    pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
-    pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
-    pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
+            for event in pygame.event.get():
+                if event.type == pygame.USEREVENT + 1:
+                    self.drop()
+                elif event.type == pygame.QUIT:
+                    self.quit()
+                elif event.type == pygame.KEYDOWN:
+                    for key in key_actions:
+                        if event.key == eval("pygame.K_" + key):
+                            key_actions[key]()
 
-    # Scoring
-    drawing("Score:", 16, WHITE, 860, 20)
-    drawing(TotScore, 16, WHITE, 980, 20)
+            dont_burn_my_cpu.tick(config['maxfps'])
 
-    # Display health
-    show_health()
 
-    # Removes off-screen mobs
-    for Mob in list_mobs:
-        if Mob.rect.x <= 364 or Mob.rect.y >= 740 or Mob.rect.y <= 20:
-            list_all_sprites.remove(Mob)
-            list_mobs.remove(Mob)
-
-    # Removes off-screen projectiles
-    for Shot in list_bullet:
-        if Shot.rect.x >= pilot_x + 400 or Shot.rect.y >= 768:
-            list_all_sprites.remove(Shot)
-            list_bullet.remove(Shot)
-        # Hit detection between bullet and Mob
-        list_mobs_hit = pygame.sprite.spritecollide(Shot, list_mobs, False)
-        # Score from hitting mobs
-        for Mob in list_mobs_hit:
-            TotScore += HitScore
-            Mob.Mob_Health -= 1
-            if Mob.Mob_Health == 0:
-                store_block(Mob.Block_Choice)
-                list_mobs.remove(Mob)
-                list_all_sprites.remove(Mob)
-                list_mobs_hit.remove(Mob)
-                mob_got_killed = True
-                # Increase game scroll speed when enemy killed: difficulty progression
-                enemy_speed_change += 0.1
-                if ShortTimeMobs > 500:
-                    ShortTimeMobs -= 30
-                    LongTimeMobs -= 30
-                TotScore += MobScore
-
-    # Removing the projectiles if they land on an enemy
-    for Mob in list_mobs:
-        list_shots_landed = pygame.sprite.spritecollide(Mob, list_bullet, True)
-        for Shot in list_shots_landed:
-            list_all_sprites.remove(Shot)
-            list_bullet.remove(Shot)
-            print(TotScore)
-        MobHealthPercent = (Mob.Mob_Health/4)
-        pygame.draw.line(screen, RED, (Mob.rect.left, Mob.rect.bottom + 10), (Mob.rect.left + Mob.x_hitbox * MobHealthPercent, Mob.rect.bottom + 10), 4)
-
-    draw_t_box()
-
-    list_all_sprites.draw(screen)
-
-    # - - - - - Update screen drawn - - -
-    pygame.display.flip()
-
-    # - - - - - Set the fps - - - - - - -
-    clock.tick(60)
-
-# Shutdown python program
-pygame.quit()
+if __name__ == '__main__':
+    App = TetrisApp()
+    App.run()
