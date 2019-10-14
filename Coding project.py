@@ -434,7 +434,7 @@ class ZBlockBlock(BlockBlock):
             return "Done"
         else:
             if self.column < 8 and self.row < 18:
-                if TGrid[self.column + 1][self.row + 2] != 0 or TGrid[self.column + 2][self.row + 2] != 0:
+                if TGrid[self.column][self.row] != 0 or TGrid[self.column + 1][self.row + 2] != 0 or TGrid[self.column + 2][self.row + 2] != 0:
                     # Checks if the blocks to be moved into are clear
                     self.valid_block_move = False
             return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
