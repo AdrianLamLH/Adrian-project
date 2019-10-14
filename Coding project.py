@@ -67,14 +67,11 @@ pygame.display.set_caption("Game name here")
 clock = pygame.time.Clock()
 
 # Tetris board setup
-TGridMovedCheck = []
 TGrid = []
 for TColumn in range(10):
     TGrid.append([])
-    TGridMovedCheck.append([])
     for TRow in range(20):
         TGrid[TColumn].append(0)
-        TGridMovedCheck[TColumn].append(True)
 
 # Game classes
 
@@ -207,10 +204,13 @@ class IBlockBlock(BlockBlock):
         TGrid[5][3] = BlockColour[IBlock]
 
     def check_t_grid(self):
-        if self.row < 16:
-            if TGrid[self.column][self.row + 3] != 0:  # Checks if the blocks to be moved into are clear
-                self.valid_block_move = False
-        return self.valid_block_move
+        if self.row == 16:
+            return "Done"  # Checks if the block has reached the bottom
+        else:
+            if self.row < 16:
+                if TGrid[self.column][self.row + 3] != 0:  # Checks if the blocks to be moved into are clear
+                    self.valid_block_move = False
+            return self.valid_block_move
 
     def move_t_grid(self):
         TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
@@ -240,11 +240,14 @@ class JBlockBlock(BlockBlock):
         TGrid[5][2] = BlockColour[JBlock]
 
     def check_t_grid(self):
-        if self.column > 0 and self.row < 17:
-            if TGrid[self.column - 1][self.row + 3] != 0 and TGrid[self.column][self.row + 3] != 0:
-                # Checks if the blocks to be moved into are clear
-                self.valid_block_move = False
-        return self.valid_block_move
+        if self.row == 17:
+            return "Done"
+        else:
+            if self.column > 0 and self.row < 17:
+                if TGrid[self.column - 1][self.row + 3] != 0 and TGrid[self.column][self.row + 3] != 0:
+                    # Checks if the blocks to be moved into are clear
+                    self.valid_block_move = False
+            return self.valid_block_move
 
     def move_t_grid(self):
         TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
@@ -275,11 +278,14 @@ class LBlockBlock(BlockBlock):
         TGrid[6][2] = BlockColour[LBlock]
 
     def check_t_grid(self):
-        if self.column < 9 and self.row < 17:
-            if TGrid[self.column + 1][self.row + 3] != 0 and TGrid[self.column][self.row + 3] != 0:
-                # Checks if the blocks to be moved into are clear
-                self.valid_block_move = False
-        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
+        if self.row == 17:
+            return "Done"
+        else:
+            if self.column < 9 and self.row < 17:
+                if TGrid[self.column + 1][self.row + 3] != 0 and TGrid[self.column][self.row + 3] != 0:
+                    # Checks if the blocks to be moved into are clear
+                    self.valid_block_move = False
+            return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self):
         TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
@@ -310,11 +316,14 @@ class OBlockBlock(BlockBlock):
         TGrid[6][1] = BlockColour[OBlock]
 
     def check_t_grid(self):
-        if self.column < 9 and self.row < 18:
-            if TGrid[self.column][self.row + 2] != 0 and TGrid[self.column + 1][self.row + 2] != 0:
-                # Checks if the blocks to be moved into are clear
-                self.valid_block_move = False
-        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
+        if self.row == 18:
+            return "Done"
+        else:
+            if self.column < 9 and self.row < 18:
+                if TGrid[self.column][self.row + 2] != 0 and TGrid[self.column + 1][self.row + 2] != 0:
+                    # Checks if the blocks to be moved into are clear
+                    self.valid_block_move = False
+            return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self):
         TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
@@ -345,11 +354,14 @@ class TBlockBlock(BlockBlock):
         TGrid[6][1] = BlockColour[TBlock]
 
     def check_t_grid(self):
-        if self.column < 8 and self.row < 18:
-            if TGrid[self.column + 1][self.row + 2] != 0:
-                # Checks if the blocks to be moved into are clear
-                self.valid_block_move = False
-        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
+        if self.row == 18:
+            return "Done"
+        else:
+            if self.column < 8 and self.row < 18:
+                if TGrid[self.column + 1][self.row + 2] != 0:
+                    # Checks if the blocks to be moved into are clear
+                    self.valid_block_move = False
+            return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self):
         TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
@@ -380,11 +392,14 @@ class SBlockBlock(BlockBlock):
         TGrid[4][1] = BlockColour[SBlock]
 
     def check_t_grid(self):
-        if self.column >= 1 and self.column < 9 and self.row < 18:
-            if TGrid[self.column][self.row + 2] != 0 and TGrid[self.column - 1][self.row + 2] != 0:
-                # Checks if the blocks to be moved into are clear
-                self.valid_block_move = False
-        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
+        if self.row == 18:
+            return "Done"
+        else:
+            if self.column >= 1 and self.column < 9 and self.row < 18:
+                if TGrid[self.column][self.row + 2] != 0 and TGrid[self.column - 1][self.row + 2] != 0:
+                    # Checks if the blocks to be moved into are clear
+                    self.valid_block_move = False
+            return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self):
             TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
@@ -415,11 +430,14 @@ class ZBlockBlock(BlockBlock):
         TGrid[7][1] = BlockColour[ZBlock]
 
     def check_t_grid(self):
-        if self.column < 8 and self.row < 18:
-            if TGrid[self.column + 1][self.row + 2] != 0 and TGrid[self.column + 2][self.row + 2] != 0:
-                # Checks if the blocks to be moved into are clear
-                self.valid_block_move = False
-        return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
+        if self.row == 18:
+            return "Done"
+        else:
+            if self.column < 8 and self.row < 18:
+                if TGrid[self.column + 1][self.row + 2] != 0 and TGrid[self.column + 2][self.row + 2] != 0:
+                    # Checks if the blocks to be moved into are clear
+                    self.valid_block_move = False
+            return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self):
         TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
@@ -545,7 +563,7 @@ class ZBlock(Enemy):
 # Randomly generates a new enemy at a random rate
 pygame.time.set_timer(SpawnEnemy, TimeMobs)
 # Moves the tetris blocks down one every 1.5 seconds
-pygame.time.set_timer(MoveBlocks, 1500)
+pygame.time.set_timer(MoveBlocks, 500)
 # Player and projectiles are updated/stored in sprite group
 list_all_sprites = pygame.sprite.Group()
 list_bullet = pygame.sprite.Group()
@@ -628,12 +646,12 @@ while not done:
                 Pilot_flickering = False
         elif event.type == MoveBlocks:
             for BlockObject in active_block:
-                print(len(active_block))
-                if BlockObject.check_t_grid():
-                    BlockObject.move_t_grid()
-                else:
+                BlockObject.pos()
+                if BlockObject.check_t_grid == "Done":
                     active_block.remove(BlockObject)
-                    print(BlockObject)
+                    print("Done")
+                elif BlockObject.check_t_grid():
+                    BlockObject.move_t_grid()
                 BlockObject.reset_valid()
 
     # - - - - - Game logic - - - - - - - -
@@ -700,7 +718,6 @@ while not done:
                     BlockObject = LBlockBlock(0, 0)
                 elif BlockChosen == OBlock:
                     BlockObject = OBlockBlock(0, 0)
-                    print("hi")
                 elif BlockChosen == TBlock:
                     BlockObject = TBlockBlock(0, 0)
                 elif BlockChosen == SBlock:
@@ -710,7 +727,7 @@ while not done:
                 BlockObject.store_block()
                 active_block.add(BlockObject)
                 print(BlockObject)
-                BlockObject.pos()
+                #  BlockObject.pos()  # For printing the top left corner block of the tetris block
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
                 list_mobs_hit.remove(Mob)
