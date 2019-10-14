@@ -725,6 +725,7 @@ while not done:
                 elif BlockChosen == ZBlock:
                     BlockObject = ZBlockBlock(0, 0)
                 BlockObject.store_block()
+                active_block.empty()
                 active_block.add(BlockObject)
                 print(BlockObject)
                 #  BlockObject.pos()  # For printing the top left corner block of the tetris block
