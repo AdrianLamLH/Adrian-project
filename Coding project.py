@@ -212,7 +212,10 @@ class IBlockBlock(BlockBlock):
         return self.valid_block_move
 
     def move_t_grid(self):
-        TGrid[column][self.row] = 0
+        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
+        TGrid[self.column][self.row + 1] = 0
+        TGrid[self.column][self.row + 2] = 0
+        TGrid[self.column][self.row + 3] = 0
         TGrid[self.column][self.row + 1] = BlockColour[IBlock]
         TGrid[self.column][self.row + 2] = BlockColour[IBlock]
         TGrid[self.column][self.row + 3] = BlockColour[IBlock]
@@ -243,7 +246,10 @@ class JBlockBlock(BlockBlock):
 
     def move_t_grid(self):
         if self.column > 0 and self.row < 17:
-            TGrid[self.column][self.row] = 0
+            TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
+            TGrid[self.column][self.row + 1] = 0
+            TGrid[self.column][self.row + 2] = 0
+            TGrid[self.column - 1][self.row + 2] = 0
             TGrid[self.column][self.row + 1] = BlockColour[JBlock]
             TGrid[self.column][self.row + 2] = BlockColour[JBlock]
             TGrid[self.column][self.row + 3] = BlockColour[JBlock]
@@ -274,7 +280,10 @@ class LBlockBlock(BlockBlock):
 
     def move_t_grid(self):
         if self.column < 9 and self.row < 17:
-            TGrid[self.column][self.row] = 0
+            TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
+            TGrid[self.column][self.row + 1] = 0
+            TGrid[self.column][self.row + 2] = 0
+            TGrid[self.column + 1][self.row + 2] = 0
             TGrid[self.column][self.row + 1] = BlockColour[LBlock]  # Blocks are stored into the next spaces
             TGrid[self.column][self.row + 2] = BlockColour[LBlock]
             TGrid[self.column][self.row + 3] = BlockColour[LBlock]
@@ -305,7 +314,10 @@ class OBlockBlock(BlockBlock):
 
     def move_t_grid(self):
         if self.column < 9 and self.row < 18:
-            TGrid[self.column][self.row] = 0
+            TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
+            TGrid[self.column + 1][self.row] = 0
+            TGrid[self.column][self.row + 1] = 0
+            TGrid[self.column + 1][self.row + 1] = 0
             TGrid[self.column][self.row + 1] = BlockColour[OBlock]  # Blocks are stored into the next spaces
             TGrid[self.column + 1][self.row + 1] = BlockColour[OBlock]
             TGrid[self.column][self.row + 2] = BlockColour[OBlock]
@@ -335,17 +347,21 @@ class TBlockBlock(BlockBlock):
         return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self):
-        TGrid[self.column][self.row] = 0
-        TGrid[self.column][self.row + 1] = BlockColour[TBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column + 1][self.row + 1] = BlockColour[TBlock]
-        TGrid[self.column + 2][self.row + 1] = BlockColour[TBlock]
-        TGrid[self.column + 1][self.row + 2] = BlockColour[TBlock]
-        TGridMovedCheck[self.column][self.row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
-        TGridMovedCheck[self.column][self.row + 1] = False
-        TGridMovedCheck[self.column + 1][self.row + 1] = False
-        TGridMovedCheck[self.column + 2][self.row + 1] = False
-        TGridMovedCheck[self.column + 1][self.row + 2] = False
-        self.row += 1
+        if self.column < 8 and self.row < 17:
+            TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
+            TGrid[self.column + 1][self.row] = 0
+            TGrid[self.column + 2][self.row] = 0
+            TGrid[self.column + 1][self.row + 1] = 0
+            TGrid[self.column][self.row + 1] = BlockColour[TBlock]  # Blocks are stored into the next spaces
+            TGrid[self.column + 1][self.row + 1] = BlockColour[TBlock]
+            TGrid[self.column + 2][self.row + 1] = BlockColour[TBlock]
+            TGrid[self.column + 1][self.row + 2] = BlockColour[TBlock]
+            TGridMovedCheck[self.column][self.row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
+            TGridMovedCheck[self.column][self.row + 1] = False
+            TGridMovedCheck[self.column + 1][self.row + 1] = False
+            TGridMovedCheck[self.column + 2][self.row + 1] = False
+            TGridMovedCheck[self.column + 1][self.row + 2] = False
+            self.row += 1
 
 
 class SBlockBlock(BlockBlock):
@@ -365,7 +381,10 @@ class SBlockBlock(BlockBlock):
         return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self):
-        TGrid[self.column][self.row] = 0
+        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
+        TGrid[self.column + 1][self.row] = 0
+        TGrid[self.column][self.row + 1] = 0
+        TGrid[self.column - 1][self.row + 1] = 0
         TGrid[self.column][self.row + 1] = BlockColour[SBlock]  # Blocks are stored into the next spaces
         TGrid[self.column + 1][self.row + 1] = BlockColour[SBlock]
         TGrid[self.column][self.row + 2] = BlockColour[SBlock]
@@ -395,7 +414,10 @@ class ZBlockBlock(BlockBlock):
         return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self):
-        TGrid[self.column][self.row] = 0
+        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
+        TGrid[self.column + 1][self.row] = 0
+        TGrid[self.column + 1][self.row + 1] = 0
+        TGrid[self.column + 2][self.row + 1] = 0
         TGrid[self.column][self.row + 1] = BlockColour[ZBlock]  # Blocks are stored into the next spaces
         TGrid[self.column + 1][self.row + 1] = BlockColour[ZBlock]
         TGrid[self.column + 1][self.row + 2] = BlockColour[ZBlock]
@@ -516,14 +538,14 @@ class ZBlock(Enemy):
 # Randomly generates a new enemy at a random rate
 pygame.time.set_timer(SpawnEnemy, TimeMobs)
 # Moves the tetris blocks down one every 1.5 seconds
-pygame.time.set_timer(MoveBlocks, 4000)
+pygame.time.set_timer(MoveBlocks, 1500)
 # Player and projectiles are updated/stored in sprite group
 list_all_sprites = pygame.sprite.Group()
 list_bullet = pygame.sprite.Group()
 # Enemy are updated/stored in sprite group
 list_mobs = pygame.sprite.Group()
 # All tetris blocks on the grid stored in sprite group
-list_blocks = pygame.sprite.Group()
+active_block = pygame.sprite.Group()
 # Player and bullet initialised
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
@@ -600,10 +622,12 @@ while not done:
             else:
                 Pilot_flickering = False
         elif event.type == MoveBlocks:
-            for BlockObject in list_blocks:
+            for BlockObject in active_block:
                 if BlockObject.check_t_grid():
                     BlockObject.move_t_grid()
                     print(TGrid)
+                else:
+                    active_block.remove(BlockObject)
                 BlockObject.reset_valid()
 
             print("moving")
@@ -678,7 +702,7 @@ while not done:
                 elif BlockChosen == ZBlock:
                     BlockObject = ZBlockBlock(0, 0)
                 BlockObject.store_block()
-                list_blocks.add(BlockObject)
+                active_block.add(BlockObject)
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
                 list_mobs_hit.remove(Mob)
