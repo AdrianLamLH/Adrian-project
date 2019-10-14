@@ -199,6 +199,8 @@ class IBlockBlock(BlockBlock):
 
     # Initial positioning of the chosen tetris blocks in the grid
     def store_block(self):
+        self.column = 5
+        self.row = 0
         TGrid[5][0] = BlockColour[IBlock]
         TGrid[5][1] = BlockColour[IBlock]
         TGrid[5][2] = BlockColour[IBlock]
@@ -227,12 +229,16 @@ class IBlockBlock(BlockBlock):
         print("In range")
         self.row += 1
 
+    def pos(self):
+        print("column: ", self.column, "row: ", self.row)
 
 class JBlockBlock(BlockBlock):
     def __init__(self, column, row):
         super(JBlockBlock, self).__init__(column, row)
 
     def store_block(self):
+        self.column = 6
+        self.row = 0
         TGrid[6][0] = BlockColour[JBlock]
         TGrid[6][1] = BlockColour[JBlock]
         TGrid[6][2] = BlockColour[JBlock]
@@ -261,12 +267,17 @@ class JBlockBlock(BlockBlock):
         print("In range")
         self.row += 1
 
+    def pos(self):
+        print("column: ", self.column, "row: ", self.row)
+
 
 class LBlockBlock(BlockBlock):
     def __init__(self, column, row):
         super(LBlockBlock, self).__init__(column, row)
 
     def store_block(self):
+        self.column = 5
+        self.row = 0
         TGrid[5][0] = BlockColour[LBlock]
         TGrid[5][1] = BlockColour[LBlock]
         TGrid[5][2] = BlockColour[LBlock]
@@ -295,12 +306,17 @@ class LBlockBlock(BlockBlock):
         print("In range")
         self.row += 1
 
+    def pos(self):
+        print("column: ", self.column, "row: ", self.row)
+
 
 class OBlockBlock(BlockBlock):
     def __init__(self, column, row):
         super(OBlockBlock, self).__init__(column, row)
 
     def store_block(self):
+        self.column = 5
+        self.row = 0
         TGrid[5][0] = BlockColour[OBlock]
         TGrid[6][0] = BlockColour[OBlock]
         TGrid[5][1] = BlockColour[OBlock]
@@ -329,12 +345,17 @@ class OBlockBlock(BlockBlock):
         print("In range")
         self.row += 1
 
+    def pos(self):
+        print("column: ", self.column, "row: ", self.row)
+
 
 class TBlockBlock(BlockBlock):
     def __init__(self, column, row):
         super(TBlockBlock, self).__init__(column, row)
 
     def store_block(self):
+        self.column = 5
+        self.row = 0
         TGrid[5][0] = BlockColour[TBlock]
         TGrid[6][0] = BlockColour[TBlock]
         TGrid[7][0] = BlockColour[TBlock]
@@ -363,12 +384,17 @@ class TBlockBlock(BlockBlock):
         print("In range")
         self.row += 1
 
+    def pos(self):
+        print("column: ", self.column, "row: ", self.row)
+
 
 class SBlockBlock(BlockBlock):
     def __init__(self, column, row):
         super(SBlockBlock, self).__init__(column, row)
 
     def store_block(self):
+        self.column = 5
+        self.row = 0
         TGrid[5][0] = BlockColour[SBlock]
         TGrid[6][0] = BlockColour[SBlock]
         TGrid[5][1] = BlockColour[SBlock]
@@ -397,12 +423,17 @@ class SBlockBlock(BlockBlock):
             print("In range")
             self.row += 1
 
+    def pos(self):
+        print("column: ", self.column, "row: ", self.row)
+
 
 class ZBlockBlock(BlockBlock):
     def __init__(self, column, row):
         super(ZBlockBlock, self).__init__(column, row)
 
     def store_block(self):
+        self.column = 5
+        self.row = 0
         TGrid[5][0] = BlockColour[ZBlock]
         TGrid[6][0] = BlockColour[ZBlock]
         TGrid[6][1] = BlockColour[ZBlock]
@@ -430,6 +461,9 @@ class ZBlockBlock(BlockBlock):
         TGridMovedCheck[self.column + 2][self.row + 2] = False
         print("In range")
         self.row += 1
+
+    def pos(self):
+        print("column: ", self.column, "row: ", self.row)
 
 # Drawing the tetris boxes
 
@@ -623,6 +657,7 @@ while not done:
                 Pilot_flickering = False
         elif event.type == MoveBlocks:
             for BlockObject in active_block:
+                print(len(active_block))
                 if BlockObject.check_t_grid():
                     BlockObject.move_t_grid()
                 else:
@@ -694,6 +729,7 @@ while not done:
                     BlockObject = LBlockBlock(0, 0)
                 elif BlockChosen == OBlock:
                     BlockObject = OBlockBlock(0, 0)
+                    print("hi")
                 elif BlockChosen == TBlock:
                     BlockObject = TBlockBlock(0, 0)
                 elif BlockChosen == SBlock:
@@ -702,6 +738,8 @@ while not done:
                     BlockObject = ZBlockBlock(0, 0)
                 BlockObject.store_block()
                 active_block.add(BlockObject)
+                print(BlockObject)
+                BlockObject.pos()
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
                 list_mobs_hit.remove(Mob)
