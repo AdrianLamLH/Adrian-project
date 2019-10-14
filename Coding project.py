@@ -381,20 +381,21 @@ class SBlockBlock(BlockBlock):
         return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def move_t_grid(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column + 1][self.row] = 0
-        TGrid[self.column][self.row + 1] = 0
-        TGrid[self.column - 1][self.row + 1] = 0
-        TGrid[self.column][self.row + 1] = BlockColour[SBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column + 1][self.row + 1] = BlockColour[SBlock]
-        TGrid[self.column][self.row + 2] = BlockColour[SBlock]
-        TGrid[self.column - 1][self.row + 2] = BlockColour[SBlock]
-        TGridMovedCheck[self.column][self.row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
-        TGridMovedCheck[self.column][self.row + 1] = False
-        TGridMovedCheck[self.column + 1][self.row + 1] = False
-        TGridMovedCheck[self.column][self.row + 2] = False
-        TGridMovedCheck[self.column - 1][self.row + 2] = False
-        self.row += 1
+        if self.column < 8 and self.column > 0 and self.row < 18:
+            TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
+            TGrid[self.column + 1][self.row] = 0
+            TGrid[self.column][self.row + 1] = 0
+            TGrid[self.column - 1][self.row + 1] = 0
+            TGrid[self.column][self.row + 1] = BlockColour[SBlock]  # Blocks are stored into the next spaces
+            TGrid[self.column + 1][self.row + 1] = BlockColour[SBlock]
+            TGrid[self.column][self.row + 2] = BlockColour[SBlock]
+            TGrid[self.column - 1][self.row + 2] = BlockColour[SBlock]
+            TGridMovedCheck[self.column][self.row] = True  # Spaces the blocks occupy are marked as edited (i.e. True)
+            TGridMovedCheck[self.column][self.row + 1] = False
+            TGridMovedCheck[self.column + 1][self.row + 1] = Falser
+            TGridMovedCheck[self.column][self.row + 2] = False
+            TGridMovedCheck[self.column - 1][self.row + 2] = False
+            self.row += 1
 
 
 class ZBlockBlock(BlockBlock):
