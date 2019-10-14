@@ -647,7 +647,7 @@ while not done:
         elif event.type == MoveBlocks:
             for BlockObject in active_block:
                 BlockObject.pos()
-                if BlockObject.check_t_grid == "Done":
+                if BlockObject.check_t_grid() == "Done":
                     active_block.remove(BlockObject)
                     print("Done")
                 elif BlockObject.check_t_grid():
