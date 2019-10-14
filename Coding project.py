@@ -204,7 +204,7 @@ class IBlockBlock(BlockBlock):
         TGrid[5][3] = BlockColour[IBlock]
 
     def check_t_grid(self):
-        if self.row == 16:
+        if self.row + 4 == 19:
             return "Done"  # Checks if the block has reached the bottom
         else:
             if self.row < 16:
@@ -240,7 +240,7 @@ class JBlockBlock(BlockBlock):
         TGrid[5][2] = BlockColour[JBlock]
 
     def check_t_grid(self):
-        if self.row == 17:
+        if self.row + 3 == 19:
             return "Done"
         else:
             if self.column > 0 and self.row < 17:
@@ -278,7 +278,7 @@ class LBlockBlock(BlockBlock):
         TGrid[6][2] = BlockColour[LBlock]
 
     def check_t_grid(self):
-        if self.row == 17:
+        if self.row + 3 == 19:
             return "Done"
         else:
             if self.column < 9 and self.row < 17:
@@ -316,7 +316,7 @@ class OBlockBlock(BlockBlock):
         TGrid[6][1] = BlockColour[OBlock]
 
     def check_t_grid(self):
-        if self.row == 18:
+        if self.row + 2 == 19:
             return "Done"
         else:
             if self.column < 9 and self.row < 18:
@@ -354,7 +354,7 @@ class TBlockBlock(BlockBlock):
         TGrid[6][1] = BlockColour[TBlock]
 
     def check_t_grid(self):
-        if self.row == 18:
+        if self.row + 2 == 19:
             return "Done"
         else:
             if self.column < 8 and self.row < 18:
@@ -392,7 +392,7 @@ class SBlockBlock(BlockBlock):
         TGrid[4][1] = BlockColour[SBlock]
 
     def check_t_grid(self):
-        if self.row == 18:
+        if self.row + 2 == 19:
             return "Done"
         else:
             if self.column >= 1 and self.column < 9 and self.row < 18:
@@ -430,7 +430,7 @@ class ZBlockBlock(BlockBlock):
         TGrid[7][1] = BlockColour[ZBlock]
 
     def check_t_grid(self):
-        if self.row == 18:
+        if self.row + 2 == 19:
             return "Done"
         else:
             if self.column < 8 and self.row < 18:
