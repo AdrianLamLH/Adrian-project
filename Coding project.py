@@ -225,6 +225,7 @@ class IBlockBlock(BlockBlock):
         TGridMovedCheck[self.column][self.row + 2] = False
         TGridMovedCheck[self.column][self.row + 3] = False
         TGridMovedCheck[self.column][self.row + 4] = False
+        print("In range")
         self.row += 1
 
 
@@ -259,6 +260,7 @@ class JBlockBlock(BlockBlock):
             TGridMovedCheck[self.column][self.row + 2] = False
             TGridMovedCheck[self.column][self.row + 3] = False
             TGridMovedCheck[self.column - 1][self.row + 3] = False
+            print("In range")
             self.row += 1
 
 
@@ -293,6 +295,7 @@ class LBlockBlock(BlockBlock):
             TGridMovedCheck[self.column][self.row + 2] = False
             TGridMovedCheck[self.column][self.row + 3] = False
             TGridMovedCheck[self.column + 1][self.row + 3] = False
+            print("In range")
             self.row += 1
 
 
@@ -327,6 +330,7 @@ class OBlockBlock(BlockBlock):
             TGridMovedCheck[self.column + 1][self.row + 1] = False
             TGridMovedCheck[self.column][self.row + 2] = False
             TGridMovedCheck[self.column + 1][self.row + 2] = False
+            print("In range")
             self.row += 1
 
 
@@ -361,6 +365,7 @@ class TBlockBlock(BlockBlock):
             TGridMovedCheck[self.column + 1][self.row + 1] = False
             TGridMovedCheck[self.column + 2][self.row + 1] = False
             TGridMovedCheck[self.column + 1][self.row + 2] = False
+            print("In range")
             self.row += 1
 
 
@@ -395,6 +400,7 @@ class SBlockBlock(BlockBlock):
             TGridMovedCheck[self.column + 1][self.row + 1] = Falser
             TGridMovedCheck[self.column][self.row + 2] = False
             TGridMovedCheck[self.column - 1][self.row + 2] = False
+            print("In range")
             self.row += 1
 
 
@@ -428,6 +434,7 @@ class ZBlockBlock(BlockBlock):
         TGridMovedCheck[self.column + 1][self.row + 1] = False
         TGridMovedCheck[self.column + 1][self.row + 2] = False
         TGridMovedCheck[self.column + 2][self.row + 2] = False
+        print("In range")
         self.row += 1
 
 # Drawing the tetris boxes
@@ -626,7 +633,6 @@ while not done:
             for BlockObject in active_block:
                 if BlockObject.check_t_grid():
                     BlockObject.move_t_grid()
-                    print(TGrid)
                 else:
                     active_block.remove(BlockObject)
                 BlockObject.reset_valid()
