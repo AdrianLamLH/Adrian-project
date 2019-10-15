@@ -54,6 +54,7 @@ RecoverTime = pygame.USEREVENT+4
 TimeShot = 220
 # Time delay between movement of tetris blocks
 MoveBlocks = pygame.USEREVENT+5
+NextActiveBlock = pygame.USEREVENT+6
 # Spawning mobs at random intervals in time range
 TimeMobs = random.randint(ShortTimeMobs, LongTimeMobs)
 
@@ -571,6 +572,8 @@ list_bullet = pygame.sprite.Group()
 list_mobs = pygame.sprite.Group()
 # All tetris blocks on the grid stored in sprite group
 active_block = pygame.sprite.Group()
+# Stores the most recently killed mob in the queue
+next_block = pygame.sprite.Group()
 # Player and bullet initialised
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
@@ -650,9 +653,14 @@ while not done:
                 if BlockObject.check_t_grid() == "Done" or BlockObject.check_t_grid() != True:
                     active_block.remove(BlockObject)
                     print("Done")
+                    pygame.event.post(NextActiveBlock)
                 elif BlockObject.check_t_grid():
                     BlockObject.move_t_grid()
                 BlockObject.reset_valid()
+        elif event.type == NextActiveBlock:
+            active_block.empty()
+            active_block = next_block
+
 
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
@@ -725,9 +733,9 @@ while not done:
                 elif BlockChosen == ZBlock:
                     BlockObject = ZBlockBlock(0, 0)
                 BlockObject.store_block()
-                active_block.empty()
                 active_block.add(BlockObject)
-                print(BlockObject)
+                next_block.empty()
+                next_block.add(BlockObject)
                 #  BlockObject.pos()  # For printing the top left corner block of the tetris block
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
