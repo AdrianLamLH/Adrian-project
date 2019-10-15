@@ -208,7 +208,7 @@ class IBlockBlock(BlockBlock):
 
     def check_t_grid(self):
         if self.row + 4 == 20:
-            return "Done"  # Checks if the block has reached the bottom
+            return "Reached bottom"  # Checks if the block has reached the bottom
         else:
             if self.row < 16:
                 if TGrid[self.column][self.row + 3] != 0:  # Checks if the blocks to be moved into are clear
@@ -244,7 +244,7 @@ class JBlockBlock(BlockBlock):
 
     def check_t_grid(self):
         if self.row + 3 == 20:
-            return "Done"
+            return "Reached bottom"
         else:
             if self.column > 0 and self.row < 17:
                 if TGrid[self.column - 1][self.row + 3] != 0 or TGrid[self.column][self.row + 3] != 0:
@@ -282,7 +282,7 @@ class LBlockBlock(BlockBlock):
 
     def check_t_grid(self):
         if self.row + 3 == 20:
-            return "Done"
+            return "Reached bottom"
         else:
             if self.column < 9 and self.row < 17:
                 if TGrid[self.column + 1][self.row + 3] != 0 or TGrid[self.column][self.row + 3] != 0:
@@ -320,7 +320,7 @@ class OBlockBlock(BlockBlock):
 
     def check_t_grid(self):
         if self.row + 2 == 20:
-            return "Done"
+            return "Reached bottom"
         else:
             if self.column < 9 and self.row < 18:
                 if TGrid[self.column][self.row + 2] != 0 or TGrid[self.column + 1][self.row + 2] != 0:
@@ -358,7 +358,7 @@ class TBlockBlock(BlockBlock):
 
     def check_t_grid(self):
         if self.row + 2 == 20:
-            return "Done"
+            return "Reached bottom"
         else:
             if self.column < 8 and self.row < 18:
                 if TGrid[self.column][self.row + 1] != 0 or TGrid[self.column + 2][self.row + 1] != 0 or TGrid[self.column + 1][self.row + 2] != 0:
@@ -396,7 +396,7 @@ class SBlockBlock(BlockBlock):
 
     def check_t_grid(self):
         if self.row + 2 == 20:
-            return "Done"
+            return "Reached bottom"
         else:
             if self.column >= 1 and self.column < 9 and self.row < 18:
                 if TGrid[self.column][self.row + 2] != 0 or TGrid[self.column - 1][self.row + 2] != 0 or TGrid[self.column + 1][self.row + 1] != 0:
@@ -434,7 +434,7 @@ class ZBlockBlock(BlockBlock):
 
     def check_t_grid(self):
         if self.row + 2 == 20:
-            return "Done"
+            return "Reached bottom"
         else:
             if self.column < 8 and self.row < 18:
                 if TGrid[self.column][self.row + 1] != 0 or TGrid[self.column + 1][self.row + 2] != 0 or TGrid[self.column + 2][self.row + 2] != 0:
@@ -508,7 +508,6 @@ def place_next_block():
         BlockObject = SBlockBlock(0, 0)
     elif BlockChosen == ZBlock:
         BlockObject = ZBlockBlock(0, 0)
-    print(BlockObject)
     if finished_moving:
         BlockObject.store_block()
         active_block.empty()
@@ -681,10 +680,11 @@ while not done:
         elif event.type == MoveBlocks:
             for BlockObject in active_block:
                 BlockObject.pos()
-                if BlockObject.check_t_grid() == "Done" or BlockObject.check_t_grid() != True:
+                if BlockObject.check_t_grid() == "Reached bottom" or BlockObject.check_t_grid() != True:
                     active_block.remove(BlockObject)
-                    print("Done")
+                    print("Reached bottom")
                     finished_moving = True
+                    place_next_block()
                 elif BlockObject.check_t_grid():
                     finished_moving = False
                     BlockObject.move_t_grid()
