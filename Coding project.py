@@ -516,6 +516,20 @@ def place_next_block():
             next_block_store = 1  # Marks that the block store is empty
         else:
             next_block_store = BlockChosen
+
+def shift_block():
+    global finished_moving
+    for BlockObject in active_block:
+        BlockObject.pos()
+        if BlockObject.check_t_grid() == "Reached bottom" or BlockObject.check_t_grid() != True:
+            active_block.remove(BlockObject)
+            print("Reached bottom")
+            finished_moving = True
+            place_next_block()
+        elif BlockObject.check_t_grid():
+            finished_moving = False
+            BlockObject.move_t_grid()
+        BlockObject.reset_valid()
 # Types of enemies
 # I Block
 
@@ -597,7 +611,7 @@ class ZBlock(Enemy):
 # Randomly generates a new enemy at a random rate
 pygame.time.set_timer(SpawnEnemy, TimeMobs)
 # Moves the tetris blocks down one every 1.5 seconds
-pygame.time.set_timer(MoveBlocks, 500)
+pygame.time.set_timer(MoveBlocks, 1500)
 # Player and projectiles are updated/stored in sprite group
 list_all_sprites = pygame.sprite.Group()
 list_bullet = pygame.sprite.Group()
@@ -631,9 +645,11 @@ while not done:
                 elif event.key == pygame.K_RIGHT:
                         pilot_x_speed = 8
                 elif event.key == pygame.K_SPACE:
-
                     # Start shooting
                     pygame.time.set_timer(FireRate, TimeShot)
+                elif event.key == pygame.K_q:
+                    for i in range(19):
+                        shift_block()
 
         # Tells the pilot to stop moving when key not pressed
         elif event.type == pygame.KEYUP:
@@ -679,18 +695,7 @@ while not done:
             else:
                 Pilot_flickering = False
         elif event.type == MoveBlocks:
-            for BlockObject in active_block:
-                BlockObject.pos()
-                if BlockObject.check_t_grid() == "Reached bottom" or BlockObject.check_t_grid() != True:
-                    active_block.remove(BlockObject)
-                    print("Reached bottom")
-                    finished_moving = True
-                    place_next_block()
-                elif BlockObject.check_t_grid():
-                    finished_moving = False
-                    BlockObject.move_t_grid()
-                BlockObject.reset_valid()
-
+            shift_block()
 
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
