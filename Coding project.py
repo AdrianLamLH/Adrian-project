@@ -971,12 +971,12 @@ while not done:
             elif event.key == pygame.K_a:
                 if active_block:
                     for BlockObject in active_block:
-                        if BlockObject.check_t_grid_left:
+                        if BlockObject.check_t_grid_left and BlockObject.check_t_grid_left != "Reached left":
                             BlockObject.move_t_grid_left()
             elif event.key == pygame.K_d:
                 if active_block:
                     for BlockObject in active_block:
-                        if BlockObject.check_t_grid_right:
+                        if BlockObject.check_t_grid_right and BlockObject.check_t_grid_right != "Reached right":
                             BlockObject.move_t_grid_right()
 
         # The bullet continues to fire automatically
