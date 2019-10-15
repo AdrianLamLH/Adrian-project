@@ -216,10 +216,10 @@ class IBlockBlock(BlockBlock):
             return self.valid_block_move
     
     def check_t_grid_left(self):
-        if self.column - 1 == 0:
+        if self.column == 1:
             return "Reached left"  # Checks if the block has reached the left
         else:
-            if self.column > 0:
+            if self.column > 1:
                 if TGrid[self.column - 1][self.row] != 0 or TGrid[self.column - 1][self.row + 1] != 0 or \
                                 TGrid[self.column - 1][self.row + 2] != 0 or TGrid[self.column - 1][
                             self.row + 3] != 0:  # Checks if the blocks to be moved into are clear
@@ -299,7 +299,7 @@ class JBlockBlock(BlockBlock):
             return self.valid_block_move
 
     def check_t_grid_left(self):
-        if self.column - 2 == 0:
+        if self.column == 1:
             return "Reached left"  # Checks if the block has reached the left
         else:
             if self.column > 1:
@@ -382,10 +382,10 @@ class LBlockBlock(BlockBlock):
             # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def check_t_grid_left(self):
-        if self.column - 1 == 0:
+        if self.column == 1:
             return "Reached left"  # Checks if the block has reached the left
         else:
-            if self.column > 0:
+            if self.column > 1:
                 if TGrid[self.column - 1][self.row] != 0 or TGrid[self.column - 1][self.row + 1] != 0 or \
                                 TGrid[self.column - 1][
                                             self.row + 2] != 0:  # Checks if the blocks to be moved into are clear
@@ -393,10 +393,10 @@ class LBlockBlock(BlockBlock):
             return self.valid_block_move
 
     def check_t_grid_right(self):
-        if self.column + 1 == 10:
+        if self.column + 2 == 10:
             return "Reached right"  # Checks if the block has reached the right
         else:
-            if self.column < 10:
+            if self.column < 9:
                 if TGrid[self.column + 2][self.row + 2] != 0:  # Checks if the blocks to be moved into are clear
                     self.valid_block_move = False
             return self.valid_block_move
@@ -464,7 +464,7 @@ class OBlockBlock(BlockBlock):
             return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def check_t_grid_left(self):
-        if self.column - 1 == 0:
+        if self.column == 0:
             return "Reached left"  # Checks if the block has reached the left
         else:
             if self.column > 0:
@@ -546,10 +546,10 @@ class TBlockBlock(BlockBlock):
             return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def check_t_grid_left(self):
-        if self.column - 1 == 0:
+        if self.column == 1:
             return "Reached left"  # Checks if the block has reached the left
         else:
-            if self.column > 0:
+            if self.column > 1:
                 if TGrid[self.column - 1][self.row] != 0:  # Checks if the blocks to be moved into are clear
                     self.valid_block_move = False
             return self.valid_block_move
@@ -626,10 +626,10 @@ class SBlockBlock(BlockBlock):
             return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def check_t_grid_left(self):
-        if self.column - 2 == 0:
+        if self.column == 1:
             return "Reached left"  # Checks if the block has reached the left
         else:
-            if self.column > 1:
+            if self.column > 0:
                 if TGrid[self.column - 2][self.row + 1] != 0:  # Checks if the blocks to be moved into are clear
                     self.valid_block_move = False
             return self.valid_block_move
@@ -706,7 +706,7 @@ class ZBlockBlock(BlockBlock):
             return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def check_t_grid_left(self):
-        if self.column - 1 == 0:
+        if self.column == 0:
             return "Reached left"  # Checks if the block has reached the left
         else:
             if self.column > 0:
@@ -825,7 +825,6 @@ def place_next_block():
 def shift_block():
     global finished_moving
     for BlockObject in active_block:
-        BlockObject.pos()
         if BlockObject.check_t_grid_down() == "Reached bottom" or BlockObject.check_t_grid_down() != True:
             active_block.remove(BlockObject)
             print("Reached bottom")
@@ -971,13 +970,15 @@ while not done:
             elif event.key == pygame.K_a:
                 if active_block:
                     for BlockObject in active_block:
-                        if BlockObject.check_t_grid_left and BlockObject.check_t_grid_left != "Reached left":
+                        if BlockObject.check_t_grid_left() and BlockObject.check_t_grid_left() != "Reached left":
+                            print(BlockObject.check_t_grid_left())
                             BlockObject.move_t_grid_left()
             elif event.key == pygame.K_d:
                 if active_block:
                     for BlockObject in active_block:
-                        if BlockObject.check_t_grid_right and BlockObject.check_t_grid_right != "Reached right":
+                        if BlockObject.check_t_grid_right() and BlockObject.check_t_grid_right() != "Reached right":
                             BlockObject.move_t_grid_right()
+                            print(BlockObject.check_t_grid_right())
 
         # The bullet continues to fire automatically
         elif event.type == FireRate:
@@ -1013,6 +1014,8 @@ while not done:
                 Pilot_flickering = False
         elif event.type == MoveBlocks:
             shift_block()
+            for BlockObject in active_block:
+                BlockObject.pos()
 
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
