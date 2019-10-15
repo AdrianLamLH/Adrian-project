@@ -382,10 +382,10 @@ class LBlockBlock(BlockBlock):
             # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def check_t_grid_left(self):
-        if self.column == 1:
+        if self.column == 0:
             return "Reached left"  # Checks if the block has reached the left
         else:
-            if self.column > 1:
+            if self.column > 0:
                 if TGrid[self.column - 1][self.row] != 0 or TGrid[self.column - 1][self.row + 1] != 0 or \
                                 TGrid[self.column - 1][
                                             self.row + 2] != 0:  # Checks if the blocks to be moved into are clear
@@ -461,7 +461,8 @@ class OBlockBlock(BlockBlock):
                 if TGrid[self.column][self.row + 2] != 0 or TGrid[self.column + 1][self.row + 2] != 0:
                     # Checks if the blocks to be moved into are clear
                     self.valid_block_move = False
-            return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
+            return self.valid_block_move
+            # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def check_t_grid_left(self):
         if self.column == 0:
@@ -474,13 +475,15 @@ class OBlockBlock(BlockBlock):
             return self.valid_block_move
 
     def check_t_grid_right(self):
-        if self.column + 1 == 10:
+        print(self.column)
+        if self.column == 8:
             return "Reached right"  # Checks if the block has reached the right
         else:
-            if self.column < 10:
-                if TGrid[self.column + 1][self.row] != 0 or TGrid[self.column + 1][self.row + 1] != 0:
+            if self.column < 9:
+                if TGrid[self.column + 2][self.row] != 0 or TGrid[self.column + 2][self.row + 1] != 0:
                     # Checks if the blocks to be moved into are clear
                     self.valid_block_move = False
+                    print("This one", self.valid_block_move, self.column, self.row)
             return self.valid_block_move
 
     def move_t_grid_down(self):
@@ -546,10 +549,10 @@ class TBlockBlock(BlockBlock):
             return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
 
     def check_t_grid_left(self):
-        if self.column == 1:
+        if self.column == 0:
             return "Reached left"  # Checks if the block has reached the left
         else:
-            if self.column > 1:
+            if self.column > 0:
                 if TGrid[self.column - 1][self.row] != 0:  # Checks if the blocks to be moved into are clear
                     self.valid_block_move = False
             return self.valid_block_move
