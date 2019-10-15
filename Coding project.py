@@ -55,7 +55,6 @@ RecoverTime = pygame.USEREVENT+4
 TimeShot = 220
 # Time delay between movement of tetris blocks
 MoveBlocks = pygame.USEREVENT+5
-NextActiveBlock = pygame.USEREVENT+6
 # Spawning mobs at random intervals in time range
 TimeMobs = random.randint(ShortTimeMobs, LongTimeMobs)
 
@@ -730,9 +729,11 @@ while not done:
                 elif BlockChosen == ZBlock:
                     BlockObject = ZBlockBlock(0, 0)
                 if finished_moving:
-                    BlockObject.store_block()
+                    NextActiveBlock.store_block()
                     active_block.empty()
-                    active_block.add(BlockObject)
+                    active_block.add(NextActiveBlock)
+                else:
+                    NextActiveBlock = BlockObject
                 #  BlockObject.pos()  # For printing the top left corner block of the tetris block
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
