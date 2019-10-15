@@ -46,6 +46,8 @@ flickercount = 3
 finished_moving = True
 # Temp store to hold next block to be placed on the grid
 next_block_store = 0
+# Checks whether a quick drop is being performed, which would then mean the next block is added after the drop completes
+quick_drop = False
 # Setting up an event for firing the projectiles and spawning mobs
 FireRate = pygame.USEREVENT
 SpawnEnemy = pygame.USEREVENT+1
@@ -832,7 +834,8 @@ def shift_block():
             active_block.remove(BlockObject)
             print("Reached bottom")
             finished_moving = True
-            place_next_block()
+            if not quick_drop:  # Only inserts the next block on the grid if quick drop does not take place
+                place_next_block()
         elif BlockObject.check_t_grid_down():
             finished_moving = False
             BlockObject.move_t_grid_down()
@@ -968,8 +971,11 @@ while not done:
                 list_bullet.add(Shot)
                 pygame.time.set_timer(FireRate, 0)
             elif event.key == pygame.K_q:
+                quick_drop = True
                 for i in range(19):
                     shift_block()
+                place_next_block()
+                quick_drop = False
             elif event.key == pygame.K_a:
                 if active_block:
                     for BlockObject in active_block:
