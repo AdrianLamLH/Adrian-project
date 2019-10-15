@@ -647,9 +647,6 @@ while not done:
                 elif event.key == pygame.K_SPACE:
                     # Start shooting
                     pygame.time.set_timer(FireRate, TimeShot)
-                elif event.key == pygame.K_q:
-                    for i in range(19):
-                        shift_block()
 
         # Tells the pilot to stop moving when key not pressed
         elif event.type == pygame.KEYUP:
@@ -662,6 +659,9 @@ while not done:
                 list_all_sprites.add(Shot)
                 list_bullet.add(Shot)
                 pygame.time.set_timer(FireRate, 0)
+            elif event.key == pygame.K_q:
+                for i in range(19):
+                    shift_block()
         # The bullet continues to fire automatically
         elif event.type == FireRate:
             Shot = Bullet()
