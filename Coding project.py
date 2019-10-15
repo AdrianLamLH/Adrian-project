@@ -489,32 +489,33 @@ def draw_t_box():
 # Placing the next block in queue on the grid
 def place_next_block():
     global next_block_store
-    if next_block_store == 0:
-        # Condition to only store the latest killed block when there is no block queued
-        BlockChosen = Mob.Block_Choice
-    else:  # If there is a block queued, assign it as the next block to be placed on the grid
-        BlockChosen = next_block_store
-    if BlockChosen == IBlock:
-        BlockObject = IBlockBlock(0, 0)
-    elif BlockChosen == JBlock:
-        BlockObject = JBlockBlock(0, 0)
-    elif BlockChosen == LBlock:
-        BlockObject = LBlockBlock(0, 0)
-    elif BlockChosen == OBlock:
-        BlockObject = OBlockBlock(0, 0)
-    elif BlockChosen == TBlock:
-        BlockObject = TBlockBlock(0, 0)
-    elif BlockChosen == SBlock:
-        BlockObject = SBlockBlock(0, 0)
-    elif BlockChosen == ZBlock:
-        BlockObject = ZBlockBlock(0, 0)
-    if finished_moving:
-        BlockObject.store_block()
-        active_block.empty()
-        active_block.add(BlockObject)
-        next_block_store = 0
-    else:
-        next_block_store = BlockChosen
+    if next_block_store != 1:
+        if next_block_store == 0:
+            # Condition to only store the latest killed block when there is no block queued
+            BlockChosen = Mob.Block_Choice
+        else:  # If there is a block queued, assign it as the next block to be placed on the grid
+            BlockChosen = next_block_store
+        if BlockChosen == IBlock:
+            BlockObject = IBlockBlock(0, 0)
+        elif BlockChosen == JBlock:
+            BlockObject = JBlockBlock(0, 0)
+        elif BlockChosen == LBlock:
+            BlockObject = LBlockBlock(0, 0)
+        elif BlockChosen == OBlock:
+            BlockObject = OBlockBlock(0, 0)
+        elif BlockChosen == TBlock:
+            BlockObject = TBlockBlock(0, 0)
+        elif BlockChosen == SBlock:
+            BlockObject = SBlockBlock(0, 0)
+        elif BlockChosen == ZBlock:
+            BlockObject = ZBlockBlock(0, 0)
+        if finished_moving:
+            BlockObject.store_block()
+            active_block.empty()
+            active_block.add(BlockObject)
+            next_block_store = 1  # Marks that the block store is empty
+        else:
+            next_block_store = BlockChosen
 # Types of enemies
 # I Block
 
@@ -746,6 +747,7 @@ while not done:
             TotScore += HitScore
             Mob.Mob_Health -= 1
             if Mob.Mob_Health == 0:
+                next_block_store = 0
                 place_next_block()
                 #  BlockObject.pos()  # For printing the top left corner block of the tetris block
                 list_mobs.remove(Mob)
