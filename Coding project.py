@@ -992,7 +992,14 @@ while not done:
                         else:
                             print("Stopped right")
                     BlockObject.reset_valid()
-
+            elif event.key == pygame.K_s:
+                if active_block:
+                    for BlockObject in active_block:
+                        if BlockObject.check_t_grid_down() and BlockObject.check_t_grid_down() != "Reached bottom":
+                            BlockObject.move_t_grid_down()
+                        else:
+                            print("Reached bottom manually")
+                    BlockObject.reset_valid()
         # The bullet continues to fire automatically
         elif event.type == FireRate:
             Shot = Bullet()
