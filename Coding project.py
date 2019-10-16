@@ -980,14 +980,18 @@ while not done:
                 if active_block:
                     for BlockObject in active_block:
                         if BlockObject.check_t_grid_left() and BlockObject.check_t_grid_left() != "Reached left":
-                            print(BlockObject.check_t_grid_left())
                             BlockObject.move_t_grid_left()
+                        else:
+                            print("Stopped left")
+                    BlockObject.reset_valid()
             elif event.key == pygame.K_d:
                 if active_block:
                     for BlockObject in active_block:
                         if BlockObject.check_t_grid_right() and BlockObject.check_t_grid_right() != "Reached right":
                             BlockObject.move_t_grid_right()
-                            print(BlockObject.check_t_grid_right())
+                        else:
+                            print("Stopped right")
+                    BlockObject.reset_valid()
 
         # The bullet continues to fire automatically
         elif event.type == FireRate:
