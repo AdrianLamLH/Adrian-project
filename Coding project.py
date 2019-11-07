@@ -842,6 +842,21 @@ def check_clear_place():
     return not_clear
                 # CONTINUE THIS CODE TO CHECK SPAWN AREA IS NOT OCCUPIED
 
+
+def wipe_grid():
+    for ypos in range(19,-1, -1):
+        complete_row = True
+        for xpos in range(9, -1, -1):
+            # Searches through each row of the grid and checks if the row is filled
+            if TGrid[xpos][ypos] == 0:
+                complete_row = False
+        if complete_row:
+            for xpos in range(9, -1, -1):
+                print(xpos, ypos)
+                temp_block_store = TGrid[xpos][ypos]
+                TGrid[xpos][ypos] = 0
+                TGrid[xpos][ypos - 1] = temp_block_store
+
 # Types of enemies
 # I Block
 
@@ -1037,6 +1052,7 @@ while not done:
                 Pilot_flickering = False
         elif event.type == MoveBlocks:
             shift_block()
+            wipe_grid()
             # for BlockObject in active_block:
                 # BlockObject.pos()
 
@@ -1097,6 +1113,7 @@ while not done:
             if Mob.Mob_Health == 0:
                 next_block_store = 0
                 print("check clear place", check_clear_place())
+                # Checks to see if spawn area is empty to prevent overlapping
                 not_clear = False
                 if not check_clear_place():
                     place_next_block()
