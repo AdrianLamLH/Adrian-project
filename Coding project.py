@@ -833,6 +833,7 @@ def shift_block():
 
 def check_clear_place():
     global not_clear
+    not_clear = False
     for xpos in range(4, 7):
         for ypos in range(0, 2):
             if TGrid[xpos][ypos] != 0:
@@ -975,7 +976,9 @@ while not done:
                 check_clear_place()
                 for i in range(19):
                     shift_block()
-                place_next_block()
+                if not check_clear_place():
+                    not_clear = True
+                    place_next_block()
                 quick_drop = False
             elif event.key == pygame.K_a:
                 if active_block:
@@ -1093,7 +1096,11 @@ while not done:
             Mob.Mob_Health -= 1
             if Mob.Mob_Health == 0:
                 next_block_store = 0
-                place_next_block()
+                print("check clear place", check_clear_place())
+                not_clear = False
+                if not check_clear_place():
+                    place_next_block()
+                    not_clear = False
                 #  BlockObject.pos()  # For printing the top left corner block of the tetris block
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
