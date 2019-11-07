@@ -251,7 +251,6 @@ class IBlockBlock(BlockBlock):
         TGrid[self.column][self.row + 2] = BlockColour[IBlock]
         TGrid[self.column][self.row + 3] = BlockColour[IBlock]
         TGrid[self.column][self.row + 4] = BlockColour[IBlock]
-        print("In range")
         self.row += 1
 
     def move_t_grid_left(self):
@@ -263,7 +262,6 @@ class IBlockBlock(BlockBlock):
         TGrid[self.column - 1][self.row] = BlockColour[IBlock]
         TGrid[self.column - 1][self.row] = BlockColour[IBlock]
         TGrid[self.column - 1][self.row] = BlockColour[IBlock]
-        print("In range")
         self.column -= 1
 
     def move_t_grid_right(self):
@@ -275,7 +273,6 @@ class IBlockBlock(BlockBlock):
         TGrid[self.column + 1][self.row] = BlockColour[IBlock]
         TGrid[self.column + 1][self.row] = BlockColour[IBlock]
         TGrid[self.column + 1][self.row] = BlockColour[IBlock]
-        print("In range")
         self.column += 1
 
     def pos(self):
@@ -332,7 +329,6 @@ class JBlockBlock(BlockBlock):
         TGrid[self.column][self.row + 2] = BlockColour[JBlock]
         TGrid[self.column][self.row + 3] = BlockColour[JBlock]
         TGrid[self.column - 1][self.row + 3] = BlockColour[JBlock]
-        print("In range")
         self.row += 1
 
     def move_t_grid_left(self):
@@ -344,7 +340,6 @@ class JBlockBlock(BlockBlock):
         TGrid[self.column - 1][self.row + 1] = BlockColour[JBlock]
         TGrid[self.column - 1][self.row + 2] = BlockColour[JBlock]
         TGrid[self.column - 2][self.row + 2] = BlockColour[JBlock]
-        print("In range")
         self.column -= 1
 
     def move_t_grid_right(self):
@@ -356,7 +351,6 @@ class JBlockBlock(BlockBlock):
         TGrid[self.column + 1][self.row + 1] = BlockColour[JBlock]
         TGrid[self.column + 1][self.row + 2] = BlockColour[JBlock]
         TGrid[self.column][self.row + 2] = BlockColour[JBlock]
-        print("In range")
         self.column += 1
 
     def pos(self):
@@ -415,7 +409,6 @@ class LBlockBlock(BlockBlock):
         TGrid[self.column][self.row + 2] = BlockColour[LBlock]
         TGrid[self.column][self.row + 3] = BlockColour[LBlock]
         TGrid[self.column + 1][self.row + 3] = BlockColour[LBlock]
-        print("In range")
         self.row += 1
 
     def move_t_grid_left(self):
@@ -427,7 +420,6 @@ class LBlockBlock(BlockBlock):
         TGrid[self.column - 1][self.row + 1] = BlockColour[LBlock]
         TGrid[self.column - 1][self.row + 2] = BlockColour[LBlock]
         TGrid[self.column][self.row + 2] = BlockColour[LBlock]
-        print("In range")
         self.column -= 1
 
     def move_t_grid_right(self):
@@ -439,7 +431,6 @@ class LBlockBlock(BlockBlock):
         TGrid[self.column + 1][self.row + 1] = BlockColour[LBlock]
         TGrid[self.column + 1][self.row + 2] = BlockColour[LBlock]
         TGrid[self.column + 2][self.row + 2] = BlockColour[LBlock]
-        print("In range")
         self.column += 1
 
     def pos(self):
@@ -500,7 +491,6 @@ class OBlockBlock(BlockBlock):
         TGrid[self.column + 1][self.row + 1] = BlockColour[OBlock]
         TGrid[self.column][self.row + 2] = BlockColour[OBlock]
         TGrid[self.column + 1][self.row + 2] = BlockColour[OBlock]
-        print("In range")
         self.row += 1
 
     def move_t_grid_left(self):
@@ -512,7 +502,6 @@ class OBlockBlock(BlockBlock):
         TGrid[self.column][self.row] = BlockColour[OBlock]
         TGrid[self.column - 1][self.row + 1] = BlockColour[OBlock]
         TGrid[self.column][self.row + 1] = BlockColour[OBlock]
-        print("In range")
         self.column -= 1
 
     def move_t_grid_right(self):
@@ -524,7 +513,6 @@ class OBlockBlock(BlockBlock):
         TGrid[self.column + 2][self.row] = BlockColour[OBlock]
         TGrid[self.column + 1][self.row + 1] = BlockColour[OBlock]
         TGrid[self.column + 2][self.row + 1] = BlockColour[OBlock]
-        print("In range")
         self.column += 1
 
     def pos(self):
@@ -580,7 +568,6 @@ class TBlockBlock(BlockBlock):
         TGrid[self.column + 1][self.row + 1] = BlockColour[TBlock]
         TGrid[self.column + 2][self.row + 1] = BlockColour[TBlock]
         TGrid[self.column + 1][self.row + 2] = BlockColour[TBlock]
-        print("In range")
         self.row += 1
 
     def move_t_grid_left(self):
@@ -592,7 +579,6 @@ class TBlockBlock(BlockBlock):
         TGrid[self.column][self.row] = BlockColour[TBlock]
         TGrid[self.column + 1][self.row] = BlockColour[TBlock]
         TGrid[self.column][self.row + 1] = BlockColour[TBlock]
-        print("In range")
         self.column -= 1
 
     def move_t_grid_right(self):
@@ -604,7 +590,6 @@ class TBlockBlock(BlockBlock):
         TGrid[self.column + 2][self.row] = BlockColour[TBlock]
         TGrid[self.column + 3][self.row] = BlockColour[TBlock]
         TGrid[self.column + 2][self.row + 1] = BlockColour[TBlock]
-        print("In range")
         self.column += 1
 
     def pos(self):
@@ -660,7 +645,7 @@ class SBlockBlock(BlockBlock):
             TGrid[self.column + 1][self.row + 1] = BlockColour[SBlock]
             TGrid[self.column][self.row + 2] = BlockColour[SBlock]
             TGrid[self.column - 1][self.row + 2] = BlockColour[SBlock]
-            print("In range")
+
             self.row += 1
 
     def move_t_grid_left(self):
@@ -672,7 +657,7 @@ class SBlockBlock(BlockBlock):
             TGrid[self.column][self.row] = BlockColour[SBlock]
             TGrid[self.column - 1][self.row + 1] = BlockColour[SBlock]
             TGrid[self.column - 2][self.row + 1] = BlockColour[SBlock]
-            print("In range")
+
             self.column -= 1
 
     def move_t_grid_right(self):
@@ -684,7 +669,7 @@ class SBlockBlock(BlockBlock):
             TGrid[self.column + 2][self.row] = BlockColour[SBlock]
             TGrid[self.column + 1][self.row + 1] = BlockColour[SBlock]
             TGrid[self.column][self.row + 1] = BlockColour[SBlock]
-            print("In range")
+
             self.column += 1
 
     def pos(self):
@@ -740,7 +725,6 @@ class ZBlockBlock(BlockBlock):
         TGrid[self.column + 1][self.row + 1] = BlockColour[ZBlock]
         TGrid[self.column + 1][self.row + 2] = BlockColour[ZBlock]
         TGrid[self.column + 2][self.row + 2] = BlockColour[ZBlock]
-        print("In range")
         self.row += 1
 
     def move_t_grid_left(self):
@@ -752,7 +736,6 @@ class ZBlockBlock(BlockBlock):
         TGrid[self.column][self.row] = BlockColour[ZBlock]
         TGrid[self.column][self.row + 1] = BlockColour[ZBlock]
         TGrid[self.column + 1][self.row + 1] = BlockColour[ZBlock]
-        print("In range")
         self.column -= 1
 
     def move_t_grid_right(self):
@@ -764,7 +747,6 @@ class ZBlockBlock(BlockBlock):
         TGrid[self.column + 2][self.row] = BlockColour[ZBlock]
         TGrid[self.column + 2][self.row + 1] = BlockColour[ZBlock]
         TGrid[self.column + 3][self.row + 1] = BlockColour[ZBlock]
-        print("In range")
         self.column += 1
 
     def pos(self):
@@ -833,12 +815,15 @@ def place_next_block():
 
 def shift_block():
     global finished_moving
+    global not_clear
     for BlockObject in active_block:
         if BlockObject.check_t_grid_down() == "Reached bottom" or BlockObject.check_t_grid_down() != True:
             active_block.remove(BlockObject)
-            print("Reached bottom")
+            # Block is quick dropped to the bottom of the available space in grid.
             finished_moving = True
             if not quick_drop and not check_clear_place():  # Only inserts the next block on the grid if quick drop does not take place
+                print(check_clear_place())
+                not_clear = False
                 place_next_block()
         elif BlockObject.check_t_grid_down():
             finished_moving = False
@@ -852,6 +837,7 @@ def check_clear_place():
         for ypos in range(0, 2):
             if TGrid[xpos][ypos] != 0:
                 not_clear = True
+                print("not clear", xpos, ypos)
     return not_clear
                 # CONTINUE THIS CODE TO CHECK SPAWN AREA IS NOT OCCUPIED
 
@@ -1030,7 +1016,6 @@ while not done:
         elif event.type == PilotHit:
             if flickercount > 0:
                 Pilot.image.fill(RED)
-                print("hit")
                 enemy_speed_change -= 0.2
         # The time period for changing back to white is 500ms a.k.a half the time period of flickering pilot to red
                 pygame.time.set_timer(PilotHitRecover, 500)
@@ -1049,8 +1034,8 @@ while not done:
                 Pilot_flickering = False
         elif event.type == MoveBlocks:
             shift_block()
-            for BlockObject in active_block:
-                BlockObject.pos()
+            # for BlockObject in active_block:
+                # BlockObject.pos()
 
     # - - - - - Game logic - - - - - - - -
     pilot_x += pilot_x_speed
