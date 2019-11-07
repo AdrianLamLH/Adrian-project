@@ -43,11 +43,14 @@ ShortTimeMobs = 2500
 LongTimeMobs = 3200
 # Counts the number of flickers when hit
 flickercount = 3
+# Checks whether there is an active block currently on the grid
 finished_moving = True
 # Temp store to hold next block to be placed on the grid
 next_block_store = 0
 # Checks whether a quick drop is being performed, which would then mean the next block is added after the drop completes
 quick_drop = False
+# Checks if the spawn area is free of blocks before placing the next block on the grid
+not_clear = False
 # Setting up an event for firing the projectiles and spawning mobs
 FireRate = pygame.USEREVENT
 SpawnEnemy = pygame.USEREVENT+1
@@ -216,7 +219,7 @@ class IBlockBlock(BlockBlock):
                 if TGrid[self.column][self.row + 3] != 0:  # Checks if the blocks to be moved into are clear
                     self.valid_block_move = False
             return self.valid_block_move
-    
+
     def check_t_grid_left(self):
         if self.column == 1:
             return "Reached left"  # Checks if the block has reached the left
@@ -263,7 +266,7 @@ class IBlockBlock(BlockBlock):
         print("In range")
         self.column -= 1
 
-    def move_t_grid_(self):
+    def move_t_grid_right(self):
         TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
         TGrid[self.column][self.row + 1] = 0
         TGrid[self.column][self.row + 2] = 0
@@ -827,6 +830,7 @@ def place_next_block():
         else:
             next_block_store = BlockChosen
 
+
 def shift_block():
     global finished_moving
     for BlockObject in active_block:
@@ -834,12 +838,22 @@ def shift_block():
             active_block.remove(BlockObject)
             print("Reached bottom")
             finished_moving = True
-            if not quick_drop:  # Only inserts the next block on the grid if quick drop does not take place
+            if not quick_drop and not check_clear_place():  # Only inserts the next block on the grid if quick drop does not take place
                 place_next_block()
         elif BlockObject.check_t_grid_down():
             finished_moving = False
-            BlockObject.move_t_grid_down()
+            BlockObject.move_t_grid_down()  # Block is moved down the grid by one for the current cycle
         BlockObject.reset_valid()
+
+
+def check_clear_place():
+    global not_clear
+    for xpos in range(4, 7):
+        for ypos in range(0, 2):
+            if TGrid[xpos][ypos] != 0:
+                not_clear = True
+    return not_clear
+                # CONTINUE THIS CODE TO CHECK SPAWN AREA IS NOT OCCUPIED
 
 # Types of enemies
 # I Block
@@ -972,6 +986,7 @@ while not done:
                 pygame.time.set_timer(FireRate, 0)
             elif event.key == pygame.K_q:
                 quick_drop = True
+                check_clear_place()
                 for i in range(19):
                     shift_block()
                 place_next_block()
