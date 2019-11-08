@@ -838,7 +838,7 @@ def check_clear_place():
         for ypos in range(0, 2):
             if TGrid[xpos][ypos] != 0:
                 not_clear = True
-                print("not clear", xpos, ypos)
+                # print("not clear", xpos, ypos)
     return not_clear
                 # CONTINUE THIS CODE TO CHECK SPAWN AREA IS NOT OCCUPIED
 
@@ -852,7 +852,6 @@ def wipe_grid():
                 complete_row = False
         if complete_row:
             for xpos in range(9, -1, -1):
-                print(xpos, ypos)
                 temp_block_store = TGrid[xpos][ypos]
                 TGrid[xpos][ypos] = 0
                 TGrid[xpos][ypos - 1] = temp_block_store
