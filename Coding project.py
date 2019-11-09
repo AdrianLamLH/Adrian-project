@@ -846,12 +846,12 @@ def check_clear_place():
 def wipe_grid():
     for ypos in range(19):
         complete_row = True
-        for xpos in range(9):
+        for xpos in range(10):
             # Searches through each row of the grid and checks if the row is filled
             if TGrid[xpos][ypos + 1] == 0:
                 complete_row = False
         if complete_row:
-            for xpos in range(9):
+            for xpos in range(10):
                 TGrid[xpos][ypos + 1] = 0
                 temp_block_store = TGrid[xpos][ypos]
                 TGrid[xpos][ypos + 1] = temp_block_store
