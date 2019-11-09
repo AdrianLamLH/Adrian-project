@@ -444,8 +444,8 @@ class OBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
-        TGrid[5][0] = BlockColour[OBlock]
-        TGrid[6][0] = BlockColour[OBlock]
+        TGrid[5][0] = BlockColour[JBlock]
+        TGrid[6][0] = BlockColour[JBlock]
         TGrid[5][1] = BlockColour[OBlock]
         TGrid[6][1] = BlockColour[OBlock]
 
@@ -487,8 +487,8 @@ class OBlockBlock(BlockBlock):
         TGrid[self.column + 1][self.row] = 0
         TGrid[self.column][self.row + 1] = 0
         TGrid[self.column + 1][self.row + 1] = 0
-        TGrid[self.column][self.row + 1] = BlockColour[OBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column + 1][self.row + 1] = BlockColour[OBlock]
+        TGrid[self.column][self.row + 1] = BlockColour[JBlock]  # Blocks are stored into the next spaces
+        TGrid[self.column + 1][self.row + 1] = BlockColour[JBlock]
         TGrid[self.column][self.row + 2] = BlockColour[OBlock]
         TGrid[self.column + 1][self.row + 2] = BlockColour[OBlock]
         self.row += 1
@@ -498,8 +498,8 @@ class OBlockBlock(BlockBlock):
         TGrid[self.column + 1][self.row] = 0
         TGrid[self.column][self.row + 1] = 0
         TGrid[self.column + 1][self.row + 1] = 0
-        TGrid[self.column - 1][self.row] = BlockColour[OBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column][self.row] = BlockColour[OBlock]
+        TGrid[self.column - 1][self.row] = BlockColour[JBlock]  # Blocks are stored into the next spaces
+        TGrid[self.column][self.row] = BlockColour[JBlock]
         TGrid[self.column - 1][self.row + 1] = BlockColour[OBlock]
         TGrid[self.column][self.row + 1] = BlockColour[OBlock]
         self.column -= 1
@@ -509,8 +509,8 @@ class OBlockBlock(BlockBlock):
         TGrid[self.column + 1][self.row] = 0
         TGrid[self.column][self.row + 1] = 0
         TGrid[self.column + 1][self.row + 1] = 0
-        TGrid[self.column + 1][self.row] = BlockColour[OBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column + 2][self.row] = BlockColour[OBlock]
+        TGrid[self.column + 1][self.row] = BlockColour[JBlock]  # Blocks are stored into the next spaces
+        TGrid[self.column + 2][self.row] = BlockColour[JBlock]
         TGrid[self.column + 1][self.row + 1] = BlockColour[OBlock]
         TGrid[self.column + 2][self.row + 1] = BlockColour[OBlock]
         self.column += 1
@@ -844,17 +844,18 @@ def check_clear_place():
 
 
 def wipe_grid():
-    for ypos in range(19,-1, -1):
+    for ypos in range(19):
         complete_row = True
-        for xpos in range(9, -1, -1):
+        for xpos in range(9):
             # Searches through each row of the grid and checks if the row is filled
-            if TGrid[xpos][ypos] == 0:
+            if TGrid[xpos][ypos + 1] == 0:
                 complete_row = False
         if complete_row:
-            for xpos in range(9, -1, -1):
+            for xpos in range(9):
+                TGrid[xpos][ypos + 1] = 0
                 temp_block_store = TGrid[xpos][ypos]
+                TGrid[xpos][ypos + 1] = temp_block_store
                 TGrid[xpos][ypos] = 0
-                TGrid[xpos][ypos - 1] = temp_block_store
 
 # Types of enemies
 # I Block
@@ -1025,7 +1026,7 @@ while not done:
             list_bullet.add(Shot)
         # Mobs are spawned at random time intervals
         elif event.type == SpawnEnemy:
-            BlockChoice = random.choice(list(BlockColour))
+            BlockChoice = OBlock  # BlockChoice = random.choice(list(BlockColour))
             Mob = BlockChoice(4, BlockChoice)
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
