@@ -202,10 +202,17 @@ class BlockBlock(pygame.sprite.Sprite):
         self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are free
         self.column = column
         self.row = row
+        self.block_matrix = []  # Stores the block matrix arrangement
+        self.block_dimensions = 0  # Stores the dimensions of the block
+        self.y_max = 0  # Stores the height of the block
+        self.x_max = 0  # Stores the width of the block
+        self.rotated = False
 
     def reset_valid(self):
         # if true valid move is reset
         self.valid_block_move = True
+        print("y: ", self.y_max)
+        print("x: ", self.x_max)
 
 
 class IBlockBlock(BlockBlock):
@@ -216,10 +223,15 @@ class IBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
+        self.block_matrix = BlockShape[IBlockShape]
+        self.block_dimensions = array(self.block_matrix)
+        self.y_max = self.block_matrix.shape[0]
+        self.x_max = self.block_matrix.shape[1]
         TGrid[5][0] = BlockColour[IBlock]
         TGrid[5][1] = BlockColour[IBlock]
         TGrid[5][2] = BlockColour[IBlock]
         TGrid[5][3] = BlockColour[IBlock]
+
 
     def check_t_grid_down(self):
         if self.row + 4 == 20:
@@ -229,6 +241,7 @@ class IBlockBlock(BlockBlock):
                 if TGrid[self.column][self.row + 3] != 0:  # Checks if the blocks to be moved into are clear
                     self.valid_block_move = False
             return self.valid_block_move
+
 
     def check_t_grid_left(self):
         if self.column == 1:
@@ -374,6 +387,10 @@ class LBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
+        self.block_matrix = BlockShape[LBlockShape]
+        self.block_dimensions = array(self.block_matrix)
+        self.y_max = self.block_matrix.shape[0]
+        self.x_max = self.block_matrix.shape[1]
         TGrid[5][0] = BlockColour[LBlock]
         TGrid[5][1] = BlockColour[LBlock]
         TGrid[5][2] = BlockColour[LBlock]
@@ -454,6 +471,10 @@ class OBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
+        self.block_matrix = BlockShape[OBlockShape]
+        self.block_dimensions = array(self.block_matrix)
+        self.y_max = self.block_matrix.shape[0]
+        self.x_max = self.block_matrix.shape[1]
         TGrid[5][0] = BlockColour[OBlock]
         TGrid[6][0] = BlockColour[OBlock]
         TGrid[5][1] = BlockColour[OBlock]
@@ -536,6 +557,10 @@ class TBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
+        self.block_matrix = BlockShape[TBlockShape]
+        self.block_dimensions = array(self.block_matrix)
+        self.y_max = self.block_matrix.shape[0]
+        self.x_max = self.block_matrix.shape[1]
         TGrid[5][0] = BlockColour[TBlock]
         TGrid[6][0] = BlockColour[TBlock]
         TGrid[7][0] = BlockColour[TBlock]
@@ -613,6 +638,10 @@ class SBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
+        self.block_matrix = BlockShape[SBlockShape]
+        self.block_dimensions = array(self.block_matrix)
+        self.y_max = self.block_matrix.shape[0]
+        self.x_max = self.block_matrix.shape[1]
         TGrid[5][0] = BlockColour[SBlock]
         TGrid[6][0] = BlockColour[SBlock]
         TGrid[5][1] = BlockColour[SBlock]
@@ -693,6 +722,10 @@ class ZBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
+        self.block_matrix = BlockShape[ZBlockShape]
+        self.block_dimensions = array(self.block_matrix)
+        self.y_max = self.block_matrix.shape[0]
+        self.x_max = self.block_matrix.shape[1]
         TGrid[5][0] = BlockColour[ZBlock]
         TGrid[6][0] = BlockColour[ZBlock]
         TGrid[6][1] = BlockColour[ZBlock]
