@@ -82,15 +82,6 @@ for TColumn in range(10):
     for TRow in range(20):
         TGrid[TColumn].append(0)
 
-# Initialise block types
-BlockShape = {IBlockShape: [GREEN, GREEN, GREEN, GREEN],
-              JBlockShape: [[0, BLUE], [0, BLUE], [BLUE, BLUE]],
-              LBlockShape: [[YELLOW, 0], [YELLOW, 0], [YELLOW, YELLOW]],
-              OBlockShape: [[RED, RED], [RED, RED]],
-              TBlockShape: [[BROWN, BROWN, BROWN], [0, BROWN, 0]],
-              SBlockShape: [[0, ORANGE, ORANGE], [ORANGE, ORANGE, 0]],
-              ZBlockShape: [[PURPLE, PURPLE, 0], [0, PURPLE, PURPLE]]}
-
 
 # Game classes
 
@@ -223,7 +214,7 @@ class IBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
-        self.block_matrix = BlockShape[IBlockShape]
+        self.block_matrix = BlockShape[IBlock]
         self.block_dimensions = array(self.block_matrix)
         self.y_max = self.block_matrix.shape[0]
         self.x_max = self.block_matrix.shape[1]
@@ -387,7 +378,7 @@ class LBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
-        self.block_matrix = BlockShape[LBlockShape]
+        self.block_matrix = BlockShape[LBlock]
         self.block_dimensions = array(self.block_matrix)
         self.y_max = self.block_matrix.shape[0]
         self.x_max = self.block_matrix.shape[1]
@@ -471,7 +462,7 @@ class OBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
-        self.block_matrix = BlockShape[OBlockShape]
+        self.block_matrix = BlockShape[OBlock]
         self.block_dimensions = array(self.block_matrix)
         self.y_max = self.block_matrix.shape[0]
         self.x_max = self.block_matrix.shape[1]
@@ -557,7 +548,7 @@ class TBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
-        self.block_matrix = BlockShape[TBlockShape]
+        self.block_matrix = BlockShape[TBlock]
         self.block_dimensions = array(self.block_matrix)
         self.y_max = self.block_matrix.shape[0]
         self.x_max = self.block_matrix.shape[1]
@@ -638,7 +629,7 @@ class SBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
-        self.block_matrix = BlockShape[SBlockShape]
+        self.block_matrix = BlockShape[SBlock]
         self.block_dimensions = array(self.block_matrix)
         self.y_max = self.block_matrix.shape[0]
         self.x_max = self.block_matrix.shape[1]
@@ -722,7 +713,7 @@ class ZBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
-        self.block_matrix = BlockShape[ZBlockShape]
+        self.block_matrix = BlockShape[ZBlock]
         self.block_dimensions = array(self.block_matrix)
         self.y_max = self.block_matrix.shape[0]
         self.x_max = self.block_matrix.shape[1]
@@ -993,6 +984,15 @@ Pilot = Pilot()
 list_all_sprites.add(Pilot)
 # Initialise block types
 BlockColour = {IBlock: GREEN, JBlock: BLUE, LBlock: YELLOW, OBlock: RED, TBlock: BROWN, SBlock: ORANGE, ZBlock: PURPLE}
+# Initialise block types
+BlockShape = {IBlock: [GREEN, GREEN, GREEN, GREEN],
+              JBlock: [[0, BLUE], [0, BLUE], [BLUE, BLUE]],
+              LBlock: [[YELLOW, 0], [YELLOW, 0], [YELLOW, YELLOW]],
+              OBlock: [[RED, RED], [RED, RED]],
+              TBlock: [[BROWN, BROWN, BROWN], [0, BROWN, 0]],
+              SBlock: [[0, ORANGE, ORANGE], [ORANGE, ORANGE, 0]],
+              ZBlock: [[PURPLE, PURPLE, 0], [0, PURPLE, PURPLE]]
+              }
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
