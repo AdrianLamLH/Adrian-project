@@ -3,6 +3,7 @@
 import pygame
 import math
 import random
+import numpy
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -80,6 +81,16 @@ for TColumn in range(10):
     TGrid.append([])
     for TRow in range(20):
         TGrid[TColumn].append(0)
+
+# Initialise block types
+BlockShape = {IBlockShape: [GREEN, GREEN, GREEN, GREEN],
+              JBlockShape: [[0, BLUE], [0, BLUE], [BLUE, BLUE]],
+              LBlockShape: [[YELLOW, 0], [YELLOW, 0], [YELLOW, YELLOW]],
+              OBlockShape: [[RED, RED], [RED, RED]],
+              TBlockShape: [[BROWN, BROWN, BROWN], [0, BROWN, 0]],
+              SBlockShape: [[0, ORANGE, ORANGE], [ORANGE, ORANGE, 0]],
+              ZBlockShape: [[PURPLE, PURPLE, 0], [0, PURPLE, PURPLE]]}
+
 
 # Game classes
 
