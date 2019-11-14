@@ -197,7 +197,6 @@ class BlockBlock(pygame.sprite.Sprite):
         self.valid_block_move = True
 
 
-
 class IBlockBlock(BlockBlock):
     def __init__(self, column, row):
         super(IBlockBlock, self).__init__(column, row)
@@ -874,7 +873,6 @@ class IBlock(Enemy):
 
 # J Block
 
-
 class JBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(JBlock, self).__init__(mob_health, block_choice)
@@ -1053,6 +1051,7 @@ while not done:
         elif event.type == MoveBlocks:
             shift_block()
             wipe_grid()
+            shift_block()
             # for BlockObject in active_block:
                 # BlockObject.pos()
 
