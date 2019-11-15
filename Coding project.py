@@ -188,11 +188,12 @@ class Enemy(pygame.sprite.Sprite):
 
 
 class BlockBlock(pygame.sprite.Sprite):
-    def __init__(self, column, row):
+    def __init__(self, column, row, colour):
         super().__init__()
         self.valid_block_move = True  # Initializes the valid_block_move variable for checking if spaces are free
         self.column = column
         self.row = row
+        self.block_colour = colour
         self.block_matrix = []  # Stores the block matrix arrangement
         self.block_dimensions = 0  # Stores the dimensions of the block
         self.y_max = 0  # Stores the height of the block
@@ -217,6 +218,54 @@ class BlockBlock(pygame.sprite.Sprite):
                 self.block_rightest = (self.block_list[counter])[0]
             # Updating the closest block to the boundaries of screens
 
+    def check_t_grid_down(self):
+        if self.block_lowest == 20:
+            return "Reached bottom"  # Checks if the block has reached the bottom
+        else:
+            if self.block_lowest < 20:
+                if TGrid[self.block_lowest[0]][self.block_lowest[1] + 1] != 0:
+                    # Checks if the bottom of the block is clear when moved
+                    self.valid_block_move = False
+            return self.valid_block_move
+
+    def check_t_grid_left(self):
+        if self.block_leftest == 1:
+            return "Reached left"  # Checks if the block has reached the left
+        else:
+            if self.block_leftest > 1:  # If the block hasn't reached the left edge, each block checked for valid move
+                for counter in range(3):
+                    if TGrid[int((self.block_list[counter])[0]) - 1][(self.block_list[counter])[1]] != 0 \
+                            and TGrid[int((self.block_list[counter])[0]) - 1][(self.block_list[counter])[1]] != \
+                                    BlockColour[IBlock]:
+                        # If the block in block_list would replace an already placed block on the grid, not valid move
+                        self.valid_block_move = False
+            return self.valid_block_move
+
+    def check_t_grid_right(self):
+        if self.block_rightest == 10:
+            return "Reached right"  # Checks if the block has reached the right
+        else:
+            if self.block_rightest < 10:
+                if TGrid[int((self.block_list[counter])[0]) + 1][(self.block_list[counter])[1]] != 0 \
+                        and TGrid[int((self.block_list[counter])[0]) + 1][(self.block_list[counter])[1]] != \
+                                BlockColour[self.block_colour]:  # Checks if the blocks to be moved into are clear
+                    self.valid_block_move = False
+            return self.valid_block_move
+
+    def move_t_grid_down(self):  # Previous space occupied by block cleared and moved into next space below
+        for counter in range(3):
+            TGrid[int((self.block_list[counter])[0])][(self.block_list[counter])[1]] = 0
+            TGrid[int((self.block_list[counter])[0])][(self.block_list[counter])[1] + 1] = BlockColour[self.block_colour]
+
+    def move_t_grid_left(self):  # Previous space occupied by block cleared and moved into next left space
+        for counter in range(3):
+            TGrid[int((self.block_list[counter])[0])][(self.block_list[counter])[1]] = 0
+            TGrid[int((self.block_list[counter])[0]) - 1][(self.block_list[counter])[1]] = BlockColour[self.block_colour]
+
+    def move_t_grid_right(self):   # Previous space occupied by block cleared and moved into next right space
+        TGrid[int((self.block_list[counter])[0])][(self.block_list[counter])[1]] = 0
+        TGrid[int((self.block_list[counter])[0]) + 1][(self.block_list[counter])[1]] = BlockColour[self.block_colour]
+
     def reset_valid(self):
         # if true valid move is reset
         self.valid_block_move = True
@@ -225,8 +274,8 @@ class BlockBlock(pygame.sprite.Sprite):
 
 
 class IBlockBlock(BlockBlock):
-    def __init__(self, column, row):
-        super(IBlockBlock, self).__init__(column, row)
+    def __init__(self, column, row, colour):
+        super(IBlockBlock, self).__init__(column, row, colour)
 
     # Initial positioning of the chosen tetris blocks in the grid
     def store_block(self):
@@ -246,78 +295,10 @@ class IBlockBlock(BlockBlock):
         TGrid[5][2] = BlockColour[IBlock]
         TGrid[5][3] = BlockColour[IBlock]  # Block initialized by placing it onto the grid in its initial orientation
 
-    def check_t_grid_down(self):
-        if self.row + 4 == 20:
-            return "Reached bottom"  # Checks if the block has reached the bottom
-        else:
-            if self.row < 16:
-                if TGrid[self.column][self.row + 3] != 0:
-                    # Checks if the bottom of the block is clear when moved
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-
-    def check_t_grid_left(self):
-        if self.column == 1:
-            return "Reached left"  # Checks if the block has reached the left
-        else:
-            if self.column > 1:
-                if TGrid[self.column - 1][self.row] != 0 or TGrid[self.column - 1][self.row + 1] != 0 or \
-                                TGrid[self.column - 1][self.row + 2] != 0 or TGrid[self.column - 1][
-                            self.row + 3] != 0:  # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-    def check_t_grid_right(self):
-        if self.column + 1 == 10:
-            return "Reached right"  # Checks if the block has reached the right
-        else:
-            if self.column < 10:
-                if TGrid[self.column + 1][self.row] != 0 or TGrid[self.column + 1][self.row + 1] != 0 or \
-                                TGrid[self.column + 1][self.row + 2] != 0 or TGrid[self.column + 1][
-                            self.row + 3] != 0:  # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-    def move_t_grid_down(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column][self.row + 1] = 0
-        TGrid[self.column][self.row + 2] = 0
-        TGrid[self.column][self.row + 3] = 0
-        TGrid[self.column][self.row + 1] = BlockColour[IBlock]
-        TGrid[self.column][self.row + 2] = BlockColour[IBlock]
-        TGrid[self.column][self.row + 3] = BlockColour[IBlock]
-        TGrid[self.column][self.row + 4] = BlockColour[IBlock]
-        self.row += 1
-
-    def move_t_grid_left(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column][self.row + 1] = 0
-        TGrid[self.column][self.row + 2] = 0
-        TGrid[self.column][self.row + 3] = 0
-        TGrid[self.column - 1][self.row] = BlockColour[IBlock]
-        TGrid[self.column - 1][self.row] = BlockColour[IBlock]
-        TGrid[self.column - 1][self.row] = BlockColour[IBlock]
-        TGrid[self.column - 1][self.row] = BlockColour[IBlock]
-        self.column -= 1
-
-    def move_t_grid_right(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column][self.row + 1] = 0
-        TGrid[self.column][self.row + 2] = 0
-        TGrid[self.column][self.row + 3] = 0
-        TGrid[self.column + 1][self.row] = BlockColour[IBlock]
-        TGrid[self.column + 1][self.row] = BlockColour[IBlock]
-        TGrid[self.column + 1][self.row] = BlockColour[IBlock]
-        TGrid[self.column + 1][self.row] = BlockColour[IBlock]
-        self.column += 1
-
-    def pos(self):
-        print("column: ", self.column, "row: ", self.row)
-
 
 class JBlockBlock(BlockBlock):
-    def __init__(self, column, row):
-        super(JBlockBlock, self).__init__(column, row)
+    def __init__(self, column, row, colour):
+        super(JBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
         self.column = 6
@@ -336,76 +317,10 @@ class JBlockBlock(BlockBlock):
         TGrid[6][2] = BlockColour[JBlock]
         TGrid[5][2] = BlockColour[JBlock]
 
-    def check_t_grid_down(self):
-        if self.row + 3 == 20:
-            return "Reached bottom"
-        else:
-            if self.column > 0 and self.row < 17:
-                if TGrid[self.column - 1][self.row + 3] != 0 or TGrid[self.column][self.row + 3] != 0:
-                    # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-    def check_t_grid_left(self):
-        if self.column == 1:
-            return "Reached left"  # Checks if the block has reached the left
-        else:
-            if self.column > 1:
-                if TGrid[self.column - 2][self.row + 2] != 0:  # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-    def check_t_grid_right(self):
-        if self.column + 1 == 10:
-            return "Reached right"  # Checks if the block has reached the right
-        else:
-            if self.column < 9:
-                if TGrid[self.column + 1][self.row] != 0 or TGrid[self.column + 1][self.row + 2] != 0 or \
-                                TGrid[self.column + 1][
-                                            self.row + 2] != 0:  # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-    def move_t_grid_down(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column][self.row + 1] = 0
-        TGrid[self.column][self.row + 2] = 0
-        TGrid[self.column - 1][self.row + 2] = 0
-        TGrid[self.column][self.row + 1] = BlockColour[JBlock]
-        TGrid[self.column][self.row + 2] = BlockColour[JBlock]
-        TGrid[self.column][self.row + 3] = BlockColour[JBlock]
-        TGrid[self.column - 1][self.row + 3] = BlockColour[JBlock]
-        self.row += 1
-
-    def move_t_grid_left(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column][self.row + 1] = 0
-        TGrid[self.column][self.row + 2] = 0
-        TGrid[self.column - 1][self.row + 2] = 0
-        TGrid[self.column - 1][self.row] = BlockColour[JBlock]
-        TGrid[self.column - 1][self.row + 1] = BlockColour[JBlock]
-        TGrid[self.column - 1][self.row + 2] = BlockColour[JBlock]
-        TGrid[self.column - 2][self.row + 2] = BlockColour[JBlock]
-        self.column -= 1
-
-    def move_t_grid_right(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column][self.row + 1] = 0
-        TGrid[self.column][self.row + 2] = 0
-        TGrid[self.column - 1][self.row + 2] = 0
-        TGrid[self.column + 1][self.row] = BlockColour[JBlock]
-        TGrid[self.column + 1][self.row + 1] = BlockColour[JBlock]
-        TGrid[self.column + 1][self.row + 2] = BlockColour[JBlock]
-        TGrid[self.column][self.row + 2] = BlockColour[JBlock]
-        self.column += 1
-
-    def pos(self):
-        print("column: ", self.column, "row: ", self.row)
-
 
 class LBlockBlock(BlockBlock):
-    def __init__(self, column, row):
-        super(LBlockBlock, self).__init__(column, row)
+    def __init__(self, column, row, colour):
+        super(LBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
         self.column = 5
@@ -424,77 +339,10 @@ class LBlockBlock(BlockBlock):
         TGrid[5][2] = BlockColour[LBlock]
         TGrid[6][2] = BlockColour[LBlock]
 
-    def check_t_grid_down(self):
-        if self.row + 3 == 20:
-            return "Reached bottom"
-        else:
-            if self.column < 9 and self.row < 17:
-                if TGrid[self.column + 1][self.row + 3] != 0 or TGrid[self.column][self.row + 3] != 0:
-                    # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-            # Checks to see if all spaces haven't been edited this cycle. Or it returns False
-
-    def check_t_grid_left(self):
-        if self.column == 0:
-            return "Reached left"  # Checks if the block has reached the left
-        else:
-            if self.column > 0:
-                if TGrid[self.column - 1][self.row] != 0 or TGrid[self.column - 1][self.row + 1] != 0 or \
-                                TGrid[self.column - 1][
-                                            self.row + 2] != 0:  # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-    def check_t_grid_right(self):
-        if self.column + 2 == 10:
-            return "Reached right"  # Checks if the block has reached the right
-        else:
-            if self.column < 9:
-                if TGrid[self.column + 2][self.row + 2] != 0:  # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-    def move_t_grid_down(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column][self.row + 1] = 0
-        TGrid[self.column][self.row + 2] = 0
-        TGrid[self.column + 1][self.row + 2] = 0
-        TGrid[self.column][self.row + 1] = BlockColour[LBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column][self.row + 2] = BlockColour[LBlock]
-        TGrid[self.column][self.row + 3] = BlockColour[LBlock]
-        TGrid[self.column + 1][self.row + 3] = BlockColour[LBlock]
-        self.row += 1
-
-    def move_t_grid_left(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column][self.row + 1] = 0
-        TGrid[self.column][self.row + 2] = 0
-        TGrid[self.column + 1][self.row + 2] = 0
-        TGrid[self.column - 1][self.row] = BlockColour[LBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column - 1][self.row + 1] = BlockColour[LBlock]
-        TGrid[self.column - 1][self.row + 2] = BlockColour[LBlock]
-        TGrid[self.column][self.row + 2] = BlockColour[LBlock]
-        self.column -= 1
-
-    def move_t_grid_right(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column][self.row + 1] = 0
-        TGrid[self.column][self.row + 2] = 0
-        TGrid[self.column + 1][self.row + 2] = 0
-        TGrid[self.column + 1][self.row] = BlockColour[LBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column + 1][self.row + 1] = BlockColour[LBlock]
-        TGrid[self.column + 1][self.row + 2] = BlockColour[LBlock]
-        TGrid[self.column + 2][self.row + 2] = BlockColour[LBlock]
-        self.column += 1
-
-    def pos(self):
-        print("column: ", self.column, "row: ", self.row)
-
 
 class OBlockBlock(BlockBlock):
-    def __init__(self, column, row):
-        super(OBlockBlock, self).__init__(column, row)
+    def __init__(self, column, row, colour):
+        super(OBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
         self.column = 5
@@ -513,79 +361,10 @@ class OBlockBlock(BlockBlock):
         TGrid[5][1] = BlockColour[OBlock]
         TGrid[6][1] = BlockColour[OBlock]
 
-    def check_t_grid_down(self):
-        if self.row + 2 == 20:
-            return "Reached bottom"
-        else:
-            if self.column < 9 and self.row < 18:
-                if TGrid[self.column][self.row + 2] != 0 or TGrid[self.column + 1][self.row + 2] != 0:
-                    # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-            # Checks to see if all spaces haven't been edited this cycle. Or it returns False
-
-    def check_t_grid_left(self):
-        if self.column == 0:
-            return "Reached left"  # Checks if the block has reached the left
-        else:
-            if self.column > 0:
-                if TGrid[self.column - 1][self.row] or TGrid[self.column - 1][self.row + 1] != 0:
-                    # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-    def check_t_grid_right(self):
-        print(self.column)
-        if self.column == 8:
-            return "Reached right"  # Checks if the block has reached the right
-        else:
-            if self.column < 9:
-                if TGrid[self.column + 2][self.row] != 0 or TGrid[self.column + 2][self.row + 1] != 0:
-                    # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-                    print("This one", self.valid_block_move, self.column, self.row)
-            return self.valid_block_move
-
-    def move_t_grid_down(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column + 1][self.row] = 0
-        TGrid[self.column][self.row + 1] = 0
-        TGrid[self.column + 1][self.row + 1] = 0
-        TGrid[self.column][self.row + 1] = BlockColour[OBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column + 1][self.row + 1] = BlockColour[OBlock]
-        TGrid[self.column][self.row + 2] = BlockColour[OBlock]
-        TGrid[self.column + 1][self.row + 2] = BlockColour[OBlock]
-        self.row += 1
-
-    def move_t_grid_left(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column + 1][self.row] = 0
-        TGrid[self.column][self.row + 1] = 0
-        TGrid[self.column + 1][self.row + 1] = 0
-        TGrid[self.column - 1][self.row] = BlockColour[OBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column][self.row] = BlockColour[OBlock]
-        TGrid[self.column - 1][self.row + 1] = BlockColour[OBlock]
-        TGrid[self.column][self.row + 1] = BlockColour[OBlock]
-        self.column -= 1
-
-    def move_t_grid_right(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column + 1][self.row] = 0
-        TGrid[self.column][self.row + 1] = 0
-        TGrid[self.column + 1][self.row + 1] = 0
-        TGrid[self.column + 1][self.row] = BlockColour[OBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column + 2][self.row] = BlockColour[OBlock]
-        TGrid[self.column + 1][self.row + 1] = BlockColour[OBlock]
-        TGrid[self.column + 2][self.row + 1] = BlockColour[OBlock]
-        self.column += 1
-
-    def pos(self):
-        print("column: ", self.column, "row: ", self.row)
-
 
 class TBlockBlock(BlockBlock):
-    def __init__(self, column, row):
-        super(TBlockBlock, self).__init__(column, row)
+    def __init__(self, column, row, colour):
+        super(TBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
         self.column = 5
@@ -604,74 +383,10 @@ class TBlockBlock(BlockBlock):
         TGrid[7][0] = BlockColour[TBlock]
         TGrid[6][1] = BlockColour[TBlock]
 
-    def check_t_grid_down(self):
-        if self.row + 2 == 20:
-            return "Reached bottom"
-        else:
-            if self.column < 8 and self.row < 18:
-                if TGrid[self.column][self.row + 1] != 0 or TGrid[self.column + 2][self.row + 1] != 0 or TGrid[self.column + 1][self.row + 2] != 0:
-                    # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
-
-    def check_t_grid_left(self):
-        if self.column == 0:
-            return "Reached left"  # Checks if the block has reached the left
-        else:
-            if self.column > 0:
-                if TGrid[self.column - 1][self.row] != 0:  # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-    def check_t_grid_right(self):
-        if self.column + 3 == 10:
-            return "Reached right"  # Checks if the block has reached the right
-        else:
-            if self.column < 8:
-                if TGrid[self.column + 3][self.row] != 0:  # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-    def move_t_grid_down(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column + 1][self.row] = 0
-        TGrid[self.column + 2][self.row] = 0
-        TGrid[self.column + 1][self.row + 1] = 0
-        TGrid[self.column][self.row + 1] = BlockColour[TBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column + 1][self.row + 1] = BlockColour[TBlock]
-        TGrid[self.column + 2][self.row + 1] = BlockColour[TBlock]
-        TGrid[self.column + 1][self.row + 2] = BlockColour[TBlock]
-        self.row += 1
-
-    def move_t_grid_left(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column + 1][self.row] = 0
-        TGrid[self.column + 2][self.row] = 0
-        TGrid[self.column + 1][self.row + 1] = 0
-        TGrid[self.column - 1][self.row] = BlockColour[TBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column][self.row] = BlockColour[TBlock]
-        TGrid[self.column + 1][self.row] = BlockColour[TBlock]
-        TGrid[self.column][self.row + 1] = BlockColour[TBlock]
-        self.column -= 1
-
-    def move_t_grid_right(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column + 1][self.row] = 0
-        TGrid[self.column + 2][self.row] = 0
-        TGrid[self.column + 1][self.row + 1] = 0
-        TGrid[self.column + 1][self.row] = BlockColour[TBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column + 2][self.row] = BlockColour[TBlock]
-        TGrid[self.column + 3][self.row] = BlockColour[TBlock]
-        TGrid[self.column + 2][self.row + 1] = BlockColour[TBlock]
-        self.column += 1
-
-    def pos(self):
-        print("column: ", self.column, "row: ", self.row)
-
 
 class SBlockBlock(BlockBlock):
-    def __init__(self, column, row):
-        super(SBlockBlock, self).__init__(column, row)
+    def __init__(self, column, row, colour):
+        super(SBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
         self.column = 5
@@ -690,77 +405,10 @@ class SBlockBlock(BlockBlock):
         TGrid[5][1] = BlockColour[SBlock]
         TGrid[4][1] = BlockColour[SBlock]
 
-    def check_t_grid_down(self):
-        if self.row + 2 == 20:
-            return "Reached bottom"
-        else:
-            if self.column >= 1 and self.column < 9 and self.row < 18:
-                if TGrid[self.column][self.row + 2] != 0 or TGrid[self.column - 1][self.row + 2] != 0 or TGrid[self.column + 1][self.row + 1] != 0:
-                    # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
-
-    def check_t_grid_left(self):
-        if self.column == 1:
-            return "Reached left"  # Checks if the block has reached the left
-        else:
-            if self.column > 0:
-                if TGrid[self.column - 2][self.row + 1] != 0:  # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-    def check_t_grid_right(self):
-        if self.column + 2 == 10:
-            return "Reached right"  # Checks if the block has reached the right
-        else:
-            if self.column < 9:
-                if TGrid[self.column + 2][self.row] != 0:  # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-    def move_t_grid_down(self):
-            TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-            TGrid[self.column + 1][self.row] = 0
-            TGrid[self.column][self.row + 1] = 0
-            TGrid[self.column - 1][self.row + 1] = 0
-            TGrid[self.column][self.row + 1] = BlockColour[SBlock]  # Blocks are stored into the next spaces
-            TGrid[self.column + 1][self.row + 1] = BlockColour[SBlock]
-            TGrid[self.column][self.row + 2] = BlockColour[SBlock]
-            TGrid[self.column - 1][self.row + 2] = BlockColour[SBlock]
-
-            self.row += 1
-
-    def move_t_grid_left(self):
-            TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-            TGrid[self.column + 1][self.row] = 0
-            TGrid[self.column][self.row + 1] = 0
-            TGrid[self.column - 1][self.row + 1] = 0
-            TGrid[self.column - 1][self.row] = BlockColour[SBlock]  # Blocks are stored into the next spaces
-            TGrid[self.column][self.row] = BlockColour[SBlock]
-            TGrid[self.column - 1][self.row + 1] = BlockColour[SBlock]
-            TGrid[self.column - 2][self.row + 1] = BlockColour[SBlock]
-
-            self.column -= 1
-
-    def move_t_grid_right(self):
-            TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-            TGrid[self.column + 1][self.row] = 0
-            TGrid[self.column][self.row + 1] = 0
-            TGrid[self.column - 1][self.row + 1] = 0
-            TGrid[self.column + 1][self.row] = BlockColour[SBlock]  # Blocks are stored into the next spaces
-            TGrid[self.column + 2][self.row] = BlockColour[SBlock]
-            TGrid[self.column + 1][self.row + 1] = BlockColour[SBlock]
-            TGrid[self.column][self.row + 1] = BlockColour[SBlock]
-
-            self.column += 1
-
-    def pos(self):
-        print("column: ", self.column, "row: ", self.row)
-
 
 class ZBlockBlock(BlockBlock):
-    def __init__(self, column, row):
-        super(ZBlockBlock, self).__init__(column, row)
+    def __init__(self, column, row, colour):
+        super(ZBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
         self.column = 5
@@ -779,69 +427,6 @@ class ZBlockBlock(BlockBlock):
         TGrid[6][1] = BlockColour[ZBlock]
         TGrid[7][1] = BlockColour[ZBlock]
 
-    def check_t_grid_down(self):
-        if self.row + 2 == 20:
-            return "Reached bottom"
-        else:
-            if self.column < 8 and self.row < 18:
-                if TGrid[self.column][self.row + 1] != 0 or TGrid[self.column + 1][self.row + 2] != 0 or TGrid[self.column + 2][self.row + 2] != 0:
-                    # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move  # Checks to see if all spaces haven't been edited this cycle. Or it returns False
-
-    def check_t_grid_left(self):
-        if self.column == 0:
-            return "Reached left"  # Checks if the block has reached the left
-        else:
-            if self.column > 0:
-                if TGrid[self.column - 1][self.row] != 0:  # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-    def check_t_grid_right(self):
-        if self.column + 3 == 10:
-            return "Reached right"  # Checks if the block has reached the right
-        else:
-            if self.column < 8:
-                if TGrid[self.column + 3][self.row + 1] != 0:  # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
-
-    def move_t_grid_down(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column + 1][self.row] = 0
-        TGrid[self.column + 1][self.row + 1] = 0
-        TGrid[self.column + 2][self.row + 1] = 0
-        TGrid[self.column][self.row + 1] = BlockColour[ZBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column + 1][self.row + 1] = BlockColour[ZBlock]
-        TGrid[self.column + 1][self.row + 2] = BlockColour[ZBlock]
-        TGrid[self.column + 2][self.row + 2] = BlockColour[ZBlock]
-        self.row += 1
-
-    def move_t_grid_left(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column + 1][self.row] = 0
-        TGrid[self.column + 1][self.row + 1] = 0
-        TGrid[self.column + 2][self.row + 1] = 0
-        TGrid[self.column - 1][self.row] = BlockColour[ZBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column][self.row] = BlockColour[ZBlock]
-        TGrid[self.column][self.row + 1] = BlockColour[ZBlock]
-        TGrid[self.column + 1][self.row + 1] = BlockColour[ZBlock]
-        self.column -= 1
-
-    def move_t_grid_right(self):
-        TGrid[self.column][self.row] = 0  # Previous space occupied by block is cleared
-        TGrid[self.column + 1][self.row] = 0
-        TGrid[self.column + 1][self.row + 1] = 0
-        TGrid[self.column + 2][self.row + 1] = 0
-        TGrid[self.column + 1][self.row] = BlockColour[ZBlock]  # Blocks are stored into the next spaces
-        TGrid[self.column + 2][self.row] = BlockColour[ZBlock]
-        TGrid[self.column + 2][self.row + 1] = BlockColour[ZBlock]
-        TGrid[self.column + 3][self.row + 1] = BlockColour[ZBlock]
-        self.column += 1
-
-    def pos(self):
-        print("column: ", self.column, "row: ", self.row)
 
 # Drawing the tetris boxes
 
@@ -882,19 +467,19 @@ def place_next_block():
         else:  # If there is a block queued, assign it as the next block to be placed on the grid
             BlockChosen = next_block_store
         if BlockChosen == IBlock:
-            BlockObject = IBlockBlock(0, 0)
+            BlockObject = IBlockBlock(0, 0, IBlock)
         elif BlockChosen == JBlock:
-            BlockObject = JBlockBlock(0, 0)
+            BlockObject = JBlockBlock(0, 0, JBlock)
         elif BlockChosen == LBlock:
-            BlockObject = LBlockBlock(0, 0)
+            BlockObject = LBlockBlock(0, 0, LBlock)
         elif BlockChosen == OBlock:
-            BlockObject = OBlockBlock(0, 0)
+            BlockObject = OBlockBlock(0, 0, OBlock)
         elif BlockChosen == TBlock:
-            BlockObject = TBlockBlock(0, 0)
+            BlockObject = TBlockBlock(0, 0, TBlock)
         elif BlockChosen == SBlock:
-            BlockObject = SBlockBlock(0, 0)
+            BlockObject = SBlockBlock(0, 0, SBlock)
         elif BlockChosen == ZBlock:
-            BlockObject = ZBlockBlock(0, 0)
+            BlockObject = ZBlockBlock(0, 0, ZBlock)
         if finished_moving:
             BlockObject.store_block()
             active_block.empty()
