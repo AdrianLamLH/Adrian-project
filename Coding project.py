@@ -210,12 +210,23 @@ class BlockBlock(pygame.sprite.Sprite):
 
     def update_block_setup(self):
         for counter in range(3):
+            print(self.block_list[counter])
+            print(self.block_lowest)
             if (self.block_list[counter])[1] > self.block_lowest[1]:
+                self.block_lowest_list.append(self.block_list[counter])
                 self.block_lowest = self.block_list[counter]
-            if (self.block_list[counter])[0] < self.block_leftest:
+            elif (self.block_list[counter])[1] == self.block_lowest[1]:
+                self.block_lowest.append(self.block_list[counter])
+            if (self.block_list[counter])[0] < self.block_leftest[0]:
+                self.block_leftest.append(self.block_list[counter])
                 self.block_leftest = self.block_list[counter]
-            if (self.block_list[counter])[0] > self.block_rightest:
+            elif (self.block_list[counter])[0] == self.block_leftest[0]:
+                self.block_leftest_list.append(self.block_list[counter])
+            if (self.block_list[counter])[0] > self.block_rightest[0]:
+                self.block_rightest_list.append(self.block_list[counter])
                 self.block_rightest = self.block_list[counter]
+            elif (self.block_list[counter])[0] == self.block_rightest[0]:
+                self.block_rightest_list.append(self.block_list[counter])
             # Updating the closest block to the boundaries of screens
 
     def check_t_grid_down(self):
