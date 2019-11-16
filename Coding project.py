@@ -236,13 +236,15 @@ class BlockBlock(pygame.sprite.Sprite):
         print("leftest_list", self.block_leftest_list)
 
     def check_t_grid_down(self):
-        if self.block_lowest[1] == 20:
+        if self.block_lowest[1] == 19:
             return "Reached bottom"  # Checks if the block has reached the bottom
         else:
-            if self.block_lowest[1] < 20:
+            if self.block_lowest[1] < 19:
                 if TGrid[self.block_lowest[0]][self.block_lowest[1] + 1] != 0:
-                    # Checks if the bottom of the block is clear when moved
-                    self.valid_block_move = False
+                    for counter in range(4):
+                        if TGrid[(self.block_list[counter])[0]][(self.block_list[counter])[1] + 1] != 0 and str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[0])[0]) + str((self.block_list[0])[1] + 1) and str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[1])[0]) + str((self.block_list[1])[1] + 1) and str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[2])[0]) + str((self.block_list[2])[1] + 1) and str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[3])[0]) + str((self.block_list[3])[1] + 1):
+                            # Checks if the bottom of the block is clear when moved
+                            self.valid_block_move = False
             return self.valid_block_move
 
     def check_t_grid_left(self):
@@ -271,11 +273,11 @@ class BlockBlock(pygame.sprite.Sprite):
 
     def move_t_grid_down(self):  # Previous space occupied by block cleared and moved into next space below
         for counter in range(4):
+            TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]] = 0
+        for counter in range(4):
             print("block_list pos", (self.block_list[counter])[0], (self.block_list[counter])[1])
-            for count in range(4):
-                TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]] = 0
-            TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1] + 1] = BlockColour[self.block_colour]
             (self.block_list[counter])[1] = (self.block_list[counter])[1] + 1  # Update the moved blocks once moved
+            TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]] = BlockColour[self.block_colour]
 
     def move_t_grid_left(self):  # Previous space occupied by block cleared and moved into next left space
         for counter in range(4):
