@@ -236,15 +236,17 @@ class BlockBlock(pygame.sprite.Sprite):
         print("leftest_list", self.block_leftest_list)
 
     def check_t_grid_down(self):
+        print("Check move")
         if self.block_lowest[1] == 19:
             return "Reached bottom"  # Checks if the block has reached the bottom
-        else:
-            if self.block_lowest[1] < 19:
-                if TGrid[self.block_lowest[0]][self.block_lowest[1] + 1] != 0:
-                    for counter in range(4):
-                        if TGrid[(self.block_list[counter])[0]][(self.block_list[counter])[1] + 1] != 0 and str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[0])[0]) + str((self.block_list[0])[1] + 1) and str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[1])[0]) + str((self.block_list[1])[1] + 1) and str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[2])[0]) + str((self.block_list[2])[1] + 1) and str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[3])[0]) + str((self.block_list[3])[1] + 1):
-                            # Checks if the bottom of the block is clear when moved
-                            self.valid_block_move = False
+        elif self.block_lowest[1] < 19:
+            if TGrid[self.block_lowest[0]][self.block_lowest[1] + 1] != 0:
+                print("YO", self.block_lowest)
+                for counter in range(4):
+                    if TGrid[(self.block_list[counter])[0]][(self.block_list[counter])[1] + 1] != 0 and (str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[0])[0]) + str((self.block_list[0])[1] + 1) or str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[1])[0]) + str((self.block_list[1])[1] + 1) or str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[2])[0]) + str((self.block_list[2])[1] + 1) or str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[3])[0]) + str((self.block_list[3])[1] + 1)):
+                        # Checks if the bottom of the block is clear when moved
+                        self.valid_block_move = False
+                        print("False move")
             return self.valid_block_move
 
     def check_t_grid_left(self):
