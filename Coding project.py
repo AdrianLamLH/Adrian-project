@@ -271,18 +271,22 @@ class BlockBlock(pygame.sprite.Sprite):
 
     def move_t_grid_down(self):  # Previous space occupied by block cleared and moved into next space below
         for counter in range(3):
+            print("before", TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]])
             TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]] = 0
             TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1] + 1] = BlockColour[self.block_colour]
+            (self.block_list[counter])[1] = (self.block_list[counter]) + 1  # Update the moved blocks once moved
 
     def move_t_grid_left(self):  # Previous space occupied by block cleared and moved into next left space
         for counter in range(3):
             TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]] = 0
             TGrid[((self.block_list[counter])[0]) - 1][(self.block_list[counter])[1]] = BlockColour[self.block_colour]
+            (self.block_list[counter])[0] = (self.block_list[counter])[0] - 1
 
     def move_t_grid_right(self):   # Previous space occupied by block cleared and moved into next right space
         for counter in range(3):
             TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]] = 0
             TGrid[((self.block_list[counter])[0]) + 1][(self.block_list[counter])[1]] = BlockColour[self.block_colour]
+            (self.block_list[counter])[0] = (self.block_list[counter])[0] + 1
 
     def reset_valid(self):
         # if true valid move is reset
