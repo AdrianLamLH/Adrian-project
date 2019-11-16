@@ -242,6 +242,7 @@ class BlockBlock(pygame.sprite.Sprite):
                 self.skip_this.append(True)
             else:
                 self.skip_this.append(False)
+        if self.block_lowest[1] == 20:
             return "Reached bottom"  # Checks if the block has reached the bottom
         else:
             if self.block_lowest[1] < 20:
@@ -277,7 +278,7 @@ class BlockBlock(pygame.sprite.Sprite):
     def move_t_grid_down(self):  # Previous space occupied by block cleared and moved into next space below
         for counter in range(4):
             print("block_list pos", (self.block_list[counter])[0], (self.block_list[counter])[1])
-            if not self.skip_this[counter]:
+            if self.skip_this[counter] and (self.block_list[counter])[1] == 0:
                 TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]] = 0
             TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1] + 1] = BlockColour[self.block_colour]
             (self.block_list[counter])[1] = (self.block_list[counter])[1] + 1  # Update the moved blocks once moved
