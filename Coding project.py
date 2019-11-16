@@ -207,11 +207,12 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_lowest = []  # Position of block closest to the boundaries of the screen stored
         self.block_rightest = []
         self.block_leftest = []
+        self.block_lowest_list = []  # List of blocks that are at the boundaries stored
+        self.block_rightest_list = []
+        self.block_leftest_list = []
 
     def update_block_setup(self):
         for counter in range(3):
-            print(self.block_list[counter])
-            print(self.block_lowest)
             if (self.block_list[counter])[1] > self.block_lowest[1]:
                 self.block_lowest_list.append(self.block_list[counter])
                 self.block_lowest = self.block_list[counter]
@@ -228,6 +229,11 @@ class BlockBlock(pygame.sprite.Sprite):
             elif (self.block_list[counter])[0] == self.block_rightest[0]:
                 self.block_rightest_list.append(self.block_list[counter])
             # Updating the closest block to the boundaries of screens
+        print(self.block_list[counter])
+        print("lowest", self.block_lowest)
+        print("lowest_list", self.block_lowest_list)
+        print("rightest_list", self.block_rightest_list)
+        print("leftest_list", self.block_leftest_list)
 
     def check_t_grid_down(self):
         if self.block_lowest[1] == 20:
@@ -302,6 +308,12 @@ class IBlockBlock(BlockBlock):
         self.block_three = [5, 2, BlockColour[IBlock]]
         self.block_four = [5, 3, BlockColour[IBlock]]  # Assigns the respective blocks to four separate lists
         self.block_list = [self.block_one, self.block_two, self.block_three, self.block_four]
+        self.block_lowest = self.block_four  # Initializing the extremities of the block
+        self.block_rightest = self.block_one
+        self.block_leftest = self.block_one
+        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
+        self.block_rightest_list.append(self.block_one)
+        self.block_leftest_list.append(self.block_one)
         TGrid[5][0] = BlockColour[IBlock]
         TGrid[5][1] = BlockColour[IBlock]
         TGrid[5][2] = BlockColour[IBlock]
@@ -324,6 +336,12 @@ class JBlockBlock(BlockBlock):
         self.block_three = [6, 2, BlockColour[JBlock]]
         self.block_four = [5, 2, BlockColour[JBlock]]  # Assigns the respective blocks to four separate lists
         self.block_list = [self.block_one, self.block_two, self.block_three, self.block_four]
+        self.block_lowest = self.block_three  # Initializing the extremities of the block
+        self.block_rightest = self.block_one
+        self.block_leftest = self.block_four
+        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
+        self.block_rightest_list.append(self.block_one)
+        self.block_leftest_list.append(self.block_one)
         TGrid[6][0] = BlockColour[JBlock]
         TGrid[6][1] = BlockColour[JBlock]
         TGrid[6][2] = BlockColour[JBlock]
@@ -346,6 +364,12 @@ class LBlockBlock(BlockBlock):
         self.block_three = [5, 2, BlockColour[LBlock]]
         self.block_four = [6, 3, BlockColour[LBlock]]  # Assigns the respective blocks to four separate lists
         self.block_list = [self.block_one, self.block_two, self.block_three, self.block_four]
+        self.block_lowest = self.block_four  # Initializing the extremities of the block
+        self.block_rightest = self.block_four
+        self.block_leftest = self.block_one
+        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
+        self.block_rightest_list.append(self.block_one)
+        self.block_leftest_list.append(self.block_one)
         TGrid[5][0] = BlockColour[LBlock]
         TGrid[5][1] = BlockColour[LBlock]
         TGrid[5][2] = BlockColour[LBlock]
@@ -368,6 +392,12 @@ class OBlockBlock(BlockBlock):
         self.block_three = [5, 1, BlockColour[OBlock]]
         self.block_four = [6, 1, BlockColour[OBlock]]  # Assigns the respective blocks to four separate lists
         self.block_list = [self.block_one, self.block_two, self.block_three, self.block_four]
+        self.block_lowest = self.block_four  # Initializing the extremities of the block
+        self.block_rightest = self.block_two
+        self.block_leftest = self.block_one
+        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
+        self.block_rightest_list.append(self.block_one)
+        self.block_leftest_list.append(self.block_one)
         TGrid[5][0] = BlockColour[OBlock]
         TGrid[6][0] = BlockColour[OBlock]
         TGrid[5][1] = BlockColour[OBlock]
@@ -390,6 +420,12 @@ class TBlockBlock(BlockBlock):
         self.block_three = [7, 0, BlockColour[TBlock]]
         self.block_four = [6, 1, BlockColour[TBlock]]  # Assigns the respective blocks to four separate lists
         self.block_list = [self.block_one, self.block_two, self.block_three, self.block_four]
+        self.block_lowest = self.block_four  # Initializing the extremities of the block
+        self.block_rightest = self.block_three
+        self.block_leftest = self.block_one
+        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
+        self.block_rightest_list.append(self.block_one)
+        self.block_leftest_list.append(self.block_one)
         TGrid[5][0] = BlockColour[TBlock]
         TGrid[6][0] = BlockColour[TBlock]
         TGrid[7][0] = BlockColour[TBlock]
@@ -412,6 +448,12 @@ class SBlockBlock(BlockBlock):
         self.block_three = [5, 1, BlockColour[SBlock]]
         self.block_four = [4, 1, BlockColour[SBlock]]  # Assigns the respective blocks to four separate lists
         self.block_list = [self.block_one, self.block_two, self.block_three, self.block_four]
+        self.block_lowest = self.block_four  # Initializing the extremities of the block
+        self.block_rightest = self.block_two
+        self.block_leftest = self.block_four
+        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
+        self.block_rightest_list.append(self.block_one)
+        self.block_leftest_list.append(self.block_one)
         TGrid[5][0] = BlockColour[SBlock]
         TGrid[6][0] = BlockColour[SBlock]
         TGrid[5][1] = BlockColour[SBlock]
@@ -434,6 +476,12 @@ class ZBlockBlock(BlockBlock):
         self.block_three = [6, 1, BlockColour[ZBlock]]
         self.block_four = [7, 1, BlockColour[ZBlock]]  # Assigns the respective blocks to four separate lists
         self.block_list = [self.block_one, self.block_two, self.block_three, self.block_four]
+        self.block_lowest = self.block_four  # Initializing the extremities of the block
+        self.block_rightest = self.block_four
+        self.block_leftest = self.block_one
+        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
+        self.block_rightest_list.append(self.block_one)
+        self.block_leftest_list.append(self.block_one)
         TGrid[5][0] = BlockColour[ZBlock]
         TGrid[6][0] = BlockColour[ZBlock]
         TGrid[6][1] = BlockColour[ZBlock]
@@ -496,6 +544,7 @@ def place_next_block():
             BlockObject.store_block()
             active_block.empty()
             active_block.add(BlockObject)
+            BlockObject.update_block_setup()
             next_block_store = 1  # Marks that the block store is empty
         else:
             next_block_store = BlockChosen
@@ -505,7 +554,6 @@ def shift_block():
     global finished_moving
     global not_clear
     for BlockObject in active_block:
-        BlockObject.update_block_setup()
         if BlockObject.check_t_grid_down() == "Reached bottom" or BlockObject.check_t_grid_down() != True:
             active_block.remove(BlockObject)
             # Block is quick dropped to the bottom of the available space in grid.
