@@ -211,12 +211,13 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_rightest_list = []
         self.block_leftest_list = []
 
-    def update_block_setup(self):
-        for counter in range(3):
-            if (self.block_list[counter])[1] > self.block_lowest[1]:
-                self.block_lowest_list.append(self.block_list[counter])
-                self.block_lowest = self.block_list[counter]
-            elif (self.block_list[counter])[1] == self.block_lowest[1]:
+    def update_block_setup(self):  # Tracks the lowest blocks in the list that need to be accounted for
+        self.block_lowest_list.clear()
+        self.block_rightest_list.clear()
+        self.block_leftest_list.clear()
+        for counter in range(4):
+            print(self.block_list[counter][1], self.block_lowest)
+            if (self.block_list[counter])[1] > self.block_lowest[1] or (self.block_list[counter])[1] == self.block_lowest[1]:
                 self.block_lowest.append(self.block_list[counter])
             if (self.block_list[counter])[0] < self.block_leftest[0]:
                 self.block_leftest.append(self.block_list[counter])
@@ -229,25 +230,21 @@ class BlockBlock(pygame.sprite.Sprite):
             elif (self.block_list[counter])[0] == self.block_rightest[0]:
                 self.block_rightest_list.append(self.block_list[counter])
             # Updating the closest block to the boundaries of screens
-        print(self.block_list[counter])
-        print("lowest", self.block_lowest)
-        print("lowest_list", self.block_lowest_list)
-        print("rightest_list", self.block_rightest_list)
-        print("leftest_list", self.block_leftest_list)
+            # CLEARED HERE
 
     def check_t_grid_down(self):
-        print("Check move")
+        self.valid_block_move = True
         if self.block_lowest[1] == 19:
             return "Reached bottom"  # Checks if the block has reached the bottom
         elif self.block_lowest[1] < 19:
-            if TGrid[self.block_lowest[0]][self.block_lowest[1] + 1] != 0:
-                print("YO", self.block_lowest)
-                for counter in range(4):
-                    if TGrid[(self.block_list[counter])[0]][(self.block_list[counter])[1] + 1] != 0 and (str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[0])[0]) + str((self.block_list[0])[1] + 1) or str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[1])[0]) + str((self.block_list[1])[1] + 1) or str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[2])[0]) + str((self.block_list[2])[1] + 1) or str((self.block_list[counter])[0]) + str((self.block_list[counter])[1]) != str((self.block_list[3])[0]) + str((self.block_list[3])[1] + 1)):
-                        # Checks if the bottom of the block is clear when moved
-                        self.valid_block_move = False
-                        print("False move")
-            return self.valid_block_move
+            for counter in range(len(self.block_lowest_list)):
+                if TGrid[(self.block_lowest_list[counter])[0]][(self.block_lowest_list[counter])[1] + 1] != 0:
+                    for count in range(len(self.block_lowest_list)):
+                        if str((self.block_lowest_list[counter])[0]) + str((self.block_lowest_list[counter])[1]) != str((self.block_lowest_list[count])[0]) + str((self.block_lowest_list[count])[1] + 1):
+                            # Checks if the bottom of the block is clear when moved
+                            self.valid_block_move = False
+                            print(str((self.block_lowest_list[counter])[1]), " len ", len(self.block_lowest_list), self.block_lowest_list, " end len ", str((self.block_lowest_list[counter])[1]))
+        return self.valid_block_move
 
     def check_t_grid_left(self):
         if self.block_leftest[0] == 1:
@@ -277,7 +274,6 @@ class BlockBlock(pygame.sprite.Sprite):
         for counter in range(4):
             TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]] = 0
         for counter in range(4):
-            print("block_list pos", (self.block_list[counter])[0], (self.block_list[counter])[1])
             (self.block_list[counter])[1] = (self.block_list[counter])[1] + 1  # Update the moved blocks once moved
             TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]] = BlockColour[self.block_colour]
 
@@ -296,8 +292,6 @@ class BlockBlock(pygame.sprite.Sprite):
     def reset_valid(self):
         # if true valid move is reset
         self.valid_block_move = True
-        print("y: ", self.y_max)
-        print("x: ", self.x_max)
 
 
 class IBlockBlock(BlockBlock):
@@ -371,7 +365,7 @@ class LBlockBlock(BlockBlock):
         self.block_one = [5, 0, BlockColour[LBlock]]
         self.block_two = [5, 1, BlockColour[LBlock]]
         self.block_three = [5, 2, BlockColour[LBlock]]
-        self.block_four = [6, 3, BlockColour[LBlock]]  # Assigns the respective blocks to four separate lists
+        self.block_four = [6, 2, BlockColour[LBlock]]  # Assigns the respective blocks to four separate lists
         self.block_list = [self.block_one, self.block_two, self.block_three, self.block_four]
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_four
@@ -563,7 +557,9 @@ def shift_block():
     global finished_moving
     global not_clear
     for BlockObject in active_block:
+        BlockObject.update_block_setup()
         if BlockObject.check_t_grid_down() == "Reached bottom" or BlockObject.check_t_grid_down() != True:
+            print("Not free")
             active_block.remove(BlockObject)
             # Block is quick dropped to the bottom of the available space in grid.
             finished_moving = True
@@ -572,6 +568,7 @@ def shift_block():
                 not_clear = False
                 place_next_block()
         elif BlockObject.check_t_grid_down():
+            print("Free")
             finished_moving = False
             BlockObject.move_t_grid_down()  # Block is moved down the grid by one for the current cycle
         BlockObject.reset_valid()
@@ -805,7 +802,6 @@ while not done:
             else:
                 Pilot_flickering = False
         elif event.type == MoveBlocks:
-            shift_block()
             wipe_grid()
             shift_block()
             # for BlockObject in active_block:
