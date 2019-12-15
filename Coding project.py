@@ -210,57 +210,64 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_lowest_list = []  # List of blocks that are at the boundaries stored
         self.block_rightest_list = []
         self.block_leftest_list = []
+        self.counterupdate = 3
+        self.countupdate = 3
 
     def update_block_setup(self):  # Tracks the lowest blocks in the list that need to be accounted for
         self.block_lowest_list.clear()
         self.block_rightest_list.clear()
         self.block_leftest_list.clear()
         self.block_lowest_list = self.block_list
-        counter = 3
-        count = 3
-        while counter > 0:
-            counter -= 1
-            while count > 0:
-                count -= 1
+        while self.counterupdate > -1:
+            self.counterupdate -= 1
+            while self.countupdate > -1:
+                self.countupdate -= 1
                 print("length", len(self.block_lowest_list))
-                print(self.block_lowest_list[counter][1], " and ", self.block_lowest_list[count][1] + 1)
+                print(self.block_lowest_list[self.counterupdate][1], " and ", self.block_lowest_list[self.countupdate][1] + 1)
                   # Checks for duplicates in the lowest_list
-                if (self.block_lowest_list[counter][1]) == (self.block_lowest_list[count][1] + 1) and (self.block_lowest_list[counter])[0] == self.block_lowest_list[count][0]:
-                    print("yuh found common", self.block_lowest_list[counter][1], " and ", self.block_lowest_list[count][1] + 1, "btw the thing to be removed is ", self.block_lowest_list[counter])
-                    self.block_lowest_list.remove(self.block_lowest_list[counter])
+                if (self.block_lowest_list[self.counterupdate][1]) == (self.block_lowest_list[self.countupdate][1] + 1) and (self.block_lowest_list[self.counterupdate])[0] == self.block_lowest_list[self.countupdate][0]:
+                    print("yuh found common", self.block_lowest_list[self.counterupdate][1], " and ", self.block_lowest_list[self.countupdate][1] + 1, "btw the thing to be removed is ", self.block_lowest_list[self.counterupdate])
+                    self.block_lowest_list.remove(self.block_lowest_list[self.counterupdate])
                     print("length", len(self.block_lowest_list))
                     print(self.block_lowest_list)
-                    print(counter, count)
-                    counter -= 1
-                    count -= 1
+                    self.counterupdate -= 1
+                    self.countupdate -= 1
+                    print(self.counterupdate, self.countupdate)
+                if self.block_lowest[1] >= self.block_lowest_list[self.countupdate][1]:
+                    self.block_lowest = self.block_lowest_list[self.countupdate]
             # Creates lowest_list, which stores blocks not obstructed vertically i.e. needs to be check_t_grided.
                     # Adds the blocks of the shape with the lowest y pos to the list of the lowest blocks
-        if (self.block_list[counter])[0] < self.block_leftest[0]:
-            self.block_leftest.append(self.block_list[counter])
-            self.block_leftest = self.block_list[counter]
-        elif (self.block_list[counter])[0] == self.block_leftest[0]:
-            self.block_leftest_list.append(self.block_list[counter])
-        if (self.block_list[counter])[0] > self.block_rightest[0]:
-            self.block_rightest_list.append(self.block_list[counter])
-            self.block_rightest = self.block_list[counter]
-        elif (self.block_list[counter])[0] == self.block_rightest[0]:
-            self.block_rightest_list.append(self.block_list[counter])
+        if (self.block_list[self.counterupdate])[0] < self.block_leftest[0]:
+            self.block_leftest.append(self.block_list[self.counterupdate])
+            self.block_leftest = self.block_list[self.counterupdate]
+        elif (self.block_list[self.counterupdate])[0] == self.block_leftest[0]:
+            self.block_leftest_list.append(self.block_list[self.counterupdate])
+        if (self.block_list[self.counterupdate])[0] > self.block_rightest[0]:
+            self.block_rightest_list.append(self.block_list[self.counterupdate])
+            self.block_rightest = self.block_list[self.counterupdate]
+        elif (self.block_list[self.counterupdate])[0] == self.block_rightest[0]:
+            self.block_rightest_list.append(self.block_list[self.counterupdate])
         # Updating the closest block to the boundaries of screens
         # CLEARED HERE
-        print("counter = ", counter, "count = ", count)
+        print("counter = ", self.counterupdate, "count = ", self.countupdate)
 
     def check_t_grid_down(self):
+        self.countercheckdown = 0
+        self.countcheckdown = 0
         self.valid_block_move = True
         if self.block_lowest[1] == 19:
             return "Reached bottom"  # Checks if the block has reached the bottom
         elif self.block_lowest[1] < 19:
-            for counter in range(len(self.block_lowest_list)):
-                if TGrid[(self.block_lowest_list[counter])[0]][(self.block_lowest_list[counter])[1] + 1] != 0:
-                    for count in range(len(self.block_lowest_list)):
-                        if str((self.block_lowest_list[counter])[0]) + str((self.block_lowest_list[counter])[1]) != str((self.block_lowest_list[count])[0]) + str((self.block_lowest_list[count])[1] + 1):
+            while self.countercheckdown != range((len(self.block_lowest_list)) - 1):
+                if TGrid[(self.block_lowest_list[self.countercheckdown])[0]][(self.block_lowest_list[self.countercheckdown])[1] + 1] != 0:
+                    while self.countcheckdown != range((len(self.block_lowest_list)) - 1):
+                        if str((self.block_lowest_list[self.countercheckdown])[0]) + str((self.block_lowest_list[self.countercheckdown])[1] + 1) != str((self.block_lowest_list[self.countcheckdown])[0]) + str((self.block_lowest_list[self.countcheckdown])[1]):
                             # Checks if the bottom of the block is clear when moved
                             self.valid_block_move = False
-                            print(str((self.block_lowest_list[counter])[1]), " len ", len(self.block_lowest_list), self.block_lowest_list, " end len ", str((self.block_lowest_list[counter])[1]))
+                            print("boi", str((self.block_lowest_list[self.countercheckdown])[0]) + str((self.block_lowest_list[self.countercheckdown])[1]), str((self.block_lowest_list[self.countcheckdown])[0]) + str((self.block_lowest_list[self.countcheckdown])[1] + 1))
+                        print(self.countcheckdown, len(self.block_lowest_list), "len(self.block_lowest_list)", (self.block_lowest_list)[self.countcheckdown])
+                        self.countcheckdown += 1
+                self.countercheckdown += 1
         return self.valid_block_move
 
     def check_t_grid_left(self):
@@ -574,7 +581,7 @@ def shift_block():
     global finished_moving
     global not_clear
     for BlockObject in active_block:
-        BlockObject.update_block_setup()
+
         if BlockObject.check_t_grid_down() == "Reached bottom" or BlockObject.check_t_grid_down() != True:
             print("Not free")
             active_block.remove(BlockObject)
