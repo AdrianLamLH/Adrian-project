@@ -215,22 +215,39 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_lowest_list.clear()
         self.block_rightest_list.clear()
         self.block_leftest_list.clear()
-        for counter in range(4):
-            print(self.block_list[counter][1], self.block_lowest)
-            if (self.block_list[counter])[1] > self.block_lowest[1] or (self.block_list[counter])[1] == self.block_lowest[1]:
-                self.block_lowest.append(self.block_list[counter])
-            if (self.block_list[counter])[0] < self.block_leftest[0]:
-                self.block_leftest.append(self.block_list[counter])
-                self.block_leftest = self.block_list[counter]
-            elif (self.block_list[counter])[0] == self.block_leftest[0]:
-                self.block_leftest_list.append(self.block_list[counter])
-            if (self.block_list[counter])[0] > self.block_rightest[0]:
-                self.block_rightest_list.append(self.block_list[counter])
-                self.block_rightest = self.block_list[counter]
-            elif (self.block_list[counter])[0] == self.block_rightest[0]:
-                self.block_rightest_list.append(self.block_list[counter])
-            # Updating the closest block to the boundaries of screens
-            # CLEARED HERE
+        self.block_lowest_list = self.block_list
+        counter = 3
+        count = 3
+        while counter > 0:
+            counter -= 1
+            while count > 0:
+                count -= 1
+                print("length", len(self.block_lowest_list))
+                print(self.block_lowest_list[counter][1], " and ", self.block_lowest_list[count][1] + 1)
+                  # Checks for duplicates in the lowest_list
+                if (self.block_lowest_list[counter][1]) == (self.block_lowest_list[count][1] + 1) and (self.block_lowest_list[counter])[0] == self.block_lowest_list[count][0]:
+                    print("yuh found common", self.block_lowest_list[counter][1], " and ", self.block_lowest_list[count][1] + 1, "btw the thing to be removed is ", self.block_lowest_list[counter])
+                    self.block_lowest_list.remove(self.block_lowest_list[counter])
+                    print("length", len(self.block_lowest_list))
+                    print(self.block_lowest_list)
+                    print(counter, count)
+                    counter -= 1
+                    count -= 1
+            # Creates lowest_list, which stores blocks not obstructed vertically i.e. needs to be check_t_grided.
+                    # Adds the blocks of the shape with the lowest y pos to the list of the lowest blocks
+        if (self.block_list[counter])[0] < self.block_leftest[0]:
+            self.block_leftest.append(self.block_list[counter])
+            self.block_leftest = self.block_list[counter]
+        elif (self.block_list[counter])[0] == self.block_leftest[0]:
+            self.block_leftest_list.append(self.block_list[counter])
+        if (self.block_list[counter])[0] > self.block_rightest[0]:
+            self.block_rightest_list.append(self.block_list[counter])
+            self.block_rightest = self.block_list[counter]
+        elif (self.block_list[counter])[0] == self.block_rightest[0]:
+            self.block_rightest_list.append(self.block_list[counter])
+        # Updating the closest block to the boundaries of screens
+        # CLEARED HERE
+        print("counter = ", counter, "count = ", count)
 
     def check_t_grid_down(self):
         self.valid_block_move = True
