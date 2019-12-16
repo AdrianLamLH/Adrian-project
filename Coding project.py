@@ -210,6 +210,7 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_lowest_list = []  # List of blocks that are at the boundaries stored
         self.block_rightest_list = []
         self.block_leftest_list = []
+        self.block_list_temp = []
         self.valid_blocks = 0
 
     def update_block_setup(self):  # Tracks the lowest blocks in the list that need to be accounted for
@@ -319,11 +320,14 @@ class BlockBlock(pygame.sprite.Sprite):
             return self.valid_block_move
 
     def move_t_grid_down(self):  # Previous space occupied by block cleared and moved into next space below
-        for counter in range(4):
-            TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]] = 0
-        for counter in range(4):
-            (self.block_list[counter])[1] = (self.block_list[counter])[1] + 1  # Update the moved blocks once moved
-            TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]] = BlockColour[self.block_colour]
+        print(self.block_list, "then lowest is : ", self.block_lowest_list)
+        self.block_list = self.block_list_temp
+        for self.countermovedown in range(3):
+            print(TGrid[((self.block_list[self.countermovedown])[0])][(self.block_list[self.countermovedown])[1]])
+            TGrid[((self.block_list[self.countermovedown])[0])][(self.block_list[self.countermovedown])[1]] = 0
+        for self.countmovedown in range(3):
+            (self.block_list[self.countmovedown])[1] = (self.block_list[self.countmovedown])[1] + 1  # Update the moved blocks once moved
+            TGrid[((self.block_list[self.countmovedown])[0])][(self.block_list[self.countmovedown])[1]] = BlockColour[self.block_colour]
 
     def move_t_grid_left(self):  # Previous space occupied by block cleared and moved into next left space
         for counter in range(4):
@@ -364,6 +368,7 @@ class IBlockBlock(BlockBlock):
         self.block_leftest = self.block_one
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_list_temp = self.block_list
         TGrid[5][0] = BlockColour[IBlock]
         TGrid[5][1] = BlockColour[IBlock]
         TGrid[5][2] = BlockColour[IBlock]
@@ -391,6 +396,7 @@ class JBlockBlock(BlockBlock):
         self.block_leftest = self.block_four
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_list_temp = self.block_list
         TGrid[6][0] = BlockColour[JBlock]
         TGrid[6][1] = BlockColour[JBlock]
         TGrid[6][2] = BlockColour[JBlock]
@@ -418,6 +424,7 @@ class LBlockBlock(BlockBlock):
         self.block_leftest = self.block_one
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_list_temp = self.block_list
         TGrid[5][0] = BlockColour[LBlock]
         TGrid[5][1] = BlockColour[LBlock]
         TGrid[5][2] = BlockColour[LBlock]
@@ -445,6 +452,7 @@ class OBlockBlock(BlockBlock):
         self.block_leftest = self.block_one
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_list_temp = self.block_list
         TGrid[5][0] = BlockColour[OBlock]
         TGrid[6][0] = BlockColour[OBlock]
         TGrid[5][1] = BlockColour[OBlock]
@@ -472,6 +480,7 @@ class TBlockBlock(BlockBlock):
         self.block_leftest = self.block_one
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_list_temp = self.block_list
         TGrid[5][0] = BlockColour[TBlock]
         TGrid[6][0] = BlockColour[TBlock]
         TGrid[7][0] = BlockColour[TBlock]
@@ -499,6 +508,7 @@ class SBlockBlock(BlockBlock):
         self.block_leftest = self.block_four
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_list_temp = self.block_list
         TGrid[5][0] = BlockColour[SBlock]
         TGrid[6][0] = BlockColour[SBlock]
         TGrid[5][1] = BlockColour[SBlock]
@@ -526,6 +536,7 @@ class ZBlockBlock(BlockBlock):
         self.block_leftest = self.block_one
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_list_temp = self.block_list
         TGrid[5][0] = BlockColour[ZBlock]
         TGrid[6][0] = BlockColour[ZBlock]
         TGrid[6][1] = BlockColour[ZBlock]
