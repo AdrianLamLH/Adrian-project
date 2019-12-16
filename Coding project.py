@@ -210,46 +210,51 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_lowest_list = []  # List of blocks that are at the boundaries stored
         self.block_rightest_list = []
         self.block_leftest_list = []
-        self.counterupdate = 3
-        self.countupdate = 3
 
     def update_block_setup(self):  # Tracks the lowest blocks in the list that need to be accounted for
         self.block_lowest_list.clear()
         self.block_rightest_list.clear()
         self.block_leftest_list.clear()
         self.block_lowest_list = self.block_list
-        while self.counterupdate > -1:
-            self.counterupdate -= 1
-            while self.countupdate > -1:
-                self.countupdate -= 1
-                print("length", len(self.block_lowest_list))
-                print(self.block_lowest_list[self.counterupdate][1], " and ", self.block_lowest_list[self.countupdate][1] + 1)
-                  # Checks for duplicates in the lowest_list
-                if (self.block_lowest_list[self.counterupdate][1]) == (self.block_lowest_list[self.countupdate][1] + 1) and (self.block_lowest_list[self.counterupdate])[0] == self.block_lowest_list[self.countupdate][0]:
-                    print("yuh found common", self.block_lowest_list[self.counterupdate][1], " and ", self.block_lowest_list[self.countupdate][1] + 1, "btw the thing to be removed is ", self.block_lowest_list[self.counterupdate])
-                    self.block_lowest_list.remove(self.block_lowest_list[self.counterupdate])
-                    print("length", len(self.block_lowest_list))
-                    print(self.block_lowest_list)
-                    self.counterupdate -= 1
-                    self.countupdate -= 1
-                    print(self.counterupdate, self.countupdate)
-                if self.block_lowest[1] >= self.block_lowest_list[self.countupdate][1]:
-                    self.block_lowest = self.block_lowest_list[self.countupdate]
+        if self.block_one[1] in self.block_lowest_list and self.block_two[1] in self.block_lowest_list:
+            if self.block_one[0] == self.block_two[0]:
+                if self.block_one[1] == self.block_two[1] - 1:
+                    self.block_lowest_list.remove(self.block_one)
+                elif self.block_one[1] == self.block_two[1] + 1:
+                    self.block_lowest_list.remove(self.block_two)
+        if self.block_two[1] in self.block_lowest_list and self.block_three[1] in self.block_lowest_list:
+            if self.block_two[0] == self.block_three[0]:
+                if self.block_two[1] == self.block_three[1] - 1:
+                    self.block_lowest_list.remove(self.block_two)
+                elif self.block_two[1] == self.block_three[1] + 1:
+                    self.block_lowest_list.remove(self.block_three)
+        if self.block_three[1] in self.block_lowest_list and self.block_four[1] in self.block_lowest_list:
+            if self.block_three[0] == self.block_four[0]:
+                if self.block_three[1] == self.block_four[1] - 1:
+                    self.block_lowest_list.remove(self.block_three)
+                elif self.block_three[1] == self.block_four[1] + 1:
+                    self.block_lowest_list.remove(self.block_four)
+        if self.block_two[1] in self.block_lowest_list and self.block_four[1] in self.block_lowest_list:
+            if self.block_two[0] == self.block_four[0]:
+                if self.block_two[1] == self.block_four[1] - 1:
+                    self.block_lowest_list.remove(self.block_two)
+                elif self.block_two[1] == self.block_four[1] + 1:
+                    self.block_lowest_list.remove(self.block_four)
+        if self.block_one[1] in self.block_lowest_list and self.block_four[1] in self.block_lowest_list:
+            if self.block_one[0] == self.block_four[0]:
+                if self.block_one[1] == self.block_four[1] - 1:
+                    self.block_lowest_list.remove(self.block_one)
+                elif self.block_one[1] == self.block_four[1] + 1:
+                    self.block_lowest_list.remove(self.block_four)
+        if self.block_one[1] in self.block_lowest_list and self.block_three[1] in self.block_lowest_list:
+            if self.block_one[0] == self.block_three[0]:
+                if self.block_one[1] == self.block_three[1] - 1:
+                    self.block_lowest_list.remove(self.block_one)
+                if self.block_one[1] == self.block_three[1] + 1:
+                    self.block_lowest_list.remove(self.block_three)
             # Creates lowest_list, which stores blocks not obstructed vertically i.e. needs to be check_t_grided.
                     # Adds the blocks of the shape with the lowest y pos to the list of the lowest blocks
-        if (self.block_list[self.counterupdate])[0] < self.block_leftest[0]:
-            self.block_leftest.append(self.block_list[self.counterupdate])
-            self.block_leftest = self.block_list[self.counterupdate]
-        elif (self.block_list[self.counterupdate])[0] == self.block_leftest[0]:
-            self.block_leftest_list.append(self.block_list[self.counterupdate])
-        if (self.block_list[self.counterupdate])[0] > self.block_rightest[0]:
-            self.block_rightest_list.append(self.block_list[self.counterupdate])
-            self.block_rightest = self.block_list[self.counterupdate]
-        elif (self.block_list[self.counterupdate])[0] == self.block_rightest[0]:
-            self.block_rightest_list.append(self.block_list[self.counterupdate])
-        # Updating the closest block to the boundaries of screens
-        # CLEARED HERE
-        print("counter = ", self.counterupdate, "count = ", self.countupdate)
+
 
     def check_t_grid_down(self):
         self.countercheckdown = 0
@@ -338,7 +343,6 @@ class IBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_one
         self.block_leftest = self.block_one
-        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         TGrid[5][0] = BlockColour[IBlock]
@@ -366,7 +370,6 @@ class JBlockBlock(BlockBlock):
         self.block_lowest = self.block_three  # Initializing the extremities of the block
         self.block_rightest = self.block_one
         self.block_leftest = self.block_four
-        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         TGrid[6][0] = BlockColour[JBlock]
@@ -394,7 +397,6 @@ class LBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_four
         self.block_leftest = self.block_one
-        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         TGrid[5][0] = BlockColour[LBlock]
@@ -422,7 +424,6 @@ class OBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_two
         self.block_leftest = self.block_one
-        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         TGrid[5][0] = BlockColour[OBlock]
@@ -450,7 +451,6 @@ class TBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_three
         self.block_leftest = self.block_one
-        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         TGrid[5][0] = BlockColour[TBlock]
@@ -478,7 +478,6 @@ class SBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_two
         self.block_leftest = self.block_four
-        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         TGrid[5][0] = BlockColour[SBlock]
@@ -506,7 +505,6 @@ class ZBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_four
         self.block_leftest = self.block_one
-        self.block_lowest_list.append(self.block_lowest)  # Initializing the extremities of the block
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         TGrid[5][0] = BlockColour[ZBlock]
