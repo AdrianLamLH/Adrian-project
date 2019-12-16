@@ -288,9 +288,9 @@ class BlockBlock(pygame.sprite.Sprite):
                 else:
                     self.valid_blocks += 1
                     print("+ 1 valid empty")
-            if self.valid_blocks != 4:
+            if self.valid_blocks == len(self.block_lowest_list):
                 print("Valid block score", self.valid_blocks)
-                self.valid_block_move = False
+                self.valid_block_move = True
                 return self.valid_block_move
 
 
