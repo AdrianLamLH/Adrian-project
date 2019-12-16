@@ -210,6 +210,7 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_lowest_list = []  # List of blocks that are at the boundaries stored
         self.block_rightest_list = []
         self.block_leftest_list = []
+        self.valid_blocks = 0
 
     def update_block_setup(self):  # Tracks the lowest blocks in the list that need to be accounted for
         self.block_lowest_list.clear()
@@ -259,21 +260,24 @@ class BlockBlock(pygame.sprite.Sprite):
     def check_t_grid_down(self):
         self.countercheckdown = 0
         self.countcheckdown = 0
+        self.valid_blocks = 0
         self.valid_block_move = True
         if self.block_lowest[1] == 19:
             return "Reached bottom"  # Checks if the block has reached the bottom
         elif self.block_lowest[1] < 19:
-            while self.countercheckdown != range((len(self.block_lowest_list)) - 1):
+            for self.countercheckdown in range(len(self.block_lowest_list) - 1):
                 if TGrid[(self.block_lowest_list[self.countercheckdown])[0]][(self.block_lowest_list[self.countercheckdown])[1] + 1] != 0:
-                    while self.countcheckdown != range((len(self.block_lowest_list)) - 1):
-                        if str((self.block_lowest_list[self.countercheckdown])[0]) + str((self.block_lowest_list[self.countercheckdown])[1] + 1) != str((self.block_lowest_list[self.countcheckdown])[0]) + str((self.block_lowest_list[self.countcheckdown])[1]):
-                            # Checks if the bottom of the block is clear when moved
-                            self.valid_block_move = False
-                            print("boi", str((self.block_lowest_list[self.countercheckdown])[0]) + str((self.block_lowest_list[self.countercheckdown])[1]), str((self.block_lowest_list[self.countcheckdown])[0]) + str((self.block_lowest_list[self.countcheckdown])[1] + 1))
-                        print(self.countcheckdown, len(self.block_lowest_list), "len(self.block_lowest_list)", (self.block_lowest_list)[self.countcheckdown])
-                        self.countcheckdown += 1
-                self.countercheckdown += 1
-        return self.valid_block_move
+                    for self.countcheckdown in range(3):
+                        print("block in discussion", str((self.block_lowest_list[self.countercheckdown])[0]) + str(
+                            (self.block_lowest_list[self.countercheckdown])[1] + 1))
+                        print("block comparison", self.block_list[self.countcheckdown])
+                        if str((self.block_lowest_list[self.countercheckdown])[0]) + str((self.block_lowest_list[self.countercheckdown])[1] + 1) == self.block_list[self.countcheckdown]:
+                            self.valid_blocks += 1
+            if self.valid_blocks != 4:
+                print(self.valid_blocks)
+                self.valid_block_move = False
+                return self.valid_block_move
+
 
     def check_t_grid_left(self):
         if self.block_leftest[0] == 1:
