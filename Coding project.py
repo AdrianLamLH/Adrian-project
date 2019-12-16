@@ -217,37 +217,47 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_rightest_list.clear()
         self.block_leftest_list.clear()
         self.block_lowest_list = self.block_list
-        if self.block_one[1] in self.block_lowest_list and self.block_two[1] in self.block_lowest_list:
+        # Checking stuff
+        print("------------------------")
+        print(self.block_one)
+        print(self.block_two)
+        print(self.block_three)
+        print(self.block_four)
+        print(self.block_lowest_list)
+        print(self.block_one, " same as ", self.block_lowest_list[0])
+        print("~~~~~~~~~~~~~~~~~~~~~~~~")
+        # Checking stuff end
+        if self.block_one in self.block_lowest_list and self.block_two in self.block_lowest_list:
             if self.block_one[0] == self.block_two[0]:
                 if self.block_one[1] == self.block_two[1] - 1:
                     self.block_lowest_list.remove(self.block_one)
                 elif self.block_one[1] == self.block_two[1] + 1:
                     self.block_lowest_list.remove(self.block_two)
-        if self.block_two[1] in self.block_lowest_list and self.block_three[1] in self.block_lowest_list:
+        if self.block_two in self.block_lowest_list and self.block_three in self.block_lowest_list:
             if self.block_two[0] == self.block_three[0]:
                 if self.block_two[1] == self.block_three[1] - 1:
                     self.block_lowest_list.remove(self.block_two)
                 elif self.block_two[1] == self.block_three[1] + 1:
                     self.block_lowest_list.remove(self.block_three)
-        if self.block_three[1] in self.block_lowest_list and self.block_four[1] in self.block_lowest_list:
+        if self.block_three in self.block_lowest_list and self.block_four in self.block_lowest_list:
             if self.block_three[0] == self.block_four[0]:
                 if self.block_three[1] == self.block_four[1] - 1:
                     self.block_lowest_list.remove(self.block_three)
                 elif self.block_three[1] == self.block_four[1] + 1:
                     self.block_lowest_list.remove(self.block_four)
-        if self.block_two[1] in self.block_lowest_list and self.block_four[1] in self.block_lowest_list:
+        if self.block_two in self.block_lowest_list and self.block_four in self.block_lowest_list:
             if self.block_two[0] == self.block_four[0]:
                 if self.block_two[1] == self.block_four[1] - 1:
                     self.block_lowest_list.remove(self.block_two)
                 elif self.block_two[1] == self.block_four[1] + 1:
                     self.block_lowest_list.remove(self.block_four)
-        if self.block_one[1] in self.block_lowest_list and self.block_four[1] in self.block_lowest_list:
+        if self.block_one in self.block_lowest_list and self.block_four in self.block_lowest_list:
             if self.block_one[0] == self.block_four[0]:
                 if self.block_one[1] == self.block_four[1] - 1:
                     self.block_lowest_list.remove(self.block_one)
                 elif self.block_one[1] == self.block_four[1] + 1:
                     self.block_lowest_list.remove(self.block_four)
-        if self.block_one[1] in self.block_lowest_list and self.block_three[1] in self.block_lowest_list:
+        if self.block_one in self.block_lowest_list and self.block_three in self.block_lowest_list:
             if self.block_one[0] == self.block_three[0]:
                 if self.block_one[1] == self.block_three[1] - 1:
                     self.block_lowest_list.remove(self.block_one)
@@ -261,20 +271,25 @@ class BlockBlock(pygame.sprite.Sprite):
         self.countercheckdown = 0
         self.countcheckdown = 0
         self.valid_blocks = 0
-        self.valid_block_move = True
+        self.valid_block_move = False
         if self.block_lowest[1] == 19:
             return "Reached bottom"  # Checks if the block has reached the bottom
         elif self.block_lowest[1] < 19:
+            print("length of list - 1:", len(self.block_lowest_list) - 1, "and the list itself:", self.block_lowest_list)
             for self.countercheckdown in range(len(self.block_lowest_list) - 1):
+                print("TGrid block", TGrid[(self.block_lowest_list[self.countercheckdown])[0]][(self.block_lowest_list[self.countercheckdown])[1] + 1])
                 if TGrid[(self.block_lowest_list[self.countercheckdown])[0]][(self.block_lowest_list[self.countercheckdown])[1] + 1] != 0:
                     for self.countcheckdown in range(3):
-                        print("block in discussion", str((self.block_lowest_list[self.countercheckdown])[0]) + str(
-                            (self.block_lowest_list[self.countercheckdown])[1] + 1))
+                        print("block in discussion", str((self.block_lowest_list[self.countercheckdown])[0]) + str((self.block_lowest_list[self.countercheckdown])[1] + 1))
                         print("block comparison", self.block_list[self.countcheckdown])
-                        if str((self.block_lowest_list[self.countercheckdown])[0]) + str((self.block_lowest_list[self.countercheckdown])[1] + 1) == self.block_list[self.countcheckdown]:
+                        if str((self.block_lowest_list[self.countercheckdown])[0]) + str((self.block_lowest_list[self.countercheckdown])[1] + 1) == str(self.block_list[self.countcheckdown][0]) + str(self.block_list[self.countcheckdown][1]):
                             self.valid_blocks += 1
+                            print("+ 1 valid same block")
+                else:
+                    self.valid_blocks += 1
+                    print("+ 1 valid empty")
             if self.valid_blocks != 4:
-                print(self.valid_blocks)
+                print("Valid block score", self.valid_blocks)
                 self.valid_block_move = False
                 return self.valid_block_move
 
