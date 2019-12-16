@@ -276,7 +276,7 @@ class BlockBlock(pygame.sprite.Sprite):
             return "Reached bottom"  # Checks if the block has reached the bottom
         elif self.block_lowest[1] < 19:
             print("length of list - 1:", len(self.block_lowest_list) - 1, "and the list itself:", self.block_lowest_list)
-            for self.countercheckdown in range(len(self.block_lowest_list) - 1):
+            for self.countercheckdown in range(len(self.block_lowest_list)):
                 print("TGrid block", TGrid[(self.block_lowest_list[self.countercheckdown])[0]][(self.block_lowest_list[self.countercheckdown])[1] + 1])
                 if TGrid[(self.block_lowest_list[self.countercheckdown])[0]][(self.block_lowest_list[self.countercheckdown])[1] + 1] != 0:
                     for self.countcheckdown in range(3):
