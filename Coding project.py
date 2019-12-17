@@ -442,9 +442,7 @@ class BlockBlock(pygame.sprite.Sprite):
         print(self.block_dimensions)
         self.block_dimensions = self.block_dimensions.transpose()
         print(self.block_dimensions)
-        for self.swapy in range(self.block_dimensions.shape[0]):
-            for self.swapx in range(self.block_dimensions.shape[1]-1):
-                self.block_dimensions[self.swapy][self.swapx] = self.block_dimensions[self.swapy][self.block_dimensions.shape[1] - 1 - self.swapx]
+        self.block_dimensions = numpy.fliplr(self.block_dimensions)
         print(self.block_dimensions)
 
     def reset_valid(self):
@@ -460,10 +458,6 @@ class IBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
-        self.block_matrix = BlockShape[IBlock]  # Assigns the block_matrix to store this specific block shape
-        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
-        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         self.block_one = [5, 0, BlockColour[IBlock]]
         self.block_two = [5, 1, BlockColour[IBlock]]
         self.block_three = [5, 2, BlockColour[IBlock]]
@@ -474,6 +468,10 @@ class IBlockBlock(BlockBlock):
         self.block_leftest = self.block_one
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_matrix = [self.block_one, self.block_two, self.block_three, self.block_four]  # Assigns the block_matrix to store this specific block shape
+        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
+        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
+        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         TGrid[5][0] = BlockColour[IBlock]
         TGrid[5][1] = BlockColour[IBlock]
         TGrid[5][2] = BlockColour[IBlock]
@@ -514,10 +512,6 @@ class LBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
-        self.block_matrix = BlockShape[LBlock]  # Assigns the block_matrix to store this specific block shape
-        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
-        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         self.block_one = [5, 0, BlockColour[LBlock]]
         self.block_two = [5, 1, BlockColour[LBlock]]
         self.block_three = [5, 2, BlockColour[LBlock]]
@@ -528,6 +522,10 @@ class LBlockBlock(BlockBlock):
         self.block_leftest = self.block_one
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_matrix = [[self.block_one, 0], [self.block_two, 0], [self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
+        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
+        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
+        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         TGrid[5][0] = BlockColour[LBlock]
         TGrid[5][1] = BlockColour[LBlock]
         TGrid[5][2] = BlockColour[LBlock]
@@ -541,10 +539,6 @@ class OBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
-        self.block_matrix = BlockShape[OBlock]  # Assigns the block_matrix to store this specific block shape
-        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
-        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         self.block_one = [5, 0, BlockColour[OBlock]]
         self.block_two = [6, 0, BlockColour[OBlock]]
         self.block_three = [5, 1, BlockColour[OBlock]]
@@ -555,6 +549,10 @@ class OBlockBlock(BlockBlock):
         self.block_leftest = self.block_one
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_matrix = [[self.block_one, self.block_two], [self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
+        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
+        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
+        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         TGrid[5][0] = BlockColour[OBlock]
         TGrid[6][0] = BlockColour[OBlock]
         TGrid[5][1] = BlockColour[OBlock]
@@ -568,10 +566,6 @@ class TBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
-        self.block_matrix = BlockShape[TBlock]  # Assigns the block_matrix to store this specific block shape
-        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
-        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         self.block_one = [5, 0, BlockColour[TBlock]]
         self.block_two = [6, 0, BlockColour[TBlock]]
         self.block_three = [7, 0, BlockColour[TBlock]]
@@ -582,6 +576,10 @@ class TBlockBlock(BlockBlock):
         self.block_leftest = self.block_one
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_matrix = [[self.block_one, self.block_two, self.block_three], [0, self.block_four, 0]]  # Assigns the block_matrix to store this specific block shape
+        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
+        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
+        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         TGrid[5][0] = BlockColour[TBlock]
         TGrid[6][0] = BlockColour[TBlock]
         TGrid[7][0] = BlockColour[TBlock]
@@ -595,10 +593,6 @@ class SBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
-        self.block_matrix = BlockShape[SBlock]  # Assigns the block_matrix to store this specific block shape
-        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
-        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         self.block_one = [5, 0, BlockColour[SBlock]]
         self.block_two = [6, 0, BlockColour[SBlock]]
         self.block_three = [5, 1, BlockColour[SBlock]]
@@ -609,6 +603,10 @@ class SBlockBlock(BlockBlock):
         self.block_leftest = self.block_four
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_matrix = [[0, self.block_one, self.block_two], [self.block_four, self.block_three, 0]]  # Assigns the block_matrix to store this specific block shape
+        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
+        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
+        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         TGrid[5][0] = BlockColour[SBlock]
         TGrid[6][0] = BlockColour[SBlock]
         TGrid[5][1] = BlockColour[SBlock]
@@ -622,10 +620,6 @@ class ZBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 5
         self.row = 0
-        self.block_matrix = BlockShape[ZBlock]  # Assigns the block_matrix to store this specific block shape
-        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
-        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         self.block_one = [5, 0, BlockColour[ZBlock]]
         self.block_two = [6, 0, BlockColour[ZBlock]]
         self.block_three = [6, 1, BlockColour[ZBlock]]
@@ -636,6 +630,10 @@ class ZBlockBlock(BlockBlock):
         self.block_leftest = self.block_one
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_matrix = [[self.block_one, self.block_two, 0], [0, self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
+        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
+        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
+        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         TGrid[5][0] = BlockColour[ZBlock]
         TGrid[6][0] = BlockColour[ZBlock]
         TGrid[6][1] = BlockColour[ZBlock]
@@ -844,15 +842,6 @@ Pilot = Pilot()
 list_all_sprites.add(Pilot)
 # Initialise block types
 BlockColour = {IBlock: GREEN, JBlock: BLUE, LBlock: YELLOW, OBlock: RED, TBlock: BROWN, SBlock: ORANGE, ZBlock: PURPLE}
-# Initialise block types
-BlockShape = {IBlock: [GREEN, GREEN, GREEN, GREEN],
-              JBlock: [[0, BLUE], [0, BLUE], [BLUE, BLUE]],
-              LBlock: [[YELLOW, 0], [YELLOW, 0], [YELLOW, YELLOW]],
-              OBlock: [[RED, RED], [RED, RED]],
-              TBlock: [[BROWN, BROWN, BROWN], [0, BROWN, 0]],
-              SBlock: [[0, ORANGE, ORANGE], [ORANGE, ORANGE, 0]],
-              ZBlock: [[PURPLE, PURPLE, 0], [0, PURPLE, PURPLE]]
-              }
 # Loop until the user clicks the close button
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
