@@ -214,6 +214,8 @@ class BlockBlock(pygame.sprite.Sprite):
         self.valid_blocks = 0
         self.valid_blocks_left = 0
         self.valid_blocks_right = 0
+        self.xcounter = 0
+        self.ycounter = 0
 
     def update_block_setup(self):  # Tracks the lowest blocks in the list that need to be accounted for
         self.block_lowest_list.clear()
@@ -223,6 +225,8 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_leftest_list = list(self.block_list)
         self.block_rightest_list = list(self.block_list)
         self.block_list_temp = list(self.block_list)
+        self.column = self.block_one[0]
+        self.row = self.block_one[1]
 
         # Lowest list
 
@@ -416,6 +420,7 @@ class BlockBlock(pygame.sprite.Sprite):
 
     def move_t_grid_down(self):  # Previous space occupied by block cleared and moved into next space below
         self.block_list = list(self.block_list_temp)
+        self.column += 1
         for self.countermovedown in range(4):
             TGrid[((self.block_list[self.countermovedown])[0])][(self.block_list[self.countermovedown])[1]] = 0
         for self.countmovedown in range(4):
@@ -424,6 +429,7 @@ class BlockBlock(pygame.sprite.Sprite):
 
     def move_t_grid_left(self):  # Previous space occupied by block cleared and moved into next left space
         self.block_list = list(self.block_list_temp)
+        self.row -= 1
         for self.countermoveleft in range(4):
             TGrid[((self.block_list[self.countermoveleft])[0])][(self.block_list[self.countermoveleft])[1]] = 0
         for self.countmoveleft in range(4):
@@ -432,6 +438,7 @@ class BlockBlock(pygame.sprite.Sprite):
 
     def move_t_grid_right(self):   # Previous space occupied by block cleared and moved into next right space
         self.block_list = list(self.block_list_temp)
+        self.row += 1
         for self.countermoveright in range(4):
             TGrid[((self.block_list[self.countermoveright])[0])][(self.block_list[self.countermoveright])[1]] = 0
         for self.countmoveright in range(4):
@@ -439,11 +446,32 @@ class BlockBlock(pygame.sprite.Sprite):
             TGrid[((self.block_list[self.countmoveright])[0])][(self.block_list[self.countmoveright])[1]] = BlockColour[self.block_colour]
 
     def rotate(self):
-        print(self.block_dimensions)
+        TGrid[self.block_one[1]][self.block_one[0]] = 0
+        TGrid[self.block_two[1]][self.block_two[0]] = 0
+        TGrid[self.block_three[1]][self.block_three[0]] = 0
+        TGrid[self.block_four[1]][self.block_four[0]] = 0
+        print(self.block_list)
         self.block_dimensions = self.block_dimensions.transpose()
-        print(self.block_dimensions)
         self.block_dimensions = numpy.fliplr(self.block_dimensions)
-        print(self.block_dimensions)
+        for self.xcounter in range(len(self.block_dimensions[0])-1):
+            for self.ycounter in range(len(self.block_dimensions[1])-1):
+                if self.block_dimensions[self.xcounter][self.ycounter] == self.block_one:
+                    self.block_one[0] = self.column + self.xcounter
+                    self.block_one[1] = self.row + self.ycounter
+                if self.block_dimensions[self.xcounter][self.ycounter] == self.block_two:
+                    self.block_two[0] = self.column + self.xcounter
+                    self.block_two[1] = self.row + self.ycounter
+                if self.block_dimensions[self.xcounter][self.ycounter] == self.block_three:
+                    self.block_three[0] = self.column + self.xcounter
+                    self.block_three[1] = self.row + self.ycounter
+                if self.block_dimensions[self.xcounter][self.ycounter] == self.block_four:
+                    self.block_four[0] = self.column + self.xcounter
+                    self.block_four[1] = self.row + self.ycounter
+        TGrid[self.block_one[1]][self.block_one[0]] = self.BlockColour
+        TGrid[self.block_two[1]][self.block_two[0]] = self.BlockColour
+        TGrid[self.block_three[1]][self.block_three[0]] = self.BlockColour
+        TGrid[self.block_four[1]][self.block_four[0]] = self.BlockColour
+        print("rotated", self.block_list)
 
     def reset_valid(self):
         # if true valid move is reset
@@ -466,12 +494,11 @@ class IBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_one
         self.block_leftest = self.block_one
+        self.block_colour = BlockColour[IBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [self.block_one, self.block_two, self.block_three, self.block_four]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
-        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         TGrid[5][0] = BlockColour[IBlock]
         TGrid[5][1] = BlockColour[IBlock]
         TGrid[5][2] = BlockColour[IBlock]
@@ -485,10 +512,6 @@ class JBlockBlock(BlockBlock):
     def store_block(self):
         self.column = 6
         self.row = 0
-        self.block_matrix = BlockShape[JBlock]  # Assigns the block_matrix to store this specific block shape
-        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
-        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         self.block_one = [6, 0, BlockColour[JBlock]]
         self.block_two = [6, 1, BlockColour[JBlock]]
         self.block_three = [6, 2, BlockColour[JBlock]]
@@ -497,8 +520,11 @@ class JBlockBlock(BlockBlock):
         self.block_lowest = self.block_three  # Initializing the extremities of the block
         self.block_rightest = self.block_one
         self.block_leftest = self.block_four
+        self.BlockColour = BlockColour[JBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.block_matrix = [[self.block_one, 0], [self.block_two, 0], [self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
+        self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
         TGrid[6][0] = BlockColour[JBlock]
         TGrid[6][1] = BlockColour[JBlock]
         TGrid[6][2] = BlockColour[JBlock]
@@ -520,12 +546,11 @@ class LBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_four
         self.block_leftest = self.block_one
+        self.BlockColour = BlockColour[LBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, 0], [self.block_two, 0], [self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
-        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         TGrid[5][0] = BlockColour[LBlock]
         TGrid[5][1] = BlockColour[LBlock]
         TGrid[5][2] = BlockColour[LBlock]
@@ -547,12 +572,11 @@ class OBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_two
         self.block_leftest = self.block_one
+        self.BlockColour = BlockColour[OBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, self.block_two], [self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
-        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         TGrid[5][0] = BlockColour[OBlock]
         TGrid[6][0] = BlockColour[OBlock]
         TGrid[5][1] = BlockColour[OBlock]
@@ -574,12 +598,11 @@ class TBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_three
         self.block_leftest = self.block_one
+        self.BlockColour = BlockColour[TBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, self.block_two, self.block_three], [0, self.block_four, 0]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
-        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         TGrid[5][0] = BlockColour[TBlock]
         TGrid[6][0] = BlockColour[TBlock]
         TGrid[7][0] = BlockColour[TBlock]
@@ -601,12 +624,11 @@ class SBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_two
         self.block_leftest = self.block_four
+        self.BlockColour = BlockColour[SBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[0, self.block_one, self.block_two], [self.block_four, self.block_three, 0]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
-        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         TGrid[5][0] = BlockColour[SBlock]
         TGrid[6][0] = BlockColour[SBlock]
         TGrid[5][1] = BlockColour[SBlock]
@@ -628,12 +650,11 @@ class ZBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_four
         self.block_leftest = self.block_one
+        self.BlockColour = BlockColour[ZBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, self.block_two, 0], [0, self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.y_max = self.block_dimensions.shape[0]  # Performs function on array to find the height of the block
-        self.x_max = self.block_dimensions.shape[1]  # Performs function on array to find the width of the block
         TGrid[5][0] = BlockColour[ZBlock]
         TGrid[6][0] = BlockColour[ZBlock]
         TGrid[6][1] = BlockColour[ZBlock]
