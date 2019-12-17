@@ -386,7 +386,6 @@ class BlockBlock(pygame.sprite.Sprite):
                             self.valid_blocks_left += 1
                 else:
                     self.valid_blocks_left += 1
-                print("leftest list", self.block_leftest_list, len(self.block_leftest_list))
             if self.valid_blocks_left == len(self.block_leftest_list):
                 self.valid_block_move = True
                 return self.valid_block_move
@@ -438,6 +437,15 @@ class BlockBlock(pygame.sprite.Sprite):
         for self.countmoveright in range(4):
             (self.block_list[self.countmoveright])[0] = (self.block_list[self.countmoveright])[0] + 1  # Update the moved blocks once moved
             TGrid[((self.block_list[self.countmoveright])[0])][(self.block_list[self.countmoveright])[1]] = BlockColour[self.block_colour]
+
+    def rotate(self):
+        print(self.block_dimensions)
+        self.block_dimensions = self.block_dimensions.transpose()
+        print(self.block_dimensions)
+        for self.swapy in range(self.block_dimensions.shape[0]):
+            for self.swapx in range(self.block_dimensions.shape[1]-1):
+                self.block_dimensions[self.swapy][self.swapx] = self.block_dimensions[self.swapy][self.block_dimensions.shape[1] - 1 - self.swapx]
+        print(self.block_dimensions)
 
     def reset_valid(self):
         # if true valid move is reset
@@ -913,6 +921,10 @@ while not done:
                         else:
                             print("Reached bottom manually")
                     BlockObject.reset_valid()
+            elif event.key == pygame.K_r:
+                if active_block:
+                    for BlockObject in active_block:
+                        BlockObject.rotate()
         # The bullet continues to fire automatically
         elif event.type == FireRate:
             Shot = Bullet()
