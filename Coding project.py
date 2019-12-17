@@ -212,23 +212,20 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_leftest_list = []
         self.block_list_temp = []
         self.valid_blocks = 0
+        self.valid_blocks_left = 0
+        self.valid_blocks_right = 0
 
     def update_block_setup(self):  # Tracks the lowest blocks in the list that need to be accounted for
         self.block_lowest_list.clear()
         self.block_rightest_list.clear()
         self.block_leftest_list.clear()
-        self.block_lowest_list = self.block_list
+        self.block_lowest_list = list(self.block_list)
+        self.block_leftest_list = list(self.block_list)
+        self.block_rightest_list = list(self.block_list)
         self.block_list_temp = list(self.block_list)
-        # Checking stuff
-        print("------------------------")
-        print(self.block_one)
-        print(self.block_two)
-        print(self.block_three)
-        print(self.block_four)
-        print(self.block_lowest_list)
-        print(self.block_one, " same as ", self.block_lowest_list[0])
-        print("~~~~~~~~~~~~~~~~~~~~~~~~")
-        # Checking stuff end
+
+        # Lowest list
+
         if self.block_one in self.block_lowest_list and self.block_two in self.block_lowest_list:
             if self.block_one[0] == self.block_two[0]:
                 if self.block_one[1] == self.block_two[1] - 1:
@@ -266,7 +263,86 @@ class BlockBlock(pygame.sprite.Sprite):
                 if self.block_one[1] == self.block_three[1] + 1:
                     self.block_lowest_list.remove(self.block_three)
             # Creates lowest_list, which stores blocks not obstructed vertically i.e. needs to be check_t_grided.
-                    # Adds the blocks of the shape with the lowest y pos to the list of the lowest blocks
+                    # Removes the blocks that are obstructed by block to on top
+
+        # Leftest list
+        if self.block_one in self.block_leftest_list and self.block_two in self.block_leftest_list:
+            if self.block_one[1] == self.block_two[1]:
+                if self.block_one[0] == self.block_two[0] + 1:
+                    self.block_leftest_list.remove(self.block_one)
+                elif self.block_one[0] == self.block_two[0] - 1:
+                    self.block_leftest_list.remove(self.block_two)
+        if self.block_two in self.block_leftest_list and self.block_three in self.block_leftest_list:
+            if self.block_two[1] == self.block_three[1]:
+                if self.block_two[0] == self.block_three[0] + 1:
+                    self.block_leftest_list.remove(self.block_two)
+                elif self.block_two[0] == self.block_three[0] - 1:
+                    self.block_leftest_list.remove(self.block_three)
+        if self.block_three in self.block_leftest_list and self.block_four in self.block_leftest_list:
+            if self.block_three[1] == self.block_four[1]:
+                if self.block_three[0] == self.block_four[0] + 1:
+                    self.block_leftest_list.remove(self.block_three)
+                elif self.block_three[0] == self.block_four[0] - 1:
+                    self.block_leftest_list.remove(self.block_four)
+        if self.block_two in self.block_leftest_list and self.block_four in self.block_leftest_list:
+            if self.block_two[1] == self.block_four[1]:
+                if self.block_two[0] == self.block_four[0] + 1:
+                    self.block_leftest_list.remove(self.block_two)
+                elif self.block_two[0] == self.block_four[0] - 1:
+                    self.block_leftest_list.remove(self.block_four)
+        if self.block_one in self.block_leftest_list and self.block_four in self.block_leftest_list:
+            if self.block_one[1] == self.block_four[1]:
+                if self.block_one[0] == self.block_four[0] + 1:
+                    self.block_leftest_list.remove(self.block_one)
+                elif self.block_one[0] == self.block_four[0] - 1:
+                    self.block_leftest_list.remove(self.block_four)
+        if self.block_one in self.block_leftest_list and self.block_three in self.block_leftest_list:
+            if self.block_one[1] == self.block_three[1]:
+                if self.block_one[0] == self.block_three[0] + 1:
+                    self.block_leftest_list.remove(self.block_one)
+                if self.block_one[0] == self.block_three[0] - 1:
+                    self.block_leftest_list.remove(self.block_three)
+                    # Creates leftest list, which stores blocks not obstructed horizontally i.e. needs to be check_t_grided.
+                    # Removes the blocks that are obstructed by block to left
+        # Rightest list
+        if self.block_one in self.block_rightest_list and self.block_two in self.block_rightest_list:
+            if self.block_one[1] == self.block_two[1]:
+                if self.block_one[0] == self.block_two[0] - 1:
+                    self.block_rightest_list.remove(self.block_one)
+                elif self.block_one[0] == self.block_two[0] + 1:
+                    self.block_rightest_list.remove(self.block_two)
+        if self.block_two in self.block_rightest_list and self.block_three in self.block_rightest_list:
+            if self.block_two[1] == self.block_three[1]:
+                if self.block_two[0] == self.block_three[0] - 1:
+                    self.block_rightest_list.remove(self.block_two)
+                elif self.block_two[0] == self.block_three[0] + 1:
+                    self.block_rightest_list.remove(self.block_three)
+        if self.block_three in self.block_rightest_list and self.block_four in self.block_rightest_list:
+            if self.block_three[1] == self.block_four[1]:
+                if self.block_three[0] == self.block_four[0] - 1:
+                    self.block_rightest_list.remove(self.block_three)
+                elif self.block_three[0] == self.block_four[0] + 1:
+                    self.block_rightest_list.remove(self.block_four)
+        if self.block_two in self.block_rightest_list and self.block_four in self.block_rightest_list:
+            if self.block_two[1] == self.block_four[1]:
+                if self.block_two[0] == self.block_four[0] - 1:
+                    self.block_rightest_list.remove(self.block_two)
+                elif self.block_two[0] == self.block_four[0] + 1:
+                    self.block_rightest_list.remove(self.block_four)
+        if self.block_one in self.block_rightest_list and self.block_four in self.block_rightest_list:
+            if self.block_one[1] == self.block_four[1]:
+                if self.block_one[0] == self.block_four[0] - 1:
+                    self.block_rightest_list.remove(self.block_one)
+                elif self.block_one[0] == self.block_four[0] + 1:
+                    self.block_rightest_list.remove(self.block_four)
+        if self.block_one in self.block_rightest_list and self.block_three in self.block_rightest_list:
+            if self.block_one[1] == self.block_three[1]:
+                if self.block_one[0] == self.block_three[0] - 1:
+                    self.block_rightest_list.remove(self.block_one)
+                if self.block_one[0] == self.block_three[0] + 1:
+                    self.block_rightest_list.remove(self.block_three)
+                    # Creates righest list, which stores blocks not obstructed horizontally i.e. needs to be check_t_grided.
+                    # Removes the blocks that are obstructed by block to right
 
 
     def check_t_grid_down(self):
@@ -277,71 +353,91 @@ class BlockBlock(pygame.sprite.Sprite):
         if self.block_lowest[1] == 19:
             return "Reached bottom"  # Checks if the block has reached the bottom
         elif self.block_lowest[1] < 19:
-            print("length of list - 1:", len(self.block_lowest_list) - 1, "and the list itself:", self.block_lowest_list)
+            # If block hasn't reached bottom, check if the block below current is a part of itself
             for self.countercheckdown in range(len(self.block_lowest_list)):
-                print("TGrid block", TGrid[(self.block_lowest_list[self.countercheckdown])[0]][(self.block_lowest_list[self.countercheckdown])[1] + 1])
                 if TGrid[(self.block_lowest_list[self.countercheckdown])[0]][(self.block_lowest_list[self.countercheckdown])[1] + 1] != 0:
                     for self.countcheckdown in range(3):
-                        print("block in discussion", str((self.block_lowest_list[self.countercheckdown])[0]) + str((self.block_lowest_list[self.countercheckdown])[1] + 1))
-                        print("block comparison", self.block_list[self.countcheckdown])
                         if str((self.block_lowest_list[self.countercheckdown])[0]) + str((self.block_lowest_list[self.countercheckdown])[1] + 1) == str(self.block_list[self.countcheckdown][0]) + str(self.block_list[self.countcheckdown][1]):
+                            # If the block is part of itself, the block is free to move
                             self.valid_blocks += 1
-                            print("+ 1 valid same block")
                 else:
                     self.valid_blocks += 1
-                    print("+ 1 valid empty")
             if self.valid_blocks == len(self.block_lowest_list):
-                print("Valid block score", self.valid_blocks)
                 self.valid_block_move = True
                 return self.valid_block_move
 
 
     def check_t_grid_left(self):
-        if self.block_leftest[0] == 1:
+        self.countercheckleft = 0
+        self.countcheckleft = 0
+        self.valid_blocks_left = 0
+        self.valid_block_move = False
+        if self.block_leftest[0] == 0:
             return "Reached left"  # Checks if the block has reached the left
-        else:
-            if self.block_leftest[0] > 1:  # If the block hasn't reached the left edge, each block checked for valid move
-                for counter in range(3):
-                    if TGrid[((self.block_list[counter])[0]) - 1][(self.block_list[counter])[1]] != 0 \
-                            and TGrid[((self.block_list[counter])[0]) - 1][(self.block_list[counter])[1]] != \
-                                    BlockColour[IBlock]:
-                        # If the block in block_list would replace an already placed block on the grid, not valid move
-                        self.valid_block_move = False
-            return self.valid_block_move
+        if self.block_leftest[0] > 0:
+        # If block hasn't reached leftest, check if the block to the left of current is a part of itself
+            for self.countercheckleft in range(len(self.block_leftest_list)):
+                if TGrid[(self.block_leftest_list[self.countercheckleft])[0] - 1][(self.block_leftest_list[self.countercheckleft])[1]] != 0:
+                    for self.countcheckleft in range(3):
+                        if str((self.block_leftest_list[self.countercheckleft])[0] - 1) + str(
+                                (self.block_leftest_list[self.countercheckleft])[1]) == str(
+                                self.block_list[self.countcheckleft][0]) + str(self.block_list[self.countcheckleft][1]):
+                            # If the block is part of itself, the block is free to move
+                            self.valid_blocks_left += 1
+                else:
+                    self.valid_blocks_left += 1
+                print("leftest list", self.block_leftest_list, len(self.block_leftest_list))
+            if self.valid_blocks_left == len(self.block_leftest_list):
+                self.valid_block_move = True
+                return self.valid_block_move
 
     def check_t_grid_right(self):
-        if self.block_rightest[0] == 10:
+        self.countercheckright = 0
+        self.countcheckright = 0
+        self.valid_blocks_right = 0
+        self.valid_block_move = False
+        if self.block_rightest[0] == 9:
             return "Reached right"  # Checks if the block has reached the right
-        else:
-            if self.block_rightest[0] < 10:
-                if TGrid[((self.block_list[counter])[0]) + 1][(self.block_list[counter])[1]] != 0 \
-                        and TGrid[((self.block_list[counter])[0]) + 1][(self.block_list[counter])[1]] != \
-                                BlockColour[self.block_colour]:  # Checks if the blocks to be moved into are clear
-                    self.valid_block_move = False
-            return self.valid_block_move
+        if self.block_rightest[0] < 9:
+            for self.countercheckright in range(len(self.block_rightest_list)):
+                if TGrid[(self.block_rightest_list[self.countercheckright])[0] + 1][
+                    (self.block_rightest_list[self.countercheckright])[1]] != 0:
+                    for self.countcheckright in range(3):
+                        if str((self.block_rightest_list[self.countercheckright])[0] + 1) + str(
+                                (self.block_rightest_list[self.countercheckright])[1]) == str(
+                            self.block_list[self.countcheckright][0]) + str(
+                            self.block_list[self.countcheckright][1]):
+                            # If the block is part of itself, the block is free to move
+                            self.valid_blocks_right += 1
+                else:
+                    self.valid_blocks_right += 1
+            if self.valid_blocks_right == len(self.block_rightest_list):
+                self.valid_block_move = True
+                return self.valid_block_move
 
     def move_t_grid_down(self):  # Previous space occupied by block cleared and moved into next space below
-        print(self.block_list, "then lowest is : ", self.block_lowest_list)
-        print("block list temp when moving", self.block_list_temp)
         self.block_list = list(self.block_list_temp)
         for self.countermovedown in range(4):
-            print(TGrid[((self.block_list[self.countermovedown])[0])][(self.block_list[self.countermovedown])[1]])
             TGrid[((self.block_list[self.countermovedown])[0])][(self.block_list[self.countermovedown])[1]] = 0
         for self.countmovedown in range(4):
             (self.block_list[self.countmovedown])[1] = (self.block_list[self.countmovedown])[1] + 1  # Update the moved blocks once moved
             TGrid[((self.block_list[self.countmovedown])[0])][(self.block_list[self.countmovedown])[1]] = BlockColour[self.block_colour]
 
     def move_t_grid_left(self):  # Previous space occupied by block cleared and moved into next left space
-        for counter in range(4):
-            TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]] = 0
-            TGrid[((self.block_list[counter])[0]) - 1][(self.block_list[counter])[1]] = BlockColour[self.block_colour]
-            (self.block_list[counter])[0] = (self.block_list[counter])[0] - 1
+        self.block_list = list(self.block_list_temp)
+        for self.countermoveleft in range(4):
+            TGrid[((self.block_list[self.countermoveleft])[0])][(self.block_list[self.countermoveleft])[1]] = 0
+        for self.countmoveleft in range(4):
+            (self.block_list[self.countmoveleft])[0] = (self.block_list[self.countmoveleft])[0] - 1  # Update the moved blocks once moved
+            TGrid[((self.block_list[self.countmoveleft])[0])][(self.block_list[self.countmoveleft])[1]] = BlockColour[self.block_colour]
 
     def move_t_grid_right(self):   # Previous space occupied by block cleared and moved into next right space
-        for counter in range(4):
-            TGrid[((self.block_list[counter])[0])][(self.block_list[counter])[1]] = 0
-            TGrid[((self.block_list[counter])[0]) + 1][(self.block_list[counter])[1]] = BlockColour[self.block_colour]
-            (self.block_list[counter])[0] = (self.block_list[counter])[0] + 1
+        self.block_list = list(self.block_list_temp)
+        for self.countermoveright in range(4):
+            TGrid[((self.block_list[self.countermoveright])[0])][(self.block_list[self.countermoveright])[1]] = 0
+        for self.countmoveright in range(4):
+            (self.block_list[self.countmoveright])[0] = (self.block_list[self.countmoveright])[0] + 1  # Update the moved blocks once moved
+            TGrid[((self.block_list[self.countmoveright])[0])][(self.block_list[self.countmoveright])[1]] = BlockColour[self.block_colour]
 
     def reset_valid(self):
         # if true valid move is reset
