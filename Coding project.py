@@ -225,8 +225,6 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_leftest_list = list(self.block_list)
         self.block_rightest_list = list(self.block_list)
         self.block_list_temp = list(self.block_list)
-        self.column = self.block_one[0]
-        self.row = self.block_one[1]
 
         # Lowest list
 
@@ -420,7 +418,7 @@ class BlockBlock(pygame.sprite.Sprite):
 
     def move_t_grid_down(self):  # Previous space occupied by block cleared and moved into next space below
         self.block_list = list(self.block_list_temp)
-        self.column += 1
+        self.row += 1
         for self.countermovedown in range(4):
             TGrid[((self.block_list[self.countermovedown])[0])][(self.block_list[self.countermovedown])[1]] = 0
         for self.countmovedown in range(4):
@@ -429,7 +427,7 @@ class BlockBlock(pygame.sprite.Sprite):
 
     def move_t_grid_left(self):  # Previous space occupied by block cleared and moved into next left space
         self.block_list = list(self.block_list_temp)
-        self.row -= 1
+        self.column -= 1
         for self.countermoveleft in range(4):
             TGrid[((self.block_list[self.countermoveleft])[0])][(self.block_list[self.countermoveleft])[1]] = 0
         for self.countmoveleft in range(4):
@@ -438,7 +436,7 @@ class BlockBlock(pygame.sprite.Sprite):
 
     def move_t_grid_right(self):   # Previous space occupied by block cleared and moved into next right space
         self.block_list = list(self.block_list_temp)
-        self.row += 1
+        self.column += 1
         for self.countermoveright in range(4):
             TGrid[((self.block_list[self.countermoveright])[0])][(self.block_list[self.countermoveright])[1]] = 0
         for self.countmoveright in range(4):
@@ -446,32 +444,45 @@ class BlockBlock(pygame.sprite.Sprite):
             TGrid[((self.block_list[self.countmoveright])[0])][(self.block_list[self.countmoveright])[1]] = BlockColour[self.block_colour]
 
     def rotate(self):
-        TGrid[self.block_one[1]][self.block_one[0]] = 0
-        TGrid[self.block_two[1]][self.block_two[0]] = 0
-        TGrid[self.block_three[1]][self.block_three[0]] = 0
-        TGrid[self.block_four[1]][self.block_four[0]] = 0
-        print(self.block_list)
+        print("1st", TGrid[self.block_one[0]][self.block_one[1]],TGrid[self.block_two[0]][self.block_two[1]],TGrid[self.block_three[0]][self.block_three[1]],TGrid[self.block_four[0]][self.block_four[1]])
+        TGrid[self.block_one[0]][self.block_one[1]] = 0
+        TGrid[self.block_two[0]][self.block_two[1]] = 0
+        TGrid[self.block_three[0]][self.block_three[1]] = 0
+        TGrid[self.block_four[0]][self.block_four[1]] = 0
+        print("pre-rotated", self.block_list)
+        print("column:", self.column, "row: ", self.row)
+        print("2nd", TGrid[self.block_one[0]][self.block_one[1]], TGrid[self.block_two[0]][self.block_two[1]],TGrid[self.block_three[0]][self.block_three[1]], TGrid[self.block_four[0]][self.block_four[1]])
         self.block_dimensions = self.block_dimensions.transpose()
         self.block_dimensions = numpy.fliplr(self.block_dimensions)
-        for self.xcounter in range(len(self.block_dimensions[0])-1):
-            for self.ycounter in range(len(self.block_dimensions[1])-1):
-                if self.block_dimensions[self.xcounter][self.ycounter] == self.block_one:
-                    self.block_one[0] = self.column + self.xcounter
-                    self.block_one[1] = self.row + self.ycounter
-                if self.block_dimensions[self.xcounter][self.ycounter] == self.block_two:
-                    self.block_two[0] = self.column + self.xcounter
-                    self.block_two[1] = self.row + self.ycounter
-                if self.block_dimensions[self.xcounter][self.ycounter] == self.block_three:
-                    self.block_three[0] = self.column + self.xcounter
-                    self.block_three[1] = self.row + self.ycounter
-                if self.block_dimensions[self.xcounter][self.ycounter] == self.block_four:
-                    self.block_four[0] = self.column + self.xcounter
-                    self.block_four[1] = self.row + self.ycounter
-        TGrid[self.block_one[1]][self.block_one[0]] = self.BlockColour
-        TGrid[self.block_two[1]][self.block_two[0]] = self.BlockColour
-        TGrid[self.block_three[1]][self.block_three[0]] = self.BlockColour
-        TGrid[self.block_four[1]][self.block_four[0]] = self.BlockColour
+        for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
+            if self.block_itself == self.block_one:
+                print("before b1", self.block_one, self.block_position)
+                self.block_one[0] = self.row
+                self.block_one[1] = self.column
+                print("after", self.block_one)
+            if self.block_dimensions == self.block_two:
+                print("before b2", self.block_two, self.block_position)
+                self.block_two[0] = self.row
+                self.block_two[1] = self.column
+                print("after", self.block_two, self.ycounter)
+            if self.block_dimensions == self.block_three:
+                print("before b3", self.block_three, self.block_position)
+                self.block_three[0] = self.row
+                self.block_three[1] = self.column
+                print("after", self.block_three, self.ycounter)
+            if self.block_dimensions == self.block_four:
+                print("before b4", self.block_four, self.block_position)
+                self.block_four[0] = self.row
+                self.block_four[1] = self.column
+                print("after", self.block_four, self.ycounter)
+        self.block_list = [self.block_one, self.block_two, self.block_three, self.block_four]
+        self.block_list_temp = list(self.block_list)
         print("rotated", self.block_list)
+        TGrid[self.block_one[0]][self.block_one[1]] = self.BlockColour
+        TGrid[self.block_two[0]][self.block_two[1]] = self.BlockColour
+        TGrid[self.block_three[0]][self.block_three[1]] = self.BlockColour
+        TGrid[self.block_four[0]][self.block_four[1]] = self.BlockColour
+        print("final", TGrid[self.block_one[0]][self.block_one[1]], TGrid[self.block_two[0]][self.block_two[1]],TGrid[self.block_three[0]][self.block_three[1]], TGrid[self.block_four[0]][self.block_four[1]])
 
     def reset_valid(self):
         # if true valid move is reset
@@ -499,6 +510,8 @@ class IBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [self.block_one, self.block_two, self.block_three, self.block_four]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
+        self.column = 5
+        self.row = 1
         TGrid[5][0] = BlockColour[IBlock]
         TGrid[5][1] = BlockColour[IBlock]
         TGrid[5][2] = BlockColour[IBlock]
@@ -525,6 +538,8 @@ class JBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, 0], [self.block_two, 0], [self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
+        self.column = 6
+        self.row = 1
         TGrid[6][0] = BlockColour[JBlock]
         TGrid[6][1] = BlockColour[JBlock]
         TGrid[6][2] = BlockColour[JBlock]
@@ -551,6 +566,8 @@ class LBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, 0], [self.block_two, 0], [self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
+        self.column = 5
+        self.row = 1
         TGrid[5][0] = BlockColour[LBlock]
         TGrid[5][1] = BlockColour[LBlock]
         TGrid[5][2] = BlockColour[LBlock]
@@ -577,6 +594,8 @@ class OBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, self.block_two], [self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
+        self.column = 6
+        self.row = 0
         TGrid[5][0] = BlockColour[OBlock]
         TGrid[6][0] = BlockColour[OBlock]
         TGrid[5][1] = BlockColour[OBlock]
@@ -603,6 +622,8 @@ class TBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, self.block_two, self.block_three], [0, self.block_four, 0]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
+        self.column = 6
+        self.row = 0
         TGrid[5][0] = BlockColour[TBlock]
         TGrid[6][0] = BlockColour[TBlock]
         TGrid[7][0] = BlockColour[TBlock]
@@ -629,6 +650,8 @@ class SBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[0, self.block_one, self.block_two], [self.block_four, self.block_three, 0]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
+        self.column = 5
+        self.row = 0
         TGrid[5][0] = BlockColour[SBlock]
         TGrid[6][0] = BlockColour[SBlock]
         TGrid[5][1] = BlockColour[SBlock]
@@ -655,6 +678,8 @@ class ZBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, self.block_two, 0], [0, self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
+        self.column = 6
+        self.row = 0
         TGrid[5][0] = BlockColour[ZBlock]
         TGrid[6][0] = BlockColour[ZBlock]
         TGrid[6][1] = BlockColour[ZBlock]
