@@ -455,31 +455,31 @@ class BlockBlock(pygame.sprite.Sprite):
         for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
             if self.block_itself == self.block_one:
                 print("before b1", self.block_one, self.block_position)
-                self.block_one[0] = self.row + self.block_position[0]
-                self.block_one[1] = self.column + self.block_position[1]
+                self.block_one[1] = self.row + self.block_position[0]
+                self.block_one[0] = self.column + self.block_position[1]
                 print("after", self.block_one)
             if self.block_itself == self.block_two:
                 print("before b2", self.block_two, self.block_position)
-                self.block_two[0] = self.row + self.block_position[0]
-                self.block_two[1] = self.column + self.block_position[1]
+                self.block_two[1] = self.row + self.block_position[0]
+                self.block_two[0] = self.column + self.block_position[1]
                 print("after", self.block_two, self.ycounter)
             if self.block_itself == self.block_three:
                 print("before b3", self.block_three, self.block_position)
-                self.block_three[0] = self.row + self.block_position[0]
-                self.block_three[1] = self.column + self.block_position[1]
+                self.block_three[1] = self.row + self.block_position[0]
+                self.block_three[0] = self.column + self.block_position[1]
                 print("after", self.block_three, self.ycounter)
             if self.block_itself == self.block_four:
                 print("before b4", self.block_four, self.block_position)
-                self.block_four[0] = self.row + self.block_position[0]
-                self.block_four[1] = self.column + self.block_position[1]
+                self.block_four[1] = self.row + self.block_position[0]
+                self.block_four[0] = self.column + self.block_position[1]
                 print("after", self.block_four, self.ycounter)
         self.block_list = [self.block_one, self.block_two, self.block_three, self.block_four]
         self.block_list_temp = list(self.block_list)
         print("rotated", self.block_list)
-        TGrid[self.block_one[1]][self.block_one[0]] = self.BlockColour
-        TGrid[self.block_two[1]][self.block_two[0]] = self.BlockColour
-        TGrid[self.block_three[1]][self.block_three[0]] = self.BlockColour
-        TGrid[self.block_four[1]][self.block_four[0]] = self.BlockColour
+        TGrid[self.block_one[0]][self.block_one[1]] = self.BlockColour
+        TGrid[self.block_two[0]][self.block_two[1]] = self.BlockColour
+        TGrid[self.block_three[0]][self.block_three[1]] = self.BlockColour
+        TGrid[self.block_four[0]][self.block_four[1]] = self.BlockColour
 
     def reset_valid(self):
         # if true valid move is reset
