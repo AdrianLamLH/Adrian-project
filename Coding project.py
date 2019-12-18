@@ -449,11 +449,9 @@ class BlockBlock(pygame.sprite.Sprite):
         TGrid[self.block_two[0]][self.block_two[1]] = 0
         TGrid[self.block_three[0]][self.block_three[1]] = 0
         TGrid[self.block_four[0]][self.block_four[1]] = 0
-        print("pre-rotated", self.block_list)
-        print("column:", self.column, "row: ", self.row)
-        print("2nd", TGrid[self.block_one[0]][self.block_one[1]], TGrid[self.block_two[0]][self.block_two[1]],TGrid[self.block_three[0]][self.block_three[1]], TGrid[self.block_four[0]][self.block_four[1]])
         self.block_dimensions = self.block_dimensions.transpose()
         self.block_dimensions = numpy.fliplr(self.block_dimensions)
+        print(self.block_dimensions)
         for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
             if self.block_itself == self.block_one:
                 print("before b1", self.block_one, self.block_position)
@@ -478,11 +476,10 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_list = [self.block_one, self.block_two, self.block_three, self.block_four]
         self.block_list_temp = list(self.block_list)
         print("rotated", self.block_list)
-        TGrid[self.block_one[0]][self.block_one[1]] = self.BlockColour
-        TGrid[self.block_two[0]][self.block_two[1]] = self.BlockColour
-        TGrid[self.block_three[0]][self.block_three[1]] = self.BlockColour
-        TGrid[self.block_four[0]][self.block_four[1]] = self.BlockColour
-        print("final", TGrid[self.block_one[0]][self.block_one[1]], TGrid[self.block_two[0]][self.block_two[1]],TGrid[self.block_three[0]][self.block_three[1]], TGrid[self.block_four[0]][self.block_four[1]])
+        TGrid[self.block_one[1]][self.block_one[0]] = self.BlockColour
+        TGrid[self.block_two[1]][self.block_two[0]] = self.BlockColour
+        TGrid[self.block_three[1]][self.block_three[0]] = self.BlockColour
+        TGrid[self.block_four[1]][self.block_four[0]] = self.BlockColour
 
     def reset_valid(self):
         # if true valid move is reset
@@ -510,8 +507,6 @@ class IBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [self.block_one, self.block_two, self.block_three, self.block_four]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.column = 5
-        self.row = 1
         TGrid[5][0] = BlockColour[IBlock]
         TGrid[5][1] = BlockColour[IBlock]
         TGrid[5][2] = BlockColour[IBlock]
@@ -538,8 +533,6 @@ class JBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, 0], [self.block_two, 0], [self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.column = 6
-        self.row = 1
         TGrid[6][0] = BlockColour[JBlock]
         TGrid[6][1] = BlockColour[JBlock]
         TGrid[6][2] = BlockColour[JBlock]
@@ -566,8 +559,6 @@ class LBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, 0], [self.block_two, 0], [self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.column = 5
-        self.row = 1
         TGrid[5][0] = BlockColour[LBlock]
         TGrid[5][1] = BlockColour[LBlock]
         TGrid[5][2] = BlockColour[LBlock]
@@ -594,8 +585,6 @@ class OBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, self.block_two], [self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.column = 6
-        self.row = 0
         TGrid[5][0] = BlockColour[OBlock]
         TGrid[6][0] = BlockColour[OBlock]
         TGrid[5][1] = BlockColour[OBlock]
@@ -622,8 +611,6 @@ class TBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, self.block_two, self.block_three], [0, self.block_four, 0]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.column = 6
-        self.row = 0
         TGrid[5][0] = BlockColour[TBlock]
         TGrid[6][0] = BlockColour[TBlock]
         TGrid[7][0] = BlockColour[TBlock]
@@ -635,7 +622,7 @@ class SBlockBlock(BlockBlock):
         super(SBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
-        self.column = 5
+        self.column = 4
         self.row = 0
         self.block_one = [5, 0, BlockColour[SBlock]]
         self.block_two = [6, 0, BlockColour[SBlock]]
@@ -650,8 +637,6 @@ class SBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[0, self.block_one, self.block_two], [self.block_four, self.block_three, 0]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.column = 5
-        self.row = 0
         TGrid[5][0] = BlockColour[SBlock]
         TGrid[6][0] = BlockColour[SBlock]
         TGrid[5][1] = BlockColour[SBlock]
@@ -678,8 +663,6 @@ class ZBlockBlock(BlockBlock):
         self.block_leftest_list.append(self.block_one)
         self.block_matrix = [[self.block_one, self.block_two, 0], [0, self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
-        self.column = 6
-        self.row = 0
         TGrid[5][0] = BlockColour[ZBlock]
         TGrid[6][0] = BlockColour[ZBlock]
         TGrid[6][1] = BlockColour[ZBlock]
