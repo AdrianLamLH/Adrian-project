@@ -444,7 +444,7 @@ class BlockBlock(pygame.sprite.Sprite):
             TGrid[((self.block_list[self.countmoveright])[0])][(self.block_list[self.countmoveright])[1]] = BlockColour[self.block_colour]
 
     def rotate(self):
-        print("1st", TGrid[self.block_one[0]][self.block_one[1]],TGrid[self.block_two[0]][self.block_two[1]],TGrid[self.block_three[0]][self.block_three[1]],TGrid[self.block_four[0]][self.block_four[1]])
+        print("1st", TGrid[self.block_one[0]][self.block_one[1]], TGrid[self.block_two[0]][self.block_two[1]], TGrid[self.block_three[0]][self.block_three[1]], TGrid[self.block_four[0]][self.block_four[1]])
         TGrid[self.block_one[0]][self.block_one[1]] = 0
         TGrid[self.block_two[0]][self.block_two[1]] = 0
         TGrid[self.block_three[0]][self.block_three[1]] = 0
@@ -477,14 +477,17 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_list_temp = list(self.block_list)
         print("rotated", self.block_list)
         for self.block_update_extremities_counter in range(4):
-            print("new lowest original", self.block_list[self.block_update_extremities_counter][1])
-            print("og lowest", self.block_lowest[1])
+            print("lowest block", self.block_lowest)
+            print("rightest block", self.block_rightest)
+            print("leftest block", self.block_leftest)
+            print("block list", self.block_list)
+            print("--------------", self.block_list[self.block_update_extremities_counter][1], "---------------")
             if self.block_list[self.block_update_extremities_counter][1] > self.block_lowest[1]:
-                self.block_lowest = self.block_list[self.block_update_extremities_counter][1]
+                self.block_lowest = self.block_list[self.block_update_extremities_counter]
             if self.block_list[self.block_update_extremities_counter][0] > self.block_rightest[0]:
-                self.block_rightest = self.block_list[self.block_update_extremities_counter][0]
+                self.block_rightest = self.block_list[self.block_update_extremities_counter]
             if self.block_list[self.block_update_extremities_counter][0] < self.block_leftest[0]:
-                self.block_leftest = self.block_list[self.block_update_extremities_counter][0]
+                self.block_leftest = self.block_list[self.block_update_extremities_counter]
 
         TGrid[self.block_one[0]][self.block_one[1]] = self.BlockColour
         TGrid[self.block_two[0]][self.block_two[1]] = self.BlockColour
