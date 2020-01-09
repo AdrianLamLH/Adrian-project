@@ -345,6 +345,23 @@ class BlockBlock(pygame.sprite.Sprite):
                     self.block_rightest_list.remove(self.block_three)
                     # Creates righest list, which stores blocks not obstructed horizontally i.e. needs to be check_t_grided.
                     # Removes the blocks that are obstructed by block to right
+        self.block_lowest = self.block_lowest_list[0]
+        self.block_rightest = self.block_rightest_list[0]
+        self.block_leftest = self.block_leftest_list[0]
+        for self.block_lowest_counter in range(len(self.block_lowest_list)):
+            if self.block_lowest_list[self.block_lowest_counter][0] > self.block_lowest[1]:
+                self.block_lowest = self.block_lowest_list[self.block_lowest_counter]
+        for self.block_rightest_counter in range(len(self.block_rightest_list)):
+            if self.block_rightest_list[self.block_rightest_counter][0] > self.block_rightest[0]:
+                self.block_rightest = self.block_rightest_list[self.block_rightest_counter]
+        for self.block_leftest_counter in range(len(self.block_leftest_list)):
+            if self.block_leftest_list[self.block_leftest_counter][0] > self.block_leftest[0]:
+                self.block_leftest = self.block_leftest_list[self.block_leftest_counter]
+        print("midlowest block", self.block_lowest_list)
+        print("midrightest block", self.block_rightest_list)
+        print("midleftest block", self.block_leftest)
+        print("midblock list", self.block_list)
+
 
 
     def check_t_grid_down(self):
@@ -450,6 +467,10 @@ class BlockBlock(pygame.sprite.Sprite):
         TGrid[self.block_four[0]][self.block_four[1]] = 0
         self.block_dimensions = self.block_dimensions.transpose()
         self.block_dimensions = numpy.fliplr(self.block_dimensions)
+        print("prelowest block", self.block_lowest)
+        print("prerightest block", self.block_rightest)
+        print("preleftest block", self.block_leftest)
+        print("preblock list", self.block_list)
         for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
             print(self.block_position)
             if self.block_itself == self.block_one:
@@ -536,7 +557,7 @@ class JBlockBlock(BlockBlock):
         self.BlockColour = BlockColour[JBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
-        self.block_matrix = [[self.block_one, 0], [self.block_two, 0], [self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
+        self.block_matrix = [[0, self.block_one], [0, self.block_two], [self.block_four, self.block_three]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
         TGrid[6][0] = BlockColour[JBlock]
         TGrid[6][1] = BlockColour[JBlock]
@@ -740,7 +761,6 @@ def shift_block():
     global finished_moving
     global not_clear
     for BlockObject in active_block:
-
         if BlockObject.check_t_grid_down() == "Reached bottom" or BlockObject.check_t_grid_down() != True:
             print("Not free")
             active_block.remove(BlockObject)
