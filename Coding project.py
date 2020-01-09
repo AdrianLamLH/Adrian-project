@@ -519,7 +519,7 @@ class IBlockBlock(BlockBlock):
     # Initial positioning of the chosen tetris blocks in the grid
     def store_block(self):
         self.column = 5
-        self.row = 0
+        self.row = 1
         self.block_one = [5, 0, BlockColour[IBlock]]
         self.block_two = [5, 1, BlockColour[IBlock]]
         self.block_three = [5, 2, BlockColour[IBlock]]
@@ -545,7 +545,7 @@ class JBlockBlock(BlockBlock):
 
     def store_block(self):
         self.column = 6
-        self.row = 0
+        self.row = 2
         self.block_one = [6, 0, BlockColour[JBlock]]
         self.block_two = [6, 1, BlockColour[JBlock]]
         self.block_three = [6, 2, BlockColour[JBlock]]
@@ -571,7 +571,7 @@ class LBlockBlock(BlockBlock):
 
     def store_block(self):
         self.column = 5
-        self.row = 0
+        self.row = 2
         self.block_one = [5, 0, BlockColour[LBlock]]
         self.block_two = [5, 1, BlockColour[LBlock]]
         self.block_three = [5, 2, BlockColour[LBlock]]
@@ -622,7 +622,7 @@ class TBlockBlock(BlockBlock):
         super(TBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
-        self.column = 5
+        self.column = 6
         self.row = 0
         self.block_one = [5, 0, BlockColour[TBlock]]
         self.block_two = [6, 0, BlockColour[TBlock]]
@@ -648,7 +648,7 @@ class SBlockBlock(BlockBlock):
         super(SBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
-        self.column = 4
+        self.column = 5
         self.row = 0
         self.block_one = [5, 0, BlockColour[SBlock]]
         self.block_two = [6, 0, BlockColour[SBlock]]
@@ -674,7 +674,7 @@ class ZBlockBlock(BlockBlock):
         super(ZBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
-        self.column = 5
+        self.column = 6
         self.row = 0
         self.block_one = [5, 0, BlockColour[ZBlock]]
         self.block_two = [6, 0, BlockColour[ZBlock]]
@@ -1002,7 +1002,7 @@ while not done:
         elif event.type == MoveBlocks:
             if finished_moving:
                 wipe_grid()
-                shift_block()
+            shift_block()
             # for BlockObject in active_block:
                 # BlockObject.pos()
 
