@@ -1000,8 +1000,9 @@ while not done:
             else:
                 Pilot_flickering = False
         elif event.type == MoveBlocks:
-            wipe_grid()
-            shift_block()
+            if finished_moving:
+                wipe_grid()
+                shift_block()
             # for BlockObject in active_block:
                 # BlockObject.pos()
 
