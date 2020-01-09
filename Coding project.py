@@ -472,7 +472,9 @@ class BlockBlock(pygame.sprite.Sprite):
         print("preleftest block", self.block_leftest)
         print("preblock list", self.block_list)
         for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
-            print(self.block_position)
+            print("----------------------------")
+            print("LOOOK ATTT THISSSS", self.block_position)
+            print("----------------------------")
             if self.block_itself == self.block_one:
                 print("before b1", self.block_one, self.block_position)
                 self.block_one[1] = self.row + self.block_position[0]
@@ -518,8 +520,6 @@ class IBlockBlock(BlockBlock):
 
     # Initial positioning of the chosen tetris blocks in the grid
     def store_block(self):
-        self.column = 5
-        self.row = 1
         self.block_one = [5, 0, BlockColour[IBlock]]
         self.block_two = [5, 1, BlockColour[IBlock]]
         self.block_three = [5, 2, BlockColour[IBlock]]
@@ -531,6 +531,8 @@ class IBlockBlock(BlockBlock):
         self.block_colour = BlockColour[IBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.column = self.block_two[0]
+        self.row = self.block_two[1]
         self.block_matrix = [self.block_one, self.block_two, self.block_three, self.block_four]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
         TGrid[5][0] = BlockColour[IBlock]
@@ -544,8 +546,6 @@ class JBlockBlock(BlockBlock):
         super(JBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
-        self.column = 6
-        self.row = 2
         self.block_one = [6, 0, BlockColour[JBlock]]
         self.block_two = [6, 1, BlockColour[JBlock]]
         self.block_three = [6, 2, BlockColour[JBlock]]
@@ -557,6 +557,8 @@ class JBlockBlock(BlockBlock):
         self.BlockColour = BlockColour[JBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.column = self.block_three[0]
+        self.row = self.block_three[1]
         self.block_matrix = [[0, self.block_one], [0, self.block_two], [self.block_four, self.block_three]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
         TGrid[6][0] = BlockColour[JBlock]
@@ -570,8 +572,6 @@ class LBlockBlock(BlockBlock):
         super(LBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
-        self.column = 5
-        self.row = 2
         self.block_one = [5, 0, BlockColour[LBlock]]
         self.block_two = [5, 1, BlockColour[LBlock]]
         self.block_three = [5, 2, BlockColour[LBlock]]
@@ -583,6 +583,8 @@ class LBlockBlock(BlockBlock):
         self.BlockColour = BlockColour[LBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.column = self.block_three[0]
+        self.row = self.block_three[1]
         self.block_matrix = [[self.block_one, 0], [self.block_two, 0], [self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
         TGrid[5][0] = BlockColour[LBlock]
@@ -622,8 +624,6 @@ class TBlockBlock(BlockBlock):
         super(TBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
-        self.column = 6
-        self.row = 0
         self.block_one = [5, 0, BlockColour[TBlock]]
         self.block_two = [6, 0, BlockColour[TBlock]]
         self.block_three = [7, 0, BlockColour[TBlock]]
@@ -635,6 +635,8 @@ class TBlockBlock(BlockBlock):
         self.BlockColour = BlockColour[TBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.column = self.block_two[0]
+        self.row = self.block_two[1]
         self.block_matrix = [[self.block_one, self.block_two, self.block_three], [0, self.block_four, 0]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
         TGrid[5][0] = BlockColour[TBlock]
@@ -648,8 +650,6 @@ class SBlockBlock(BlockBlock):
         super(SBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
-        self.column = 5
-        self.row = 0
         self.block_one = [5, 0, BlockColour[SBlock]]
         self.block_two = [6, 0, BlockColour[SBlock]]
         self.block_three = [5, 1, BlockColour[SBlock]]
@@ -661,6 +661,8 @@ class SBlockBlock(BlockBlock):
         self.BlockColour = BlockColour[SBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.column = self.block_two[0]
+        self.row = self.block_two[1]
         self.block_matrix = [[0, self.block_one, self.block_two], [self.block_four, self.block_three, 0]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
         TGrid[5][0] = BlockColour[SBlock]
@@ -674,8 +676,6 @@ class ZBlockBlock(BlockBlock):
         super(ZBlockBlock, self).__init__(column, row, colour)
 
     def store_block(self):
-        self.column = 6
-        self.row = 0
         self.block_one = [5, 0, BlockColour[ZBlock]]
         self.block_two = [6, 0, BlockColour[ZBlock]]
         self.block_three = [6, 1, BlockColour[ZBlock]]
@@ -687,6 +687,8 @@ class ZBlockBlock(BlockBlock):
         self.BlockColour = BlockColour[ZBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
+        self.column = self.block_two[0]
+        self.row = self.block_two[1]
         self.block_matrix = [[self.block_one, self.block_two, 0], [0, self.block_three, self.block_four]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
         TGrid[5][0] = BlockColour[ZBlock]
