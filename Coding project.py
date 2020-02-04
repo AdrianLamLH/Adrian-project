@@ -487,14 +487,10 @@ class BlockBlock(pygame.sprite.Sprite):
         # print("LOOOK ATTT THISSSS", self.block_dimensions)
         # print("----------------------------")
         self.flag = True
-        self.block_dimensions_temp = []
+        self.block_dimensions_temp = self.block_dimensions[:]
         for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
             print("blockpos: ", self.block_position, "                    ", "block_itself: ", self.block_itself)
         print(len(self.block_dimensions))
-        while self.flag:
-            for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
-                self.block_dimensions_temp[self.block_position][self.block_itself] =
-            self.flag = False
         for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions_temp):
             print("blockpos: ", self.block_position, "                    ", "block_itself: ", self.block_itself)
         for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions_temp):
