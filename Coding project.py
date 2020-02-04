@@ -473,6 +473,16 @@ class BlockBlock(pygame.sprite.Sprite):
             TGrid[((self.block_list[self.countmoveright])[0])][(self.block_list[self.countmoveright])[1]] = BlockColour[self.block_colour]
         # print("Block pos after moving right:", self.block_list)
 
+    def check_rotate_valid(self):
+        if self.block_lowest[1] > 19:
+            return False
+        elif self.block_rightest[0] > 9:
+            return False
+        elif self.block_leftest[0] < 0:
+            return False
+        else:
+            return True
+
     def rotate(self):
         TGrid[self.block_one[0]][self.block_one[1]] = 0
         TGrid[self.block_two[0]][self.block_two[1]] = 0
@@ -482,6 +492,11 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_two_rotated = False
         self.block_three_rotated = False
         self.block_four_rotated = False
+        self.block_dimensions_prerotate = self.block_dimensions[:]
+        self.block_lowest_prerotate = self.block_lowest[:]
+        self.block_rightest_prerotate = self.block_rightest[:]
+        self.block_leftest_prerotate = self.block_leftest[:]
+        # Stores a copy of the blocks before the rotation has taken place
         self.block_dimensions = self.block_dimensions.transpose()
         self.block_dimensions = numpy.fliplr(self.block_dimensions)
         # print("prelowest block", self.block_lowest)
@@ -491,7 +506,6 @@ class BlockBlock(pygame.sprite.Sprite):
         # print("----------------------------")
         # print("LOOOK ATTT THISSSS", self.block_dimensions)
         # print("----------------------------")
-        self.flag = True
         self.block_dimensions_temp = self.block_dimensions[:]
         for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
             print("blockpos: ", self.block_position, "                    ", "block_itself: ", self.block_itself)
@@ -545,14 +559,18 @@ class BlockBlock(pygame.sprite.Sprite):
         print("rotated", self.block_list)
         # Extremeties was here
         self.update_block_setup()
-        print("lowest block", self.block_lowest)
-        print("rightest block", self.block_rightest)
-        print("leftest block", self.block_leftest)
-        print("block list", self.block_list)
-        TGrid[self.block_one[0]][self.block_one[1]] = self.BlockColour
-        TGrid[self.block_two[0]][self.block_two[1]] = self.BlockColour
-        TGrid[self.block_three[0]][self.block_three[1]] = self.BlockColour
-        TGrid[self.block_four[0]][self.block_four[1]] = self.BlockColour
+        if self.check_rotate_valid():
+            print("lowest block", self.block_lowest)
+            print("rightest block", self.block_rightest)
+            print("leftest block", self.block_leftest)
+            print("block list", self.block_list)
+            TGrid[self.block_one[0]][self.block_one[1]] = self.BlockColour
+            TGrid[self.block_two[0]][self.block_two[1]] = self.BlockColour
+            TGrid[self.block_three[0]][self.block_three[1]] = self.BlockColour
+            TGrid[self.block_four[0]][self.block_four[1]] = self.BlockColour
+        else:
+            self.block_dimensions = self.block_dimensions_prerotate
+            self.update_block_setup()
 
     def reset_valid(self):
         # if true valid move is reset
