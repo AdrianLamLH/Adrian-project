@@ -219,6 +219,8 @@ class BlockBlock(pygame.sprite.Sprite):
         self.valid_blocks_right = 0
         self.xcounter = 0
         self.ycounter = 0
+        self.flag = True
+        self.block_dimensions_temp = 0
 
     def update_block_setup(self):  # Tracks the lowest blocks in the list that need to be accounted for
         self.block_lowest_list.clear()
@@ -484,9 +486,18 @@ class BlockBlock(pygame.sprite.Sprite):
         # print("----------------------------")
         # print("LOOOK ATTT THISSSS", self.block_dimensions)
         # print("----------------------------")
+        self.flag = True
+        self.block_dimensions_temp = []
         for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
             print("blockpos: ", self.block_position, "                    ", "block_itself: ", self.block_itself)
-        for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
+        print(len(self.block_dimensions))
+        while self.flag:
+            for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
+                self.block_dimensions_temp[self.block_position][self.block_itself] =
+            self.flag = False
+        for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions_temp):
+            print("blockpos: ", self.block_position, "                    ", "block_itself: ", self.block_itself)
+        for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions_temp):
             if self.block_itself == self.block_one and not self.block_one_rotated:
                 print("before b1", self.block_one, self.block_position)
                 self.block_one_rotated = True
