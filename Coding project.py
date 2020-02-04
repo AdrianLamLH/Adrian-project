@@ -350,6 +350,10 @@ class BlockBlock(pygame.sprite.Sprite):
                     self.block_rightest_list.remove(self.block_three)
                     # Creates righest list, which stores blocks not obstructed horizontally i.e. needs to be check_t_grided.
                     # Removes the blocks that are obstructed by block to right
+        self.block_lowest = 0
+        self.block_rightest = 0
+        self.block_leftest = 0
+        # Clears out the lowest/rightest/leftest block so that it can then be assigned using the most extremes in the respective lists
         self.block_lowest = self.block_lowest_list[0]
         self.block_rightest = self.block_rightest_list[0]
         self.block_leftest = self.block_leftest_list[0]
@@ -360,7 +364,7 @@ class BlockBlock(pygame.sprite.Sprite):
             if self.block_rightest_list[self.block_rightest_counter][0] > self.block_rightest[0]:
                 self.block_rightest = self.block_rightest_list[self.block_rightest_counter]
         for self.block_leftest_counter in range(len(self.block_leftest_list)):
-            if self.block_leftest_list[self.block_leftest_counter][0] > self.block_leftest[0]:
+            if self.block_leftest_list[self.block_leftest_counter][0] < self.block_leftest[0]:
                 self.block_leftest = self.block_leftest_list[self.block_leftest_counter]
         #print("midlowest block", self.block_lowest_list)
         #print("midrightest block", self.block_rightest_list)
