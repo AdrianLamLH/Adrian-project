@@ -182,9 +182,12 @@ class Enemy(pygame.sprite.Sprite):
             # Need to fix flicker timing so it only triggers the flicker once during the collision
             # Introduced pilot_flickering so it only triggers the flicker upon first collision
             if pilot_damaged and Pilot_flickering is False:
+                # print("Pilot character's position(", pilot_x, ", ", pilot_y, ")")
+                # print("Enemy collided with and its  position is (", Mob.rect.x, ", ", Mob.rect.y, ")")
                 pygame.time.set_timer(PilotHit, 1000)
                 Pilot_flickering = True
                 PilotHealth -= 1
+                print("Pilot health is now", PilotHealth)
 
 
 class BlockBlock(pygame.sprite.Sprite):
@@ -357,10 +360,10 @@ class BlockBlock(pygame.sprite.Sprite):
         for self.block_leftest_counter in range(len(self.block_leftest_list)):
             if self.block_leftest_list[self.block_leftest_counter][0] > self.block_leftest[0]:
                 self.block_leftest = self.block_leftest_list[self.block_leftest_counter]
-        print("midlowest block", self.block_lowest_list)
-        print("midrightest block", self.block_rightest_list)
-        print("midleftest block", self.block_leftest)
-        print("midblock list", self.block_list)
+        #print("midlowest block", self.block_lowest_list)
+        #print("midrightest block", self.block_rightest_list)
+        #print("midleftest block", self.block_leftest)
+        #print("midblock list", self.block_list)
 
 
 
@@ -441,6 +444,7 @@ class BlockBlock(pygame.sprite.Sprite):
         for self.countmovedown in range(4):
             (self.block_list[self.countmovedown])[1] = (self.block_list[self.countmovedown])[1] + 1  # Update the moved blocks once moved
             TGrid[((self.block_list[self.countmovedown])[0])][(self.block_list[self.countmovedown])[1]] = BlockColour[self.block_colour]
+        # print("Block pos after moving down:", self.block_list)
 
     def move_t_grid_left(self):  # Previous space occupied by block cleared and moved into next left space
         self.block_list = list(self.block_list_temp)
@@ -450,6 +454,7 @@ class BlockBlock(pygame.sprite.Sprite):
         for self.countmoveleft in range(4):
             (self.block_list[self.countmoveleft])[0] = (self.block_list[self.countmoveleft])[0] - 1  # Update the moved blocks once moved
             TGrid[((self.block_list[self.countmoveleft])[0])][(self.block_list[self.countmoveleft])[1]] = BlockColour[self.block_colour]
+        # print("Block pos after moving left:", self.block_list)
 
     def move_t_grid_right(self):   # Previous space occupied by block cleared and moved into next right space
         self.block_list = list(self.block_list_temp)
@@ -459,42 +464,54 @@ class BlockBlock(pygame.sprite.Sprite):
         for self.countmoveright in range(4):
             (self.block_list[self.countmoveright])[0] = (self.block_list[self.countmoveright])[0] + 1  # Update the moved blocks once moved
             TGrid[((self.block_list[self.countmoveright])[0])][(self.block_list[self.countmoveright])[1]] = BlockColour[self.block_colour]
+        # print("Block pos after moving right:", self.block_list)
 
     def rotate(self):
         TGrid[self.block_one[0]][self.block_one[1]] = 0
         TGrid[self.block_two[0]][self.block_two[1]] = 0
         TGrid[self.block_three[0]][self.block_three[1]] = 0
         TGrid[self.block_four[0]][self.block_four[1]] = 0
+        self.block_one_rotated = False
+        self.block_two_rotated = False
+        self.block_three_rotated = False
+        self.block_four_rotated = False
         self.block_dimensions = self.block_dimensions.transpose()
         self.block_dimensions = numpy.fliplr(self.block_dimensions)
-        print("prelowest block", self.block_lowest)
-        print("prerightest block", self.block_rightest)
-        print("preleftest block", self.block_leftest)
-        print("preblock list", self.block_list)
-        print("----------------------------")
-        print("LOOOK ATTT THISSSS", self.block_dimensions)
-        print("----------------------------")
+        # print("prelowest block", self.block_lowest)
+        # print("prerightest block", self.block_rightest)
+        # print("preleftest block", self.block_leftest)
+        # print("preblock list", self.block_list)
+        # print("----------------------------")
+        # print("LOOOK ATTT THISSSS", self.block_dimensions)
+        # print("----------------------------")
         for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
-            if self.block_itself == self.block_one:
+            print("blockpos: ", self.block_position, "                    ", "block_itself: ", self.block_itself)
+        for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
+            if self.block_itself == self.block_one and not self.block_one_rotated:
                 print("before b1", self.block_one, self.block_position)
+                self.block_one_rotated = True
                 self.block_one[1] = self.row + self.block_position[0]
                 self.block_one[0] = self.column + self.block_position[1]
                 print("after", self.block_one)
-            if self.block_itself == self.block_two:
+            if self.block_itself == self.block_two and not self.block_two_rotated:
                 print("before b2", self.block_two, self.block_position)
+                self.block_two_rotated = True
                 self.block_two[1] = self.row + self.block_position[0]
                 self.block_two[0] = self.column + self.block_position[1]
-                print("after", self.block_two, self.ycounter)
-            if self.block_itself == self.block_three:
+                print("after", self.block_two)
+            if self.block_itself == self.block_three and not self.block_three_rotated:
                 print("before b3", self.block_three, self.block_position)
+                self.block_three_rotated = True
                 self.block_three[1] = self.row + self.block_position[0]
                 self.block_three[0] = self.column + self.block_position[1]
-                print("after", self.block_three, self.ycounter)
-            if self.block_itself == self.block_four:
+                print("after", self.block_three)
+            if self.block_itself == self.block_four and not self.block_four_rotated:
                 print("before b4", self.block_four, self.block_position)
+                self.block_four_rotated = True
                 self.block_four[1] = self.row + self.block_position[0]
                 self.block_four[0] = self.column + self.block_position[1]
-                print("after", self.block_four, self.ycounter)
+                print("after", self.block_four)
+            #print("Block config after rotating :", self.block_list)
         self.block_list = [self.block_one, self.block_two, self.block_three, self.block_four]
         self.block_list_temp = list(self.block_list)
         print("rotated", self.block_list)
@@ -752,7 +769,8 @@ def place_next_block():
         if finished_moving:
             BlockObject.store_block()
             active_block.empty()
-            active_block.add(BlockObject)
+            active_block.add(BlockObject)  # Stores the current block that will be moving
+            onscreen_blocks.add(BlockObject)  # Stores the current block into the list of blocks onscreen
             BlockObject.update_block_setup()
             next_block_store = 1  # Marks that the block store is empty
         else:
@@ -773,11 +791,17 @@ def shift_block():
                 not_clear = False
                 place_next_block()
         elif BlockObject.check_t_grid_down():
-            print("Free")
+            # print("Free")
             finished_moving = False
             BlockObject.move_t_grid_down()  # Block is moved down the grid by one for the current cycle
         BlockObject.reset_valid()
 
+# def fall_block():
+#  global finished_moving
+ #   for BlockObject in onscreen_blocks:
+  #      if BlockObject.check_t_grid_down():
+   #         BlockObject.move_t_grid_down()  # Block is moved down the grid by one for the current cycle
+    #    BlockObject.reset_valid()
 
 def check_clear_place():
     global not_clear
@@ -804,6 +828,7 @@ def wipe_grid():
                 temp_block_store = TGrid[xpos][ypos]
                 TGrid[xpos][ypos + 1] = temp_block_store
                 TGrid[xpos][ypos] = 0
+ #   fall_block()
 
 # Types of enemies
 # I Block
@@ -891,8 +916,10 @@ list_all_sprites = pygame.sprite.Group()
 list_bullet = pygame.sprite.Group()
 # Enemy are updated/stored in sprite group
 list_mobs = pygame.sprite.Group()
-# All tetris blocks on the grid stored in sprite group
+# Current tetris block stored in sprite group
 active_block = pygame.sprite.Group()
+# All tetris blocks on the grid stored in sprite group
+onscreen_blocks = pygame.sprite.Group()
 # Player and bullet initialised
 Pilot = Pilot()
 list_all_sprites.add(Pilot)
@@ -912,12 +939,16 @@ while not done:
         elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                         pilot_y_speed = -10.5
+        #                print("y position of the Pilot Character before moving", pilot_y)
                 elif event.key == pygame.K_DOWN:
                         pilot_y_speed = 8
+        #                print("y position of the Pilot Character before moving", pilot_y)
                 elif event.key == pygame.K_LEFT:
                         pilot_x_speed = -8
+        #                print("x position of the Pilot Character before moving", pilot_x)
                 elif event.key == pygame.K_RIGHT:
                         pilot_x_speed = 8
+        #                print("x position of the Pilot Character before moving", pilot_x)
                 elif event.key == pygame.K_SPACE:
                     # Start shooting
                     pygame.time.set_timer(FireRate, TimeShot)
@@ -925,8 +956,10 @@ while not done:
         # Tells the pilot to stop moving when key not pressed
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+        #        print("y position of the Pilot Character after moving", pilot_y)
                 pilot_y_speed = 0
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
+        #        print("x position of the Pilot Character after moving", pilot_x)
                 pilot_x_speed = 0
             elif event.key == pygame.K_SPACE:
                 Shot = Bullet()
@@ -979,6 +1012,7 @@ while not done:
         elif event.type == SpawnEnemy:
             BlockChoice = random.choice(list(BlockColour))
             Mob = BlockChoice(4, BlockChoice)
+       #     print("position of the new Enemy spawned (", Mob.rect.x, ", ", Mob.rect.y, ")")
             list_all_sprites.add(Mob)
             list_mobs.add(Mob)
         # The pilot flashes red when it is hit
@@ -1032,6 +1066,7 @@ while not done:
         pilot_y = 2
 
     list_all_sprites.update()
+
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, BLACK, [0, 0, 384, 768], 0)
     pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
@@ -1064,8 +1099,7 @@ while not done:
             Mob.Mob_Health -= 1
             if Mob.Mob_Health == 0:
                 next_block_store = 0
-                print("check clear place", check_clear_place())
-                # Checks to see if spawn area is empty to prevent overlapping
+                #print("check clear place", check_clear_place())
                 not_clear = False
                 if not check_clear_place():
                     place_next_block()
