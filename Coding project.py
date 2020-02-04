@@ -500,25 +500,41 @@ class BlockBlock(pygame.sprite.Sprite):
                 self.block_one[1] = self.row + self.block_position[0]
                 self.block_one[0] = self.column + self.block_position[1]
                 print("after", self.block_one)
+                for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions_temp):
+                    print("blockpos: ", self.block_position, "                    ", "block_itself: ",
+                          self.block_itself)
+
             if self.block_itself == self.block_two and not self.block_two_rotated:
                 print("before b2", self.block_two, self.block_position)
                 self.block_two_rotated = True
                 self.block_two[1] = self.row + self.block_position[0]
                 self.block_two[0] = self.column + self.block_position[1]
                 print("after", self.block_two)
+                for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions_temp):
+                    print("blockpos: ", self.block_position, "                    ", "block_itself: ",
+                          self.block_itself)
+
             if self.block_itself == self.block_three and not self.block_three_rotated:
                 print("before b3", self.block_three, self.block_position)
                 self.block_three_rotated = True
                 self.block_three[1] = self.row + self.block_position[0]
                 self.block_three[0] = self.column + self.block_position[1]
                 print("after", self.block_three)
+                for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions_temp):
+                    print("blockpos: ", self.block_position, "                    ", "block_itself: ",
+                          self.block_itself)
+
             if self.block_itself == self.block_four and not self.block_four_rotated:
                 print("before b4", self.block_four, self.block_position)
                 self.block_four_rotated = True
                 self.block_four[1] = self.row + self.block_position[0]
                 self.block_four[0] = self.column + self.block_position[1]
                 print("after", self.block_four)
-            #print("Block config after rotating :", self.block_list)
+                for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions_temp):
+                    print("blockpos: ", self.block_position, "                    ", "block_itself: ",
+                          self.block_itself)
+
+                    #print("Block config after rotating :", self.block_list)
         self.block_list = [self.block_one, self.block_two, self.block_three, self.block_four]
         self.block_list_temp = list(self.block_list)
         print("rotated", self.block_list)
