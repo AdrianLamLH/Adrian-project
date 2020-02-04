@@ -445,6 +445,7 @@ class BlockBlock(pygame.sprite.Sprite):
     def move_t_grid_down(self):  # Previous space occupied by block cleared and moved into next space below
         self.block_list = list(self.block_list_temp)
         self.row += 1
+        print(self.block_list)
         for self.countermovedown in range(4):
             TGrid[((self.block_list[self.countermovedown])[0])][(self.block_list[self.countermovedown])[1]] = 0
         for self.countmovedown in range(4):
