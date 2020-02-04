@@ -572,7 +572,7 @@ class IBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_one
         self.block_leftest = self.block_one
-        self.block_colour = BlockColour[IBlock]
+        self.Block_colour = BlockColour[IBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
         self.column = self.block_two[0]
@@ -705,8 +705,8 @@ class SBlockBlock(BlockBlock):
         self.BlockColour = BlockColour[SBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
-        self.column = self.block_two[0]
-        self.row = self.block_two[1]
+        self.column = self.block_three[0]
+        self.row = self.block_three[1]
         self.block_matrix = [[0, self.block_one, self.block_two], [self.block_four, self.block_three, 0]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
         TGrid[5][0] = BlockColour[SBlock]
@@ -865,10 +865,8 @@ class IBlock(Enemy):
     def __init__(self, mob_health, block_choice):
         super(IBlock, self).__init__(mob_health, block_choice)
         self.image = pygame.Surface([30, 120])
-        self.image.fill(BLUE)
-        self.rect = self.image.get_rect()
         picture = pygame.image.load("IBlock.png")
-        self.image = pygame.transform.scale(picture, [30, 120])
+        self.image = pygame.transform.smoothscale(picture, [30, 120])
 
 
 
@@ -1002,6 +1000,52 @@ while not done:
                     not_clear = True
                     place_next_block()
                 quick_drop = False
+
+            # Enemy block spawn shortcuts for easier debugging and playtesting
+            elif event.key == pygame.K_i:
+                BlockChoice = IBlock
+                Mob = BlockChoice(4, BlockChoice)
+                list_all_sprites.add(Mob)
+                list_mobs.add(Mob)
+                print(Mob)
+            elif event.key == pygame.K_j:
+                BlockChoice = JBlock
+                Mob = BlockChoice(4, BlockChoice)
+                list_all_sprites.add(Mob)
+                list_mobs.add(Mob)
+                print(Mob)
+            elif event.key == pygame.K_l:
+                BlockChoice = LBlock
+                Mob = BlockChoice(4, BlockChoice)
+                list_all_sprites.add(Mob)
+                list_mobs.add(Mob)
+                print(Mob)
+            elif event.key == pygame.K_5:
+                BlockChoice = SBlock
+                Mob = BlockChoice(4, BlockChoice)
+                list_all_sprites.add(Mob)
+                list_mobs.add(Mob)
+                print(Mob)
+            elif event.key == pygame.K_z:
+                BlockChoice = ZBlock
+                Mob = BlockChoice(4, BlockChoice)
+                list_all_sprites.add(Mob)
+                list_mobs.add(Mob)
+                print(Mob)
+            elif event.key == pygame.K_t:
+                BlockChoice = TBlock
+                Mob = BlockChoice(4, BlockChoice)
+                list_all_sprites.add(Mob)
+                list_mobs.add(Mob)
+                print(Mob)
+            elif event.key == pygame.K_o:
+                BlockChoice = OBlock
+                Mob = BlockChoice(4, BlockChoice)
+                list_all_sprites.add(Mob)
+                list_mobs.add(Mob)
+                print(Mob)
+
+
             elif event.key == pygame.K_a:
                 if active_block:
                     for BlockObject in active_block:
