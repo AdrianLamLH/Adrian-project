@@ -220,7 +220,15 @@ class BlockBlock(pygame.sprite.Sprite):
         self.xcounter = 0
         self.ycounter = 0
         self.flag = True
-        self.block_dimensions_temp = 0
+        self.block_dimensions_temp = []
+        self.block_dimensions_prerotate = []
+        self.block_lowest_prerotate = []
+        self.block_rightest_prerotate = []
+        self.block_leftest_prerotate = []
+        self.block_one_prerotate = []
+        self.block_two_prerotate = []
+        self.block_three_prerotate = []
+        self.block_four_prerotate = []
 
     def update_block_setup(self):  # Tracks the lowest blocks in the list that need to be accounted for
         self.block_lowest_list.clear()
@@ -492,10 +500,15 @@ class BlockBlock(pygame.sprite.Sprite):
         self.block_two_rotated = False
         self.block_three_rotated = False
         self.block_four_rotated = False
+        self.block_one_prerotate = self.block_one[:]
+        self.block_two_prerotate = self.block_two[:]
+        self.block_three_prerotate = self.block_three[:]
+        self.block_four_prerotate = self.block_four[:]
         self.block_dimensions_prerotate = self.block_dimensions[:]
         self.block_lowest_prerotate = self.block_lowest[:]
         self.block_rightest_prerotate = self.block_rightest[:]
         self.block_leftest_prerotate = self.block_leftest[:]
+
         # Stores a copy of the blocks before the rotation has taken place
         self.block_dimensions = self.block_dimensions.transpose()
         self.block_dimensions = numpy.fliplr(self.block_dimensions)
@@ -564,13 +577,18 @@ class BlockBlock(pygame.sprite.Sprite):
             print("rightest block", self.block_rightest)
             print("leftest block", self.block_leftest)
             print("block list", self.block_list)
-            TGrid[self.block_one[0]][self.block_one[1]] = self.BlockColour
-            TGrid[self.block_two[0]][self.block_two[1]] = self.BlockColour
-            TGrid[self.block_three[0]][self.block_three[1]] = self.BlockColour
-            TGrid[self.block_four[0]][self.block_four[1]] = self.BlockColour
         else:
+            self.block_one = self.block_one_prerotate
+            self.block_two = self.block_two_prerotate
+            self.block_three = self.block_three_prerotate
+            self.block_four = self.block_four_prerotate
+            print("-----------------------", self.block_dimensions_prerotate,"-----------------",self.block_dimensions,"---------------------")
             self.block_dimensions = self.block_dimensions_prerotate
             self.update_block_setup()
+        TGrid[self.block_one[0]][self.block_one[1]] = self.BlockColour
+        TGrid[self.block_two[0]][self.block_two[1]] = self.BlockColour
+        TGrid[self.block_three[0]][self.block_three[1]] = self.BlockColour
+        TGrid[self.block_four[0]][self.block_four[1]] = self.BlockColour
 
     def reset_valid(self):
         # if true valid move is reset
@@ -591,12 +609,12 @@ class IBlockBlock(BlockBlock):
         self.block_lowest = self.block_four  # Initializing the extremities of the block
         self.block_rightest = self.block_one
         self.block_leftest = self.block_one
-        self.Block_colour = BlockColour[IBlock]
+        self.BlockColour = BlockColour[IBlock]
         self.block_rightest_list.append(self.block_one)
         self.block_leftest_list.append(self.block_one)
-        self.column = self.block_two[0]
-        self.row = self.block_two[1]
-        self.block_matrix = [self.block_one, self.block_two, self.block_three, self.block_four]  # Assigns the block_matrix to store this specific block shape
+        self.column = self.block_three[0]
+        self.row = self.block_three[1]
+        self.block_matrix = [[0, self.block_one, 0], [0, self.block_two, 0], [0, self.block_three, 0], [0, self.block_four, 0]]  # Assigns the block_matrix to store this specific block shape
         self.block_dimensions = numpy.array(self.block_matrix)  # Stores the block shape as an array
         TGrid[5][0] = BlockColour[IBlock]
         TGrid[5][1] = BlockColour[IBlock]
