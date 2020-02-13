@@ -590,6 +590,12 @@ class BlockBlock(pygame.sprite.Sprite):
         TGrid[self.block_three[0]][self.block_three[1]] = self.BlockColour
         TGrid[self.block_four[0]][self.block_four[1]] = self.BlockColour
 
+    def show_block_list(self, x_or_y, which_block):
+        return self.block_list[which_block][x_or_y]
+            
+    def block_list_length(self):
+        return len(self.block_list)
+
     def reset_valid(self):
         # if true valid move is reset
         self.valid_block_move = True
@@ -887,11 +893,18 @@ def wipe_grid():
             if TGrid[xpos][ypos + 1] == 0:
                 complete_row = False
         if complete_row:
-            for xpos in range(10):
-                TGrid[xpos][ypos + 1] = 0
-                temp_block_store = TGrid[xpos][ypos]
-                TGrid[xpos][ypos + 1] = temp_block_store
-                TGrid[xpos][ypos] = 0
+            # Store the blocks involved in that row
+            # Compute what happens to each block
+            for BlockObject in onscreen_blocks:
+                for BlockListCounter in range(BlockObject.block_list_length()):
+                    if xpos == BlockObject.show_block_list(0, BlockListCounter) and ypos == BlockObject.show_block_list(1, BlockListCounter):
+                        if BlockObject.check_t_grid_down():
+                            BlockObject.move_t_grid_down()  # Block is moved down the grid by one for the current cycle
+            # for xpos in range(10):
+            #    TGrid[xpos][ypos + 1] = 0
+            #    temp_block_store = TGrid[xpos][ypos]
+            #    TGrid[xpos][ypos + 1] = temp_block_store
+            #    TGrid[xpos][ypos] = 0
  #   fall_block()
 
 # Types of enemies
