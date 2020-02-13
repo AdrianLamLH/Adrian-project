@@ -895,16 +895,17 @@ def wipe_grid():
         if complete_row:
             # Store the blocks involved in that row
             # Compute what happens to each block
+            for xpos in range(10):
+                TGrid[xpos][ypos + 1] = 0
+                temp_block_store = TGrid[xpos][ypos]
+                TGrid[xpos][ypos + 1] = temp_block_store
+                TGrid[xpos][ypos] = 0
             for BlockObject in onscreen_blocks:
                 for BlockListCounter in range(BlockObject.block_list_length()):
                     if xpos == BlockObject.show_block_list(0, BlockListCounter) and ypos == BlockObject.show_block_list(1, BlockListCounter):
                         if BlockObject.check_t_grid_down():
                             BlockObject.move_t_grid_down()  # Block is moved down the grid by one for the current cycle
-            # for xpos in range(10):
-            #    TGrid[xpos][ypos + 1] = 0
-            #    temp_block_store = TGrid[xpos][ypos]
-            #    TGrid[xpos][ypos + 1] = temp_block_store
-            #    TGrid[xpos][ypos] = 0
+
  #   fall_block()
 
 # Types of enemies
