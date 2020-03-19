@@ -112,7 +112,7 @@ def StartScreen():
         ControlBoxColour = GREEN
 
     # - - - - - Drawing code - - - - - - -
-    pygame.draw.rect(screen, BLACK, [0, 0, 640, 768], 0)
+    pygame.draw.rect(screen, BLACK, [0, 0, 1024, 768], 0)
     # Game title
     pygame.draw.rect(screen, GREEN, [150, 240, 735, 140], 0)
     drawing("TASKATHLON", 68, WHITE, 174, 280)
@@ -1082,18 +1082,17 @@ BlockColour = {IBlock: GREEN, JBlock: BLUE, LBlock: YELLOW, OBlock: RED, TBlock:
 
 # Loop until the user clicks the close button
 donegame = False
-donegamescreen = False
-donestartscreen = False
-donecontrolsscreen = False
 startscreen = True
 clock.tick(60)
 while not donegame:
-   # for event in pygame.event.get():
-    #    if event.type == pygame.QUIT:
-     #       print("User asked to quit.")
-      #      donegame = True  # Signals the program to end
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            print("User asked to quit.")
+            donegame = True  # Signals the program to end
+    donegamescreen = False
+    donestartscreen = False
+    donecontrolsscreen = False
     if startscreen:
-        print("running start screen", "startscreen? ", startscreen, "controlscreen? ", controlscreen, "startedgame? ", startedgame)
         startscreen = False
         while not donestartscreen:
             for event in pygame.event.get():
@@ -1131,7 +1130,7 @@ while not donegame:
 
     # - - - - - - - - - Main program loop - - - - - - - - -
     if startedgame:
-        print("started game", startscreen, controlscreen, startedgame)
+        # print("started game", startscreen, controlscreen, startedgame)
         startedgame = False
         # Loop until the user clicks the close button
         donegamescreen = False
