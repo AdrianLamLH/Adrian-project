@@ -89,6 +89,18 @@ ControlBoxColour = GREEN
 # Establishing screens
 def StartScreen():
     global startedgame, StartBoxColour, ControlBoxColour
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.MOUSEBUTTONDOWN:
+                # Mouse clicks on start game button to start the game
+                if (pygame.mouse.get_pos()[0] > 96 and pygame.mouse.get_pos()[0] < 440 and \
+                                pygame.mouse.get_pos()[1] > 468 and pygame.mouse.get_pos()[1] < 640):
+                    startedgame = True
+                # Mouse clicks on how to play button to load controls page
+                elif (pygame.mouse.get_pos()[0] > 632 and pygame.mouse.get_pos()[0] < 976 and \
+                                pygame.mouse.get_pos()[1] > 468 and pygame.mouse.get_pos()[1] < 640):
+                    print("Controls page")
+
     # Buttons onscreen change colour when hovered over by cursor
     if (pygame.mouse.get_pos() [0] > 96 and pygame.mouse.get_pos() [0] < 440 and \
             pygame.mouse.get_pos() [1] > 468 and pygame.mouse.get_pos() [1] < 640):
@@ -99,20 +111,7 @@ def StartScreen():
     else:
         StartBoxColour = GREEN
         ControlBoxColour = GREEN
-    for startevent in pygame.event.get():
-        if startevent.type == pygame.KEYDOWN:
-            print("keydowned")
-            # Checks for mouse clicking
-            if startevent.key == pygame.MOUSEBUTTONDOWN:
-                print("Mouse button downed")
-                # Mouse clicks on start game button to start the game
-                if (pygame.mouse.get_pos()[0] > 96 and pygame.mouse.get_pos()[0] < 440 and \
-                                pygame.mouse.get_pos()[1] > 468 and pygame.mouse.get_pos()[1] < 640):
-                    startedgame = True
-                # Mouse clicks on how to play button to load controls page
-                if (pygame.mouse.get_pos()[0] > 632 and pygame.mouse.get_pos()[0] < 976 and \
-                                  pygame.mouse.get_pos()[1] > 468 and pygame.mouse.get_pos()[1] < 640):
-                    print("Controls page")
+
 
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, BLACK, [0, 0, 640, 768], 0)
@@ -1230,93 +1229,93 @@ while not done:
                     shift_block()
                     # for BlockObject in active_block:
                         # BlockObject.pos()
-            # - - - - - Game logic - - - - - - - -
-            pilot_x += pilot_x_speed
-            pilot_y += pilot_y_speed + gravity
-            # Setting up the wall boundaries for the pilot
-            if pilot_x > 997 and pilot_y > 741:
-                pilot_x = 997
-                pilot_y = 741
-            elif pilot_x < 390 and pilot_y < 2:
-                pilot_x = 390
-                pilot_y = 2
-            elif pilot_x > 997:
-                pilot_x = 997
-                if pilot_y < 2:
-                    pilot_y = 2
-            elif pilot_x < 390:
-                pilot_x = 390
-                if pilot_y > 741:
+                # - - - - - Game logic - - - - - - - -
+                pilot_x += pilot_x_speed
+                pilot_y += pilot_y_speed + gravity
+                # Setting up the wall boundaries for the pilot
+                if pilot_x > 997 and pilot_y > 741:
+                    pilot_x = 997
                     pilot_y = 741
-            elif pilot_y > 741:
-                pilot_y = 741
-            elif pilot_y < 2:
-                pilot_y = 2
+                elif pilot_x < 390 and pilot_y < 2:
+                    pilot_x = 390
+                    pilot_y = 2
+                elif pilot_x > 997:
+                    pilot_x = 997
+                    if pilot_y < 2:
+                        pilot_y = 2
+                elif pilot_x < 390:
+                    pilot_x = 390
+                    if pilot_y > 741:
+                        pilot_y = 741
+                elif pilot_y > 741:
+                    pilot_y = 741
+                elif pilot_y < 2:
+                    pilot_y = 2
 
-            list_all_sprites.update()
+                list_all_sprites.update()
 
-            # - - - - - Drawing code - - - - - - -
-            pygame.draw.rect(screen, BLACK, [0, 0, 384, 768], 0)
-            pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
-            pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
-            pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
+                # - - - - - Drawing code - - - - - - -
+                pygame.draw.rect(screen, BLACK, [0, 0, 384, 768], 0)
+                pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
+                pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
+                pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
 
-            # Scoring
-            drawing("Score:", 16, WHITE, 860, 20)
-            drawing(TotScore, 16, WHITE, 980, 20)
+                # Scoring
+                drawing("Score:", 16, WHITE, 860, 20)
+                drawing(TotScore, 16, WHITE, 980, 20)
 
-            # Display health
-            show_health()
+                # Display health
+                show_health()
 
-            # Removes off-screen mobs
-            for Mob in list_mobs:
-                if Mob.rect.x <= 364 or Mob.rect.y >= 740 or Mob.rect.y <= 20:
-                    list_all_sprites.remove(Mob)
-                    list_mobs.remove(Mob)
-
-            # Removes off-screen projectiles
-            for Shot in list_bullet:
-                if Shot.rect.x >= pilot_x + 400 or Shot.rect.y >= 768:
-                    list_all_sprites.remove(Shot)
-                    list_bullet.remove(Shot)
-                # Hit detection between bullet and Mob
-                list_mobs_hit = pygame.sprite.spritecollide(Shot, list_mobs, False)
-                # Score from hitting mobs
-                for Mob in list_mobs_hit:
-                    TotScore += HitScore
-                    Mob.Mob_Health -= 1
-                    if Mob.Mob_Health == 0:
-                        next_block_store = 0
-                        # print("check clear place", check_clear_place())
-                        not_clear = False
-                        if not check_clear_place():
-                            place_next_block()
-                            # unnecessary, it turns out                    not_clear = False
-                        #  BlockObject.pos()  # For printing the top left corner block of the tetris block
-                        list_mobs.remove(Mob)
+                # Removes off-screen mobs
+                for Mob in list_mobs:
+                    if Mob.rect.x <= 364 or Mob.rect.y >= 740 or Mob.rect.y <= 20:
                         list_all_sprites.remove(Mob)
-                        list_mobs_hit.remove(Mob)
-                        mob_got_killed = True
-                        # Increase game scroll speed when enemy killed: difficulty progression
-                        enemy_speed_change += 0.1
-                        if ShortTimeMobs > 500:
-                            ShortTimeMobs -= 30
-                            LongTimeMobs -= 30
-                        TotScore += MobScore
+                        list_mobs.remove(Mob)
 
-            # Removing the projectiles if they land on an enemy
-            for Mob in list_mobs:
-                list_shots_landed = pygame.sprite.spritecollide(Mob, list_bullet, True)
-                for Shot in list_shots_landed:
-                    list_all_sprites.remove(Shot)
-                    list_bullet.remove(Shot)
-                MobHealthPercent = (Mob.Mob_Health / 4)
-                pygame.draw.line(screen, RED, (Mob.rect.left, Mob.rect.bottom + 10),
-                                 (Mob.rect.left + Mob.x_hitbox * MobHealthPercent, Mob.rect.bottom + 10), 4)
+                # Removes off-screen projectiles
+                for Shot in list_bullet:
+                    if Shot.rect.x >= pilot_x + 400 or Shot.rect.y >= 768:
+                        list_all_sprites.remove(Shot)
+                        list_bullet.remove(Shot)
+                    # Hit detection between bullet and Mob
+                    list_mobs_hit = pygame.sprite.spritecollide(Shot, list_mobs, False)
+                    # Score from hitting mobs
+                    for Mob in list_mobs_hit:
+                        TotScore += HitScore
+                        Mob.Mob_Health -= 1
+                        if Mob.Mob_Health == 0:
+                            next_block_store = 0
+                            # print("check clear place", check_clear_place())
+                            not_clear = False
+                            if not check_clear_place():
+                                place_next_block()
+                                # unnecessary, it turns out                    not_clear = False
+                            #  BlockObject.pos()  # For printing the top left corner block of the tetris block
+                            list_mobs.remove(Mob)
+                            list_all_sprites.remove(Mob)
+                            list_mobs_hit.remove(Mob)
+                            mob_got_killed = True
+                            # Increase game scroll speed when enemy killed: difficulty progression
+                            enemy_speed_change += 0.1
+                            if ShortTimeMobs > 500:
+                                ShortTimeMobs -= 30
+                                LongTimeMobs -= 30
+                            TotScore += MobScore
 
-            draw_t_box()
+                # Removing the projectiles if they land on an enemy
+                for Mob in list_mobs:
+                    list_shots_landed = pygame.sprite.spritecollide(Mob, list_bullet, True)
+                    for Shot in list_shots_landed:
+                        list_all_sprites.remove(Shot)
+                        list_bullet.remove(Shot)
+                    MobHealthPercent = (Mob.Mob_Health / 4)
+                    pygame.draw.line(screen, RED, (Mob.rect.left, Mob.rect.bottom + 10),
+                                     (Mob.rect.left + Mob.x_hitbox * MobHealthPercent, Mob.rect.bottom + 10), 4)
 
-            list_all_sprites.draw(screen)
+                draw_t_box()
+
+                list_all_sprites.draw(screen)
 
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
