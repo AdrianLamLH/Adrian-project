@@ -88,18 +88,17 @@ StartBoxColour = GREEN
 ControlBoxColour = GREEN
 # Establishing screens
 def StartScreen():
+    if startedgame == False:
     global startedgame, StartBoxColour, ControlBoxColour
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.MOUSEBUTTONDOWN:
-                # Mouse clicks on start game button to start the game
-                if (pygame.mouse.get_pos()[0] > 96 and pygame.mouse.get_pos()[0] < 440 and \
-                                pygame.mouse.get_pos()[1] > 468 and pygame.mouse.get_pos()[1] < 640):
-                    startedgame = True
-                # Mouse clicks on how to play button to load controls page
-                elif (pygame.mouse.get_pos()[0] > 632 and pygame.mouse.get_pos()[0] < 976 and \
-                                pygame.mouse.get_pos()[1] > 468 and pygame.mouse.get_pos()[1] < 640):
-                    print("Controls page")
+    if pygame.mouse.get_pressed()[0]:
+        # Mouse clicks on start game button to start the game
+        if (pygame.mouse.get_pos()[0] > 96 and pygame.mouse.get_pos()[0] < 440 and \
+                        pygame.mouse.get_pos()[1] > 468 and pygame.mouse.get_pos()[1] < 640):
+            startedgame = True
+        # Mouse clicks on how to play button to load controls page
+        elif (pygame.mouse.get_pos()[0] > 632 and pygame.mouse.get_pos()[0] < 976 and \
+                        pygame.mouse.get_pos()[1] > 468 and pygame.mouse.get_pos()[1] < 640):
+            print("Controls page")
 
     # Buttons onscreen change colour when hovered over by cursor
     if (pygame.mouse.get_pos() [0] > 96 and pygame.mouse.get_pos() [0] < 440 and \
@@ -122,7 +121,6 @@ def StartScreen():
     drawing("Start game", 32, WHITE, 110, 548)
     pygame.draw.rect(screen, ControlBoxColour, [632, 468, 344, 172], 0)
     drawing("How to play", 28, WHITE, 650, 548)
-    startedgame = False
 # Game classes
 
 # Draw function
