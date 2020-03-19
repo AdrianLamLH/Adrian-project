@@ -161,7 +161,7 @@ def gameover():
     # Game title
     drawing("Game over!", 36, WHITE, 328, 120)
     drawing(("Your final score was", TotScore), 36, WHITE, 328, 120)
-    if TotScore > Highscore:
+    if TotScore > HighScore:
         drawing(("New Highscore!", TotScore), 36, WHITE, 328, 120)
         HighScore = TotScore
     else:
@@ -1113,7 +1113,15 @@ BlockColour = {IBlock: GREEN, JBlock: BLUE, LBlock: YELLOW, OBlock: RED, TBlock:
 
 # Loop until the user clicks the close button
 donegame = False
-startscreen = True
+# ~~~~~~~~~~~~~~~~~~~~~~
+# Also change this back to startscreen = True
+endscreen = True
+# ~~~~~~~~~~~~~~~~~~~~~~
+startscreen = False
+controlscreen = False
+startedgame = False
+# ~~~~~~~~~~~~~~~~~~~~~~
+#
 clock.tick(60)
 while not donegame:
     for event in pygame.event.get():
