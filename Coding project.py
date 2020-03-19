@@ -1313,9 +1313,9 @@ while not done:
 
                 draw_t_box()
 
-                list_all_sprites.draw(screen)
-        # - - - - - Update screen drawn - - -
-        pygame.display.flip()
+            list_all_sprites.draw(screen)
+# - - - - - Update screen drawn - - -
+    pygame.display.flip()
 
     # - - - - - Set the fps - - - - - - -
     clock.tick(60)
