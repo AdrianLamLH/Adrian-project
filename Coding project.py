@@ -88,12 +88,16 @@ startedgame = False
 def StartScreen():
     global startedgame
     # - - - - - Drawing code - - - - - - -
-    pygame.draw.rect(screen, BLACK, [0, 0, 384, 768], 0)
-    pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
+    pygame.draw.rect(screen, BLACK, [0, 0, 640, 768], 0)
 
-    # Scoring
-    drawing("TASKATHON", 42, WHITE, 400, 280)
-    startedgame = True
+    # Game title
+    pygame.draw.rect(screen, GREEN, [150, 240, 735, 140], 0)
+    drawing("TASKATHLON", 68, WHITE, 174, 280)
+    pygame.draw.rect(screen, GREEN, [96, 468, 344, 172], 0)
+    drawing("Start game", 32, WHITE, 110, 548)
+    pygame.draw.rect(screen, GREEN, [632, 468, 344, 172], 0)
+    drawing("How to play", 28, WHITE, 650, 548)
+    startedgame = False
 # Game classes
 
 # Draw function
