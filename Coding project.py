@@ -33,6 +33,8 @@ y_hitbox = 0
 TotScore = 0
 HitScore = 2
 MobScore = 10
+# Stores the highest score of the current play session
+HighScore = 0
 MobsDead = 0
 PilotHealth = 3
 killed_mob = 0
@@ -150,6 +152,35 @@ def show_controls():
     rescaled_startscreen_pic = pygame.transform.smoothscale(startscreen_pic, (80, 80))
     screen.blit(rescaled_startscreen_pic, (35, 35))
 
+
+def gameover():
+    global backtomenu, instantreplay, TotScore, HighScore
+    backtomenu = False
+    # - - - - - Drawing code - - - - - - -
+    pygame.draw.rect(screen, BLACK, [0, 0, 1024, 768], 0)
+    # Game title
+    drawing("Game over!", 36, WHITE, 328, 120)
+    drawing(("Your final score was", TotScore), 36, WHITE, 328, 120)
+    if TotScore > Highscore:
+        drawing(("New Highscore!", TotScore), 36, WHITE, 328, 120)
+        HighScore = TotScore
+    else:
+        drawing(("Highscore is still", HighScore), 36, WHITE, 328, 120)
+    # Home button returns player to start screen when clicked
+    if pygame.mouse.get_pressed()[0]:
+        if (pygame.mouse.get_pos()[0] > 35 and pygame.mouse.get_pos()[0] < 115 and \
+                        pygame.mouse.get_pos()[1] > 35 and pygame.mouse.get_pos()[1] < 115):
+            backtomenu = True
+    # Buttons onscreen change colour when hovered over by cursor
+    if (pygame.mouse.get_pos()[0] > 35 and pygame.mouse.get_pos()[0] < 115 and \
+                    pygame.mouse.get_pos()[1] > 35 and pygame.mouse.get_pos()[1] < 115):
+        # Decides whether the button image is highlighted or normal
+        startscreen_pic = pygame.image.load('return_home_highlighted.png')
+    else:
+        startscreen_pic = pygame.image.load('return_home.png')
+    # Drawing the return to main menu button
+    rescaled_startscreen_pic = pygame.transform.smoothscale(startscreen_pic, (80, 80))
+    screen.blit(rescaled_startscreen_pic, (400, 600))
 # Game classes
 
 # Draw function
@@ -1092,6 +1123,7 @@ while not donegame:
     donegamescreen = False
     donestartscreen = False
     donecontrolsscreen = False
+    doneendscreen = False
     if startscreen:
         startscreen = False
         while not donestartscreen:
@@ -1401,5 +1433,26 @@ while not donegame:
 
             # Don't need to set the fps again as it has already been set in start menu loop
 
+    if endscreen:
+        endscreen = False
+        # Stops end screen from being rerun repeatedly after each loop where it could overlap
+        # and interfere with the actual intended screen switches
+        while not donecontrolsscreen:
+            # Switches the active UI screen to controls screen
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    doneendscreen = True  # Signals the program to end
+                # Replays the game when the replay button is clicked and returns to start
+                # screen if home button is clicked
+                gameover()
+                if backtomenu:
+                    # Marks down that there will be a screen change to main game loop
+                    doneendscreen = True
+                    startscreen = True
+                elif instantreplay:
+                    doneendscreen = True
+                    startedgame = True
+            # - - - - - Update screen drawn - - -
+            pygame.display.flip()
 # Shutdown python program
 pygame.quit()
