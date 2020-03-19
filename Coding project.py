@@ -99,7 +99,20 @@ def StartScreen():
     else:
         StartBoxColour = GREEN
         ControlBoxColour = GREEN
-
+    for startevent in pygame.event.get():
+        if startevent.type == pygame.KEYDOWN:
+            print("keydowned")
+            # Checks for mouse clicking
+            if startevent.key == pygame.MOUSEBUTTONDOWN:
+                print("Mouse button downed")
+                # Mouse clicks on start game button to start the game
+                if (pygame.mouse.get_pos()[0] > 96 and pygame.mouse.get_pos()[0] < 440 and \
+                                pygame.mouse.get_pos()[1] > 468 and pygame.mouse.get_pos()[1] < 640):
+                    startedgame = True
+                # Mouse clicks on how to play button to load controls page
+                if (pygame.mouse.get_pos()[0] > 632 and pygame.mouse.get_pos()[0] < 976 and \
+                                  pygame.mouse.get_pos()[1] > 468 and pygame.mouse.get_pos()[1] < 640):
+                    print("Controls page")
 
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, BLACK, [0, 0, 640, 768], 0)
@@ -1041,268 +1054,269 @@ BlockColour = {IBlock: GREEN, JBlock: BLUE, LBlock: YELLOW, OBlock: RED, TBlock:
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
 while not done:
-    # - - - - - - - Main event loop - - - - - - - - - -
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             print("User asked to quit.")
             done = True  # Signals the program to end
-        # Sets controls for the pilot
-        elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                        pilot_y_speed = -10.5
-        #                print("y position of the Pilot Character before moving", pilot_y)
-                elif event.key == pygame.K_DOWN:
-                        pilot_y_speed = 8
-        #                print("y position of the Pilot Character before moving", pilot_y)
-                elif event.key == pygame.K_LEFT:
-                        pilot_x_speed = -8
-        #                print("x position of the Pilot Character before moving", pilot_x)
-                elif event.key == pygame.K_RIGHT:
-                        pilot_x_speed = 8
-        #                print("x position of the Pilot Character before moving", pilot_x)
-                elif event.key == pygame.K_SPACE:
-                    # Start shooting
-                    pygame.time.set_timer(FireRate, TimeShot)
+        # Displays the start screen
+        StartScreen()
+        if startedgame:
+            # - - - - - - - Main event loop - - - - - - - - - -
+            for event in pygame.event.get():
+                # Sets controls for the pilot
+                if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_UP:
+                                pilot_y_speed = -10.5
+                #                print("y position of the Pilot Character before moving", pilot_y)
+                        elif event.key == pygame.K_DOWN:
+                                pilot_y_speed = 8
+                #                print("y position of the Pilot Character before moving", pilot_y)
+                        elif event.key == pygame.K_LEFT:
+                                pilot_x_speed = -8
+                #                print("x position of the Pilot Character before moving", pilot_x)
+                        elif event.key == pygame.K_RIGHT:
+                                pilot_x_speed = 8
+                #                print("x position of the Pilot Character before moving", pilot_x)
+                        elif event.key == pygame.K_SPACE:
+                            # Start shooting
+                            pygame.time.set_timer(FireRate, TimeShot)
 
-        # Tells the pilot to stop moving when key not pressed
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-        #        print("y position of the Pilot Character after moving", pilot_y)
-                pilot_y_speed = 0
-            elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
-        #        print("x position of the Pilot Character after moving", pilot_x)
-                pilot_x_speed = 0
-            elif event.key == pygame.K_SPACE:
-                Shot = Bullet()
-                list_all_sprites.add(Shot)
-                list_bullet.add(Shot)
-                pygame.time.set_timer(FireRate, 0)
-            elif event.key == pygame.K_q:
-                quick_drop = True
-                check_clear_place()
-                for i in range(19):
-                    shift_block()
-                if not check_clear_place():
-                    not_clear = True
-                    place_next_block()
-                quick_drop = False
+                # Tells the pilot to stop moving when key not pressed
+                elif event.type == pygame.KEYUP:
+                    if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                #        print("y position of the Pilot Character after moving", pilot_y)
+                        pilot_y_speed = 0
+                    elif event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
+                #        print("x position of the Pilot Character after moving", pilot_x)
+                        pilot_x_speed = 0
+                    elif event.key == pygame.K_SPACE:
+                        Shot = Bullet()
+                        list_all_sprites.add(Shot)
+                        list_bullet.add(Shot)
+                        pygame.time.set_timer(FireRate, 0)
+                    elif event.key == pygame.K_q:
+                        quick_drop = True
+                        check_clear_place()
+                        for i in range(19):
+                            shift_block()
+                        if not check_clear_place():
+                            not_clear = True
+                            place_next_block()
+                        quick_drop = False
 
-            # Enemy block spawn shortcuts for easier debugging and playtesting
-            elif event.key == pygame.K_i:
-                BlockChoice = IBlock
-                Mob = BlockChoice(4, BlockChoice)
-                list_all_sprites.add(Mob)
-                list_mobs.add(Mob)
-                print(Mob)
-            elif event.key == pygame.K_j:
-                BlockChoice = JBlock
-                Mob = BlockChoice(4, BlockChoice)
-                list_all_sprites.add(Mob)
-                list_mobs.add(Mob)
-                print(Mob)
-            elif event.key == pygame.K_l:
-                BlockChoice = LBlock
-                Mob = BlockChoice(4, BlockChoice)
-                list_all_sprites.add(Mob)
-                list_mobs.add(Mob)
-                print(Mob)
-            elif event.key == pygame.K_5:
-                BlockChoice = SBlock
-                Mob = BlockChoice(4, BlockChoice)
-                list_all_sprites.add(Mob)
-                list_mobs.add(Mob)
-                print(Mob)
-            elif event.key == pygame.K_z:
-                BlockChoice = ZBlock
-                Mob = BlockChoice(4, BlockChoice)
-                list_all_sprites.add(Mob)
-                list_mobs.add(Mob)
-                print(Mob)
-            elif event.key == pygame.K_t:
-                BlockChoice = TBlock
-                Mob = BlockChoice(4, BlockChoice)
-                list_all_sprites.add(Mob)
-                list_mobs.add(Mob)
-                print(Mob)
-            elif event.key == pygame.K_o:
-                BlockChoice = OBlock
-                Mob = BlockChoice(4, BlockChoice)
-                list_all_sprites.add(Mob)
-                list_mobs.add(Mob)
-                print(Mob)
+                    # Enemy block spawn shortcuts for easier debugging and playtesting
+                    elif event.key == pygame.K_i:
+                        BlockChoice = IBlock
+                        Mob = BlockChoice(4, BlockChoice)
+                        list_all_sprites.add(Mob)
+                        list_mobs.add(Mob)
+                        print(Mob)
+                    elif event.key == pygame.K_j:
+                        BlockChoice = JBlock
+                        Mob = BlockChoice(4, BlockChoice)
+                        list_all_sprites.add(Mob)
+                        list_mobs.add(Mob)
+                        print(Mob)
+                    elif event.key == pygame.K_l:
+                        BlockChoice = LBlock
+                        Mob = BlockChoice(4, BlockChoice)
+                        list_all_sprites.add(Mob)
+                        list_mobs.add(Mob)
+                        print(Mob)
+                    elif event.key == pygame.K_5:
+                        BlockChoice = SBlock
+                        Mob = BlockChoice(4, BlockChoice)
+                        list_all_sprites.add(Mob)
+                        list_mobs.add(Mob)
+                        print(Mob)
+                    elif event.key == pygame.K_z:
+                        BlockChoice = ZBlock
+                        Mob = BlockChoice(4, BlockChoice)
+                        list_all_sprites.add(Mob)
+                        list_mobs.add(Mob)
+                        print(Mob)
+                    elif event.key == pygame.K_t:
+                        BlockChoice = TBlock
+                        Mob = BlockChoice(4, BlockChoice)
+                        list_all_sprites.add(Mob)
+                        list_mobs.add(Mob)
+                        print(Mob)
+                    elif event.key == pygame.K_o:
+                        BlockChoice = OBlock
+                        Mob = BlockChoice(4, BlockChoice)
+                        list_all_sprites.add(Mob)
+                        list_mobs.add(Mob)
+                        print(Mob)
 
 
-            elif event.key == pygame.K_a:
-                if active_block:
-                    for BlockObject in active_block:
-                        if BlockObject.check_t_grid_left() and BlockObject.check_t_grid_left() != "Reached left":
-                            BlockObject.move_t_grid_left()
-                        else:
-                            print("Stopped left")
-                    BlockObject.reset_valid()
-            elif event.key == pygame.K_d:
-                if active_block:
-                    for BlockObject in active_block:
-                        if BlockObject.check_t_grid_right() and BlockObject.check_t_grid_right() != "Reached right":
-                            BlockObject.move_t_grid_right()
-                        else:
-                            print("Stopped right")
-                    BlockObject.reset_valid()
-            elif event.key == pygame.K_s:
-                if active_block:
-                    for BlockObject in active_block:
-                        if BlockObject.check_t_grid_down() and BlockObject.check_t_grid_down() != "Reached bottom":
-                            BlockObject.move_t_grid_down()
-                        else:
-                            print("Reached bottom manually")
-                    BlockObject.reset_valid()
-            elif event.key == pygame.K_r:
-                if active_block:
-                    for BlockObject in active_block:
-                        BlockObject.rotate()
-        # The bullet continues to fire automatically
-        elif event.type == FireRate:
-            Shot = Bullet()
-            list_all_sprites.add(Shot)
-            list_bullet.add(Shot)
-        # Mobs are spawned at random time intervals
-        elif event.type == SpawnEnemy:
-            BlockChoice = random.choice(list(BlockColour))
-            # Mobs are spawned at random time intervals
-            if BlockChoice == lastchosenblock and sameblocknum > 1:
-                # Forces a different block to be chosen if most recent
-                # last two spawns are identical
-                while BlockChoice == lastchosenblock:
+                    elif event.key == pygame.K_a:
+                        if active_block:
+                            for BlockObject in active_block:
+                                if BlockObject.check_t_grid_left() and BlockObject.check_t_grid_left() != "Reached left":
+                                    BlockObject.move_t_grid_left()
+                                else:
+                                    print("Stopped left")
+                            BlockObject.reset_valid()
+                    elif event.key == pygame.K_d:
+                        if active_block:
+                            for BlockObject in active_block:
+                                if BlockObject.check_t_grid_right() and BlockObject.check_t_grid_right() != "Reached right":
+                                    BlockObject.move_t_grid_right()
+                                else:
+                                    print("Stopped right")
+                            BlockObject.reset_valid()
+                    elif event.key == pygame.K_s:
+                        if active_block:
+                            for BlockObject in active_block:
+                                if BlockObject.check_t_grid_down() and BlockObject.check_t_grid_down() != "Reached bottom":
+                                    BlockObject.move_t_grid_down()
+                                else:
+                                    print("Reached bottom manually")
+                            BlockObject.reset_valid()
+                    elif event.key == pygame.K_r:
+                        if active_block:
+                            for BlockObject in active_block:
+                                BlockObject.rotate()
+                # The bullet continues to fire automatically
+                elif event.type == FireRate:
+                    Shot = Bullet()
+                    list_all_sprites.add(Shot)
+                    list_bullet.add(Shot)
+                # Mobs are spawned at random time intervals
+                elif event.type == SpawnEnemy:
                     BlockChoice = random.choice(list(BlockColour))
-                # New block will be randomly selected until it's unique
-                sameblocknum = 0
-                # Resets counter for total duplicate blocks once new
-                # different block is spawned to break the chain
-            else:
-                sameblocknum += 1
-                # Tracks there has been a duplicate
-            lastchosenblock = BlockChoice
-            # Temporarily stores the most recently chosen block
-            Mob = BlockChoice(4, BlockChoice)
-       #     print("position of the new Enemy spawned (", Mob.rect.x, ", ", Mob.rect.y, ")")
-            list_all_sprites.add(Mob)
-            list_mobs.add(Mob)
-        # The pilot flashes red when it is hit
-        elif event.type == PilotHit:
-            if flickercount > 0:
-                Pilot.image.fill(RED)
-                enemy_speed_change -= 0.2
-        # The time period for changing back to white is 500ms a.k.a half the time period of flickering pilot to red
-                pygame.time.set_timer(PilotHitRecover, 500)
-            else:
-                pygame.time.set_timer(PilotHit, 0)
-            # Recolours the pilot to white once flicker cycle is over
-                Pilot.image.fill(WHITE)
-                flickercount = 3
-        elif event.type == PilotHitRecover:
-            flickercount -= 1
-        # Changed the flicker output so it only returns flicker when it is still in the flick cycle
-            pygame.time.set_timer(PilotHitRecover, 0)
-            if flickercount > 0:
-                Pilot.image.fill(WHITE)
-            else:
-                Pilot_flickering = False
-        elif event.type == MoveBlocks:
-            if finished_moving:
-                wipe_grid()
-            shift_block()
-            # for BlockObject in active_block:
-                # BlockObject.pos()
-    # Displays the start screen
-    StartScreen()
-    if startedgame:
-        # - - - - - Game logic - - - - - - - -
-        pilot_x += pilot_x_speed
-        pilot_y += pilot_y_speed + gravity
-        # Setting up the wall boundaries for the pilot
-        if pilot_x > 997 and pilot_y > 741:
-            pilot_x = 997
-            pilot_y = 741
-        elif pilot_x < 390 and pilot_y < 2:
-            pilot_x = 390
-            pilot_y = 2
-        elif pilot_x > 997:
-            pilot_x = 997
-            if pilot_y < 2:
-                pilot_y = 2
-        elif pilot_x < 390:
-            pilot_x = 390
-            if pilot_y > 741:
+                    # Mobs are spawned at random time intervals
+                    if BlockChoice == lastchosenblock and sameblocknum > 1:
+                        # Forces a different block to be chosen if most recent
+                        # last two spawns are identical
+                        while BlockChoice == lastchosenblock:
+                            BlockChoice = random.choice(list(BlockColour))
+                        # New block will be randomly selected until it's unique
+                        sameblocknum = 0
+                        # Resets counter for total duplicate blocks once new
+                        # different block is spawned to break the chain
+                    else:
+                        sameblocknum += 1
+                        # Tracks there has been a duplicate
+                    lastchosenblock = BlockChoice
+                    # Temporarily stores the most recently chosen block
+                    Mob = BlockChoice(4, BlockChoice)
+               #     print("position of the new Enemy spawned (", Mob.rect.x, ", ", Mob.rect.y, ")")
+                    list_all_sprites.add(Mob)
+                    list_mobs.add(Mob)
+                # The pilot flashes red when it is hit
+                elif event.type == PilotHit:
+                    if flickercount > 0:
+                        Pilot.image.fill(RED)
+                        enemy_speed_change -= 0.2
+                # The time period for changing back to white is 500ms a.k.a half the time period of flickering pilot to red
+                        pygame.time.set_timer(PilotHitRecover, 500)
+                    else:
+                        pygame.time.set_timer(PilotHit, 0)
+                    # Recolours the pilot to white once flicker cycle is over
+                        Pilot.image.fill(WHITE)
+                        flickercount = 3
+                elif event.type == PilotHitRecover:
+                    flickercount -= 1
+                # Changed the flicker output so it only returns flicker when it is still in the flick cycle
+                    pygame.time.set_timer(PilotHitRecover, 0)
+                    if flickercount > 0:
+                        Pilot.image.fill(WHITE)
+                    else:
+                        Pilot_flickering = False
+                elif event.type == MoveBlocks:
+                    if finished_moving:
+                        wipe_grid()
+                    shift_block()
+                    # for BlockObject in active_block:
+                        # BlockObject.pos()
+            # - - - - - Game logic - - - - - - - -
+            pilot_x += pilot_x_speed
+            pilot_y += pilot_y_speed + gravity
+            # Setting up the wall boundaries for the pilot
+            if pilot_x > 997 and pilot_y > 741:
+                pilot_x = 997
                 pilot_y = 741
-        elif pilot_y > 741:
-            pilot_y = 741
-        elif pilot_y < 2:
-            pilot_y = 2
+            elif pilot_x < 390 and pilot_y < 2:
+                pilot_x = 390
+                pilot_y = 2
+            elif pilot_x > 997:
+                pilot_x = 997
+                if pilot_y < 2:
+                    pilot_y = 2
+            elif pilot_x < 390:
+                pilot_x = 390
+                if pilot_y > 741:
+                    pilot_y = 741
+            elif pilot_y > 741:
+                pilot_y = 741
+            elif pilot_y < 2:
+                pilot_y = 2
 
-        list_all_sprites.update()
+            list_all_sprites.update()
 
-        # - - - - - Drawing code - - - - - - -
-        pygame.draw.rect(screen, BLACK, [0, 0, 384, 768], 0)
-        pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
-        pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
-        pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
+            # - - - - - Drawing code - - - - - - -
+            pygame.draw.rect(screen, BLACK, [0, 0, 384, 768], 0)
+            pygame.draw.rect(screen, BLACK, [384, 0, 640, 768], 0)
+            pygame.draw.rect(screen, WHITE, [384, 0, 640, 768], 1)
+            pygame.draw.line(screen, GREEN, (384, 0), (384, 768), 8)
 
-        # Scoring
-        drawing("Score:", 16, WHITE, 860, 20)
-        drawing(TotScore, 16, WHITE, 980, 20)
+            # Scoring
+            drawing("Score:", 16, WHITE, 860, 20)
+            drawing(TotScore, 16, WHITE, 980, 20)
 
-        # Display health
-        show_health()
+            # Display health
+            show_health()
 
-        # Removes off-screen mobs
-        for Mob in list_mobs:
-            if Mob.rect.x <= 364 or Mob.rect.y >= 740 or Mob.rect.y <= 20:
-                list_all_sprites.remove(Mob)
-                list_mobs.remove(Mob)
-
-        # Removes off-screen projectiles
-        for Shot in list_bullet:
-            if Shot.rect.x >= pilot_x + 400 or Shot.rect.y >= 768:
-                list_all_sprites.remove(Shot)
-                list_bullet.remove(Shot)
-            # Hit detection between bullet and Mob
-            list_mobs_hit = pygame.sprite.spritecollide(Shot, list_mobs, False)
-            # Score from hitting mobs
-            for Mob in list_mobs_hit:
-                TotScore += HitScore
-                Mob.Mob_Health -= 1
-                if Mob.Mob_Health == 0:
-                    next_block_store = 0
-                    # print("check clear place", check_clear_place())
-                    not_clear = False
-                    if not check_clear_place():
-                        place_next_block()
-                        # unnecessary, it turns out                    not_clear = False
-                    #  BlockObject.pos()  # For printing the top left corner block of the tetris block
-                    list_mobs.remove(Mob)
+            # Removes off-screen mobs
+            for Mob in list_mobs:
+                if Mob.rect.x <= 364 or Mob.rect.y >= 740 or Mob.rect.y <= 20:
                     list_all_sprites.remove(Mob)
-                    list_mobs_hit.remove(Mob)
-                    mob_got_killed = True
-                    # Increase game scroll speed when enemy killed: difficulty progression
-                    enemy_speed_change += 0.1
-                    if ShortTimeMobs > 500:
-                        ShortTimeMobs -= 30
-                        LongTimeMobs -= 30
-                    TotScore += MobScore
+                    list_mobs.remove(Mob)
 
-        # Removing the projectiles if they land on an enemy
-        for Mob in list_mobs:
-            list_shots_landed = pygame.sprite.spritecollide(Mob, list_bullet, True)
-            for Shot in list_shots_landed:
-                list_all_sprites.remove(Shot)
-                list_bullet.remove(Shot)
-            MobHealthPercent = (Mob.Mob_Health / 4)
-            pygame.draw.line(screen, RED, (Mob.rect.left, Mob.rect.bottom + 10),
-                             (Mob.rect.left + Mob.x_hitbox * MobHealthPercent, Mob.rect.bottom + 10), 4)
+            # Removes off-screen projectiles
+            for Shot in list_bullet:
+                if Shot.rect.x >= pilot_x + 400 or Shot.rect.y >= 768:
+                    list_all_sprites.remove(Shot)
+                    list_bullet.remove(Shot)
+                # Hit detection between bullet and Mob
+                list_mobs_hit = pygame.sprite.spritecollide(Shot, list_mobs, False)
+                # Score from hitting mobs
+                for Mob in list_mobs_hit:
+                    TotScore += HitScore
+                    Mob.Mob_Health -= 1
+                    if Mob.Mob_Health == 0:
+                        next_block_store = 0
+                        # print("check clear place", check_clear_place())
+                        not_clear = False
+                        if not check_clear_place():
+                            place_next_block()
+                            # unnecessary, it turns out                    not_clear = False
+                        #  BlockObject.pos()  # For printing the top left corner block of the tetris block
+                        list_mobs.remove(Mob)
+                        list_all_sprites.remove(Mob)
+                        list_mobs_hit.remove(Mob)
+                        mob_got_killed = True
+                        # Increase game scroll speed when enemy killed: difficulty progression
+                        enemy_speed_change += 0.1
+                        if ShortTimeMobs > 500:
+                            ShortTimeMobs -= 30
+                            LongTimeMobs -= 30
+                        TotScore += MobScore
 
-        draw_t_box()
+            # Removing the projectiles if they land on an enemy
+            for Mob in list_mobs:
+                list_shots_landed = pygame.sprite.spritecollide(Mob, list_bullet, True)
+                for Shot in list_shots_landed:
+                    list_all_sprites.remove(Shot)
+                    list_bullet.remove(Shot)
+                MobHealthPercent = (Mob.Mob_Health / 4)
+                pygame.draw.line(screen, RED, (Mob.rect.left, Mob.rect.bottom + 10),
+                                 (Mob.rect.left + Mob.x_hitbox * MobHealthPercent, Mob.rect.bottom + 10), 4)
 
-        list_all_sprites.draw(screen)
+            draw_t_box()
+
+            list_all_sprites.draw(screen)
 
     # - - - - - Update screen drawn - - -
     pygame.display.flip()
