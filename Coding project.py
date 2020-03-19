@@ -84,11 +84,11 @@ for TColumn in range(10):
     for TRow in range(20):
         TGrid[TColumn].append(0)
 startedgame = False
+gamerunning = False
 StartBoxColour = GREEN
 ControlBoxColour = GREEN
 # Establishing screens
 def StartScreen():
-    if startedgame == False:
     global startedgame, StartBoxColour, ControlBoxColour
     if pygame.mouse.get_pressed()[0]:
         # Mouse clicks on start game button to start the game
@@ -1314,9 +1314,8 @@ while not done:
                 draw_t_box()
 
                 list_all_sprites.draw(screen)
-
-    # - - - - - Update screen drawn - - -
-    pygame.display.flip()
+        # - - - - - Update screen drawn - - -
+        pygame.display.flip()
 
     # - - - - - Set the fps - - - - - - -
     clock.tick(60)
