@@ -42,6 +42,8 @@ row_spacing = 36
 column_spacing = 36
 ShortTimeMobs = 2500
 LongTimeMobs = 3200
+lastchosenblock = ""
+sameblocknum = 0
 # Counts the number of flickers when hit
 flickercount = 3
 # Checks whether there is an active block currently on the grid
@@ -900,13 +902,20 @@ def wipe_grid():
                 temp_block_store = TGrid[xpos][ypos]
                 TGrid[xpos][ypos + 1] = temp_block_store
                 TGrid[xpos][ypos] = 0
+    if complete_row:
+        reorder_grid()
+
+
+def reorder_grid():
+    for ypos in range(19):
+        for xpos in range(10):
             for BlockObject in onscreen_blocks:
                 for BlockListCounter in range(BlockObject.block_list_length()):
                     if xpos == BlockObject.show_block_list(0, BlockListCounter) and ypos == BlockObject.show_block_list(1, BlockListCounter):
                         if BlockObject.check_t_grid_down():
                             BlockObject.move_t_grid_down()  # Block is moved down the grid by one for the current cycle
 
- #   fall_block()
+                    #   fall_block()
 
 # Types of enemies
 # I Block
@@ -1005,7 +1014,6 @@ BlockColour = {IBlock: GREEN, JBlock: BLUE, LBlock: YELLOW, OBlock: RED, TBlock:
 done = False
 # - - - - - - - - - Main program loop - - - - - - - - -
 while not done:
-
     # - - - - - - - Main event loop - - - - - - - - - -
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -1133,6 +1141,21 @@ while not done:
         # Mobs are spawned at random time intervals
         elif event.type == SpawnEnemy:
             BlockChoice = random.choice(list(BlockColour))
+            # Mobs are spawned at random time intervals
+            if BlockChoice == lastchosenblock and sameblocknum > 1:
+                # Forces a different block to be chosen if most recent
+                # last two spawns are identical
+                while BlockChoice == lastchosenblock:
+                    BlockChoice = random.choice(list(BlockColour))
+                # New block will be randomly selected until it's unique
+                sameblocknum = 0
+                # Resets counter for total duplicate blocks once new
+                # different block is spawned to break the chain
+            else:
+                sameblocknum += 1
+                # Tracks there has been a duplicate
+            lastchosenblock = BlockChoice
+            # Temporarily stores the most recently chosen block
             Mob = BlockChoice(4, BlockChoice)
        #     print("position of the new Enemy spawned (", Mob.rect.x, ", ", Mob.rect.y, ")")
             list_all_sprites.add(Mob)
@@ -1225,7 +1248,7 @@ while not done:
                 not_clear = False
                 if not check_clear_place():
                     place_next_block()
-                    not_clear = False
+# unnecessary, it turns out                    not_clear = False
                 #  BlockObject.pos()  # For printing the top left corner block of the tetris block
                 list_mobs.remove(Mob)
                 list_all_sprites.remove(Mob)
