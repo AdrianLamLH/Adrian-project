@@ -156,31 +156,47 @@ def show_controls():
 def gameover():
     global backtomenu, instantreplay, TotScore, HighScore
     backtomenu = False
+    instantreplay = False
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, BLACK, [0, 0, 1024, 768], 0)
     # Game title
     drawing("Game over!", 36, WHITE, 328, 120)
-    drawing(("Your final score was", TotScore), 36, WHITE, 328, 120)
+    drawing("Your final score: " + str(TotScore), 28, WHITE, 148, 300)
     if TotScore > HighScore:
-        drawing(("New Highscore!", TotScore), 36, WHITE, 328, 120)
+        drawing("New Highscore!", 30, WHITE, 250, 400)
         HighScore = TotScore
     else:
-        drawing(("Highscore is still", HighScore), 36, WHITE, 328, 120)
+        drawing("Highscore is still: " + str(HighScore), 30, WHITE, 156, 400)
     # Home button returns player to start screen when clicked
     if pygame.mouse.get_pressed()[0]:
-        if (pygame.mouse.get_pos()[0] > 35 and pygame.mouse.get_pos()[0] < 115 and \
-                        pygame.mouse.get_pos()[1] > 35 and pygame.mouse.get_pos()[1] < 115):
+        if (pygame.mouse.get_pos()[0] > 400 and pygame.mouse.get_pos()[0] < 520 and \
+                        pygame.mouse.get_pos()[1] > 600 and pygame.mouse.get_pos()[1] < 720):
             backtomenu = True
     # Buttons onscreen change colour when hovered over by cursor
-    if (pygame.mouse.get_pos()[0] > 35 and pygame.mouse.get_pos()[0] < 115 and \
-                    pygame.mouse.get_pos()[1] > 35 and pygame.mouse.get_pos()[1] < 115):
+    if (pygame.mouse.get_pos()[0] > 400 and pygame.mouse.get_pos()[0] < 520 and \
+                    pygame.mouse.get_pos()[1] > 600 and pygame.mouse.get_pos()[1] < 720):
         # Decides whether the button image is highlighted or normal
         startscreen_pic = pygame.image.load('return_home_highlighted.png')
     else:
         startscreen_pic = pygame.image.load('return_home.png')
+    # Replay button instantly reruns the main game
+    if pygame.mouse.get_pressed()[0]:
+        if (pygame.mouse.get_pos()[0] > 520 and pygame.mouse.get_pos()[0] < 640 and \
+                        pygame.mouse.get_pos()[1] > 600 and pygame.mouse.get_pos()[1] < 720):
+            instantreplay = True
+    # Buttons onscreen change colour when hovered over by cursor
+    if (pygame.mouse.get_pos()[0] > 520 and pygame.mouse.get_pos()[0] < 640 and \
+                    pygame.mouse.get_pos()[1] > 600 and pygame.mouse.get_pos()[1] < 720):
+        # Decides whether the button image is highlighted or normal
+        startedgame_pic = pygame.image.load('replay_highlighted.png')
+    else:
+        startedgame_pic = pygame.image.load('replay.png')
     # Drawing the return to main menu button
-    rescaled_startscreen_pic = pygame.transform.smoothscale(startscreen_pic, (80, 80))
+    rescaled_startscreen_pic = pygame.transform.smoothscale(startscreen_pic, (120, 120))
     screen.blit(rescaled_startscreen_pic, (400, 600))
+    # Drawing the replay button
+    rescaled_startedgame_pic = pygame.transform.smoothscale(startedgame_pic, (120, 120))
+    screen.blit(rescaled_startedgame_pic, (520, 600))
 # Game classes
 
 # Draw function
