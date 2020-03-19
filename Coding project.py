@@ -84,18 +84,31 @@ for TColumn in range(10):
     for TRow in range(20):
         TGrid[TColumn].append(0)
 startedgame = False
+StartBoxColour = GREEN
+ControlBoxColour = GREEN
 # Establishing screens
 def StartScreen():
-    global startedgame
+    global startedgame, StartBoxColour, ControlBoxColour
+    # Buttons onscreen change colour when hovered over by cursor
+    if (pygame.mouse.get_pos() [0] > 96 and pygame.mouse.get_pos() [0] < 440 and \
+            pygame.mouse.get_pos() [1] > 468 and pygame.mouse.get_pos() [1] < 640):
+        StartBoxColour = YELLOW
+    elif (pygame.mouse.get_pos() [0] > 632 and pygame.mouse.get_pos() [0] < 976 and \
+            pygame.mouse.get_pos() [1] > 468 and pygame.mouse.get_pos() [1] < 640):
+        ControlBoxColour = YELLOW
+    else:
+        StartBoxColour = GREEN
+        ControlBoxColour = GREEN
+
+
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, BLACK, [0, 0, 640, 768], 0)
-
     # Game title
     pygame.draw.rect(screen, GREEN, [150, 240, 735, 140], 0)
     drawing("TASKATHLON", 68, WHITE, 174, 280)
-    pygame.draw.rect(screen, GREEN, [96, 468, 344, 172], 0)
+    pygame.draw.rect(screen, StartBoxColour, [96, 468, 344, 172], 0)
     drawing("Start game", 32, WHITE, 110, 548)
-    pygame.draw.rect(screen, GREEN, [632, 468, 344, 172], 0)
+    pygame.draw.rect(screen, ControlBoxColour, [632, 468, 344, 172], 0)
     drawing("How to play", 28, WHITE, 650, 548)
     startedgame = False
 # Game classes
