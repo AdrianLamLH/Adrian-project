@@ -74,7 +74,7 @@ TimeMobs = random.randint(ShortTimeMobs, LongTimeMobs)
 size = (1024, 768)
 screen = pygame.display.set_mode(size)
 # Labelling the program
-pygame.display.set_caption("Game name here")
+pygame.display.set_caption("Taskathlon")
 
 # To manage the fps
 clock = pygame.time.Clock()
@@ -85,6 +85,7 @@ for TColumn in range(10):
     TGrid.append([])
     for TRow in range(20):
         TGrid[TColumn].append(0)
+
 startedgame = False
 controlscreen = False
 StartBoxColour = GREEN
@@ -114,7 +115,7 @@ def StartScreen():
         ControlBoxColour = GREEN
 
     # - - - - - Drawing code - - - - - - -
-    pygame.draw.rect(screen, BLACK, [0, 0, 1024, 768], 0)
+
     # Game title
     pygame.draw.rect(screen, GREEN, [150, 240, 735, 140], 0)
     drawing("TASKATHLON", 68, WHITE, 174, 280)
@@ -252,6 +253,10 @@ class Pilot(pygame.sprite.Sprite):
         self.rect.x = pilot_x
         self.rect.y = pilot_y
 
+    def reset(self):
+        self.rect.x = pilot_x
+        self.rect.y = pilot_y
+
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self):
@@ -316,7 +321,7 @@ class Enemy(pygame.sprite.Sprite):
                 PilotHealth -= 1
                 print("Pilot health is now", PilotHealth)
                 if PilotHealth == 0:
-                    donegamescreen = True
+                    startedgame = False
                     endscreen = True
 
 
@@ -1030,6 +1035,7 @@ def wipe_grid():
                 temp_block_store = TGrid[xpos][ypos]
                 TGrid[xpos][ypos + 1] = temp_block_store
                 TGrid[xpos][ypos] = 0
+
     if complete_row:
         reorder_grid()
 
@@ -1143,6 +1149,7 @@ BlockColour = {IBlock: GREEN, JBlock: BLUE, LBlock: YELLOW, OBlock: RED, TBlock:
 donegame = False
 endscreen = False
 startscreen = True
+alreadyrunbefore = False
 clock.tick(60)
 while not donegame:
     for event in pygame.event.get():
@@ -1154,6 +1161,7 @@ while not donegame:
     donecontrolsscreen = False
     doneendscreen = False
     if startscreen:
+        screen.fill(BLACK)
         startscreen = False
         while not donestartscreen:
             for event in pygame.event.get():
@@ -1173,6 +1181,7 @@ while not donegame:
             # (regardless of which UI screen active)
 
     if controlscreen:
+        screen.fill(BLACK)
         print("control screen", startscreen, controlscreen, startedgame)
         controlscreen = False
         while not donecontrolsscreen:
@@ -1191,7 +1200,62 @@ while not donegame:
 
     # - - - - - - - - - Main program loop - - - - - - - - -
     if startedgame:
-        # print("started game", startscreen, controlscreen, startedgame)
+        screen.fill(BLACK)
+        if alreadyrunbefore:
+            # print("started game", startscreen, controlscreen, startedgame)
+            # Initialise variables
+            pilot_x = 400
+            pilot_y = 384
+            bullet_x = 0
+            bullet_y = 0
+            pilot_x_speed = 0
+            pilot_y_speed = 0
+            enemy_speed_change = 0
+            gravity = 2.5
+            x_hitbox = 0
+            y_hitbox = 0
+            TotScore = 0
+            HitScore = 2
+            MobScore = 10
+            # Stores the highest score of the current play session
+            HighScore = 0
+            MobsDead = 0
+            PilotHealth = 3
+            killed_mob = 0
+            mob_got_killed = False
+            BlockMoving = True
+            row_spacing = 36
+            column_spacing = 36
+            ShortTimeMobs = 2500
+            LongTimeMobs = 3200
+            lastchosenblock = ""
+            sameblocknum = 0
+            # Counts the number of flickers when hit
+            flickercount = 3
+            # Checks whether there is an active block currently on the grid
+            finished_moving = True
+            # Temp store to hold next block to be placed on the grid
+            next_block_store = 0
+            # Checks whether a quick drop is being performed, which would then mean the next block is added after the drop completes
+            quick_drop = False
+            # Checks if the spawn area is free of blocks before placing the next block on the grid
+            not_clear = False
+            Pilot_flickering = False
+            for TColumn in range(10):
+                for TRow in range(20):
+                    TGrid[TColumn][TRow] = 0
+            # Player and projectiles are updated/stored in sprite group
+            list_all_sprites = pygame.sprite.Group()
+            list_bullet = pygame.sprite.Group()
+            # Enemy are updated/stored in sprite group
+            list_mobs = pygame.sprite.Group()
+            # Current tetris block stored in sprite group
+            active_block = pygame.sprite.Group()
+            # All tetris blocks on the grid stored in sprite group
+            onscreen_blocks = pygame.sprite.Group()
+            # Player and bullet initialised
+            Pilot.reset()
+        # ~~~~~~~~~~~~~~~~~~~ Resets everything ~~~~~~~~~~~~~~~~~~~~
         startedgame = False
         # Loop until the user clicks the close button
         donegamescreen = False
@@ -1461,8 +1525,13 @@ while not donegame:
             pygame.display.flip()
 
             # Don't need to set the fps again as it has already been set in start menu loop
+        # Stops and resets all timers
+        pygame.time.set_timer(SpawnEnemy, 0)
+        pygame.time.set_timer(MoveBlocks, 0)
+        alreadyrunbefore = True
 
     if endscreen:
+        screen.fill(BLACK)
         updatedHighScore = False
         newPB = False
         startscreen = False
