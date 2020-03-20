@@ -44,6 +44,8 @@ row_spacing = 36
 column_spacing = 36
 ShortTimeMobs = 2500
 LongTimeMobs = 3200
+# Initialises fuel amount
+fuel = 100
 lastchosenblock = ""
 sameblocknum = 0
 # Counts the number of flickers when hit
@@ -250,8 +252,10 @@ class Pilot(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self):
+        global fuel
         self.rect.x = pilot_x
         self.rect.y = pilot_y
+        fuel -= 0.05
 
     def reset(self):
         self.rect.x = pilot_x
@@ -307,6 +311,7 @@ class Enemy(pygame.sprite.Sprite):
         global Pilot_flickering
         global PilotHealth
         global donegamescreen
+        global startedgame
         global endscreen
         if Mob in list_mobs:
             # Detects when pilot is hit and the pilot flashes
@@ -314,15 +319,14 @@ class Enemy(pygame.sprite.Sprite):
             # Need to fix flicker timing so it only triggers the flicker once during the collision
             # Introduced pilot_flickering so it only triggers the flicker upon first collision
             if pilot_damaged and Pilot_flickering is False:
-                # print("Pilot character's position(", pilot_x, ", ", pilot_y, ")")
-                # print("Enemy collided with and its  position is (", Mob.rect.x, ", ", Mob.rect.y, ")")
                 pygame.time.set_timer(PilotHit, 1000)
                 Pilot_flickering = True
                 PilotHealth -= 1
-                print("Pilot health is now", PilotHealth)
-                if PilotHealth == 0:
+                print("Pilot health is now: ", PilotHealth)
+                if PilotHealth < 1:
                     startedgame = False
                     endscreen = True
+                    donegamescreen = True
 
 
 class BlockBlock(pygame.sprite.Sprite):
@@ -588,7 +592,7 @@ class BlockBlock(pygame.sprite.Sprite):
     def move_t_grid_down(self):  # Previous space occupied by block cleared and moved into next space below
         self.block_list = list(self.block_list_temp)
         self.row += 1
-        print(self.block_list)
+
         for self.countermovedown in range(4):
             TGrid[((self.block_list[self.countermovedown])[0])][(self.block_list[self.countermovedown])[1]] = 0
         for self.countmovedown in range(4):
@@ -1021,6 +1025,7 @@ def check_clear_place():
 
 
 def wipe_grid():
+    global fuel
     for ypos in range(19):
         complete_row = True
         for xpos in range(10):
@@ -1035,9 +1040,15 @@ def wipe_grid():
                 temp_block_store = TGrid[xpos][ypos]
                 TGrid[xpos][ypos + 1] = temp_block_store
                 TGrid[xpos][ypos] = 0
+            if fuel > 60:
+                fuel = 100
+            else:
+                fuel += 40
+            # Fuel is increased by 40 capped at 100
 
     if complete_row:
         reorder_grid()
+        # Tetris grid is reordered
 
 
 def reorder_grid():
@@ -1226,6 +1237,8 @@ while not donegame:
             BlockMoving = True
             row_spacing = 36
             column_spacing = 36
+            # Initialises fuel amount
+            fuel = 100
             ShortTimeMobs = 2500
             LongTimeMobs = 3200
             lastchosenblock = ""
@@ -1313,43 +1326,36 @@ while not donegame:
                         Mob = BlockChoice(4, BlockChoice)
                         list_all_sprites.add(Mob)
                         list_mobs.add(Mob)
-                        print(Mob)
                     elif event.key == pygame.K_j:
                         BlockChoice = JBlock
                         Mob = BlockChoice(4, BlockChoice)
                         list_all_sprites.add(Mob)
                         list_mobs.add(Mob)
-                        print(Mob)
                     elif event.key == pygame.K_l:
                         BlockChoice = LBlock
                         Mob = BlockChoice(4, BlockChoice)
                         list_all_sprites.add(Mob)
                         list_mobs.add(Mob)
-                        print(Mob)
                     elif event.key == pygame.K_5:
                         BlockChoice = SBlock
                         Mob = BlockChoice(4, BlockChoice)
                         list_all_sprites.add(Mob)
                         list_mobs.add(Mob)
-                        print(Mob)
                     elif event.key == pygame.K_z:
                         BlockChoice = ZBlock
                         Mob = BlockChoice(4, BlockChoice)
                         list_all_sprites.add(Mob)
                         list_mobs.add(Mob)
-                        print(Mob)
                     elif event.key == pygame.K_t:
                         BlockChoice = TBlock
                         Mob = BlockChoice(4, BlockChoice)
                         list_all_sprites.add(Mob)
                         list_mobs.add(Mob)
-                        print(Mob)
                     elif event.key == pygame.K_o:
                         BlockChoice = OBlock
                         Mob = BlockChoice(4, BlockChoice)
                         list_all_sprites.add(Mob)
                         list_mobs.add(Mob)
-                        print(Mob)
 
 
                     elif event.key == pygame.K_a:
@@ -1457,6 +1463,11 @@ while not donegame:
             elif pilot_y < 2:
                 pilot_y = 2
 
+            if not fuel > 0:
+                startedgame = False
+                endscreen = True
+                donegamescreen = True
+
             list_all_sprites.update()
 
             # - - - - - Drawing code - - - - - - -
@@ -1503,6 +1514,8 @@ while not donegame:
                         mob_got_killed = True
                         # Increase game scroll speed when enemy killed: difficulty progression
                         enemy_speed_change += 0.1
+                        print("Enemy killed")
+                        print("enemy speed increased to: ", (enemy_speed_change+2))
                         if ShortTimeMobs > 500:
                             ShortTimeMobs -= 30
                             LongTimeMobs -= 30
