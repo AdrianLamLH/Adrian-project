@@ -152,9 +152,15 @@ def show_controls():
     rescaled_startscreen_pic = pygame.transform.smoothscale(startscreen_pic, (80, 80))
     screen.blit(rescaled_startscreen_pic, (35, 35))
 
+TotScore = 420
+updatedHighScore = False
+newPB = False
 
 def gameover():
-    global backtomenu, instantreplay, TotScore, HighScore
+    global backtomenu, instantreplay, TotScore, HighScore, newPB, updatedHighScore
+    # Ensures the HighScore updated to TotScore only once
+    # so the gameover screen does not update itself as
+    # the highscore = totscore and thus no highscore
     backtomenu = False
     instantreplay = False
     # - - - - - Drawing code - - - - - - -
@@ -162,10 +168,18 @@ def gameover():
     # Game title
     drawing("Game over!", 36, WHITE, 328, 120)
     drawing("Your final score: " + str(TotScore), 28, WHITE, 148, 300)
-    if TotScore > HighScore:
-        drawing("New Highscore!", 30, WHITE, 250, 400)
-        HighScore = TotScore
+    # Checks that the highscore is updated when surpassed and noting
+    # this event down
+    if not updatedHighScore:
+        if TotScore > HighScore:
+            HighScore = TotScore
+            newPB = True
+            updatedHighScore = True
+    if newPB:
+        # Outputs new highscore if the current playthrough scored highest ever
+        drawing("New Highscore!", 30, WHITE, 282, 400)
     else:
+        # Outputs highscore if not surpassed
         drawing("Highscore is still: " + str(HighScore), 30, WHITE, 156, 400)
     # Home button returns player to start screen when clicked
     if pygame.mouse.get_pressed()[0]:
