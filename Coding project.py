@@ -152,10 +152,6 @@ def show_controls():
     rescaled_startscreen_pic = pygame.transform.smoothscale(startscreen_pic, (80, 80))
     screen.blit(rescaled_startscreen_pic, (35, 35))
 
-TotScore = 420
-updatedHighScore = False
-newPB = False
-
 def gameover():
     global backtomenu, instantreplay, TotScore, HighScore, newPB, updatedHighScore
     # Ensures the HighScore updated to TotScore only once
@@ -306,6 +302,7 @@ class Enemy(pygame.sprite.Sprite):
         global Pilot_flickering
         global PilotHealth
         global donegamescreen
+        global endscreen
         if Mob in list_mobs:
             # Detects when pilot is hit and the pilot flashes
             pilot_damaged = pygame.sprite.spritecollide(Pilot, list_mobs, False)
@@ -320,6 +317,7 @@ class Enemy(pygame.sprite.Sprite):
                 print("Pilot health is now", PilotHealth)
                 if PilotHealth == 0:
                     donegamescreen = True
+                    endscreen = True
 
 
 class BlockBlock(pygame.sprite.Sprite):
@@ -1143,15 +1141,8 @@ BlockColour = {IBlock: GREEN, JBlock: BLUE, LBlock: YELLOW, OBlock: RED, TBlock:
 
 # Loop until the user clicks the close button
 donegame = False
-# ~~~~~~~~~~~~~~~~~~~~~~
-# Also change this back to startscreen = True
-endscreen = True
-# ~~~~~~~~~~~~~~~~~~~~~~
-startscreen = False
-controlscreen = False
-startedgame = False
-# ~~~~~~~~~~~~~~~~~~~~~~
-#
+endscreen = False
+startscreen = True
 clock.tick(60)
 while not donegame:
     for event in pygame.event.get():
@@ -1472,10 +1463,13 @@ while not donegame:
             # Don't need to set the fps again as it has already been set in start menu loop
 
     if endscreen:
+        updatedHighScore = False
+        newPB = False
+        startscreen = False
         endscreen = False
         # Stops end screen from being rerun repeatedly after each loop where it could overlap
         # and interfere with the actual intended screen switches
-        while not donecontrolsscreen:
+        while not doneendscreen:
             # Switches the active UI screen to controls screen
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
