@@ -162,6 +162,7 @@ def gameover():
     # the highscore = totscore and thus no highscore
     backtomenu = False
     instantreplay = False
+    print("Game over")
     # - - - - - Drawing code - - - - - - -
     pygame.draw.rect(screen, BLACK, [0, 0, 1024, 768], 0)
     # Game title
@@ -322,7 +323,6 @@ class Enemy(pygame.sprite.Sprite):
                 pygame.time.set_timer(PilotHit, 1000)
                 Pilot_flickering = True
                 PilotHealth -= 1
-                print("Pilot health is now: ", PilotHealth)
                 if PilotHealth < 1:
                     startedgame = False
                     endscreen = True
@@ -989,6 +989,7 @@ def place_next_block():
 def shift_block():
     global finished_moving
     global not_clear
+    global fuel
     for BlockObject in active_block:
         if BlockObject.check_t_grid_down() == "Reached bottom" or BlockObject.check_t_grid_down() != True:
             print("Not free")
@@ -1004,6 +1005,7 @@ def shift_block():
             finished_moving = False
             BlockObject.move_t_grid_down()  # Block is moved down the grid by one for the current cycle
         BlockObject.reset_valid()
+    print("fuel is now at ", fuel)
 
 # def fall_block():
 #  global finished_moving
@@ -1026,6 +1028,7 @@ def check_clear_place():
 
 def wipe_grid():
     global fuel
+    completed_rows = 0
     for ypos in range(19):
         complete_row = True
         for xpos in range(10):
@@ -1046,8 +1049,8 @@ def wipe_grid():
                 fuel += 40
             # Fuel is increased by 40 capped at 100
 
-    if complete_row:
-        reorder_grid()
+    #if complete_row:
+    #    reorder_grid()
         # Tetris grid is reordered
 
 
@@ -1479,6 +1482,12 @@ while not donegame:
             # Scoring
             drawing("Score:", 16, WHITE, 860, 20)
             drawing(TotScore, 16, WHITE, 980, 20)
+
+            # Fuel bar
+            pygame.draw.line(screen, GREEN, (420, 30),
+                             (420 + 150, 30), 35)
+            pygame.draw.line(screen, YELLOW, (420, 30),
+                             (420 + 150 * (fuel/100), 30), 35)
 
             # Display health
             show_health()
