@@ -261,6 +261,10 @@ class Pilot(pygame.sprite.Sprite):
     def reset(self):
         self.rect.x = pilot_x
         self.rect.y = pilot_y
+        self.image = pygame.Surface([25, 25])
+        # Creates the image of the pilot
+        self.image.fill(WHITE)
+        self.rect = self.image.get_rect()
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -316,7 +320,7 @@ class Enemy(pygame.sprite.Sprite):
         global endscreen
         if Mob in list_mobs:
             # Detects when pilot is hit and the pilot flashes
-            pilot_damaged = pygame.sprite.spritecollide(Pilot, list_mobs, False)
+            pilot_damaged = pygame.sprite.spritecollide(PilotObject, list_mobs, False)
             # Need to fix flicker timing so it only triggers the flicker once during the collision
             # Introduced pilot_flickering so it only triggers the flicker upon first collision
             if pilot_damaged and Pilot_flickering is False:
@@ -1154,8 +1158,8 @@ active_block = pygame.sprite.Group()
 # All tetris blocks on the grid stored in sprite group
 onscreen_blocks = pygame.sprite.Group()
 # Player and bullet initialised
-Pilot = Pilot()
-list_all_sprites.add(Pilot)
+PilotObject = Pilot()
+list_all_sprites.add(PilotObject)
 # Initialise block types
 BlockColour = {IBlock: GREEN, JBlock: BLUE, LBlock: YELLOW, OBlock: RED, TBlock: BROWN, SBlock: ORANGE, ZBlock: PURPLE}
 
@@ -1270,7 +1274,11 @@ while not donegame:
             # All tetris blocks on the grid stored in sprite group
             onscreen_blocks = pygame.sprite.Group()
             # Player and bullet initialised
-            Pilot.reset()
+            print(PilotObject)
+            PilotObject = None
+            PilotObject = Pilot()
+            list_all_sprites.add(PilotObject)
+
         # ~~~~~~~~~~~~~~~~~~~ Resets everything ~~~~~~~~~~~~~~~~~~~~
         startedgame = False
         # Loop until the user clicks the close button
@@ -1419,21 +1427,21 @@ while not donegame:
                 # The pilot flashes red when it is hit
                 elif event.type == PilotHit:
                     if flickercount > 0:
-                        Pilot.image.fill(RED)
+                        PilotObject.image.fill(RED)
                         enemy_speed_change -= 0.2
                 # The time period for changing back to white is 500ms a.k.a half the time period of flickering pilot to red
                         pygame.time.set_timer(PilotHitRecover, 500)
                     else:
                         pygame.time.set_timer(PilotHit, 0)
                     # Recolours the pilot to white once flicker cycle is over
-                        Pilot.image.fill(WHITE)
+                        PilotObject.image.fill(WHITE)
                         flickercount = 3
                 elif event.type == PilotHitRecover:
                     flickercount -= 1
                 # Changed the flicker output so it only returns flicker when it is still in the flick cycle
                     pygame.time.set_timer(PilotHitRecover, 0)
                     if flickercount > 0:
-                        Pilot.image.fill(WHITE)
+                        PilotObject.image.fill(WHITE)
                     else:
                         Pilot_flickering = False
                 elif event.type == MoveBlocks:
