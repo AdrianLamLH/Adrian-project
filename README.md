@@ -1,2 +1,2 @@
 # Adrian-project
-Computer science A level coursework
+Python Pygame passion project.
