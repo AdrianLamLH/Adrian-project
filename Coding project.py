@@ -660,7 +660,7 @@ class BlockBlock(pygame.sprite.Sprite):
         # print("preleftest block", self.block_leftest)
         # print("preblock list", self.block_list)
         # print("----------------------------")
-        # print("LOOOK ATTT THISSSS", self.block_dimensions)
+        # print("dimensions", self.block_dimensions)
         # print("----------------------------")
         self.block_dimensions_temp = self.block_dimensions[:]
         for self.block_position, self.block_itself in numpy.ndenumerate(self.block_dimensions):
@@ -1011,13 +1011,6 @@ def shift_block():
         BlockObject.reset_valid()
     print("fuel is now at ", fuel)
 
-# def fall_block():
-#  global finished_moving
- #   for BlockObject in onscreen_blocks:
-  #      if BlockObject.check_t_grid_down():
-   #         BlockObject.move_t_grid_down()  # Block is moved down the grid by one for the current cycle
-    #    BlockObject.reset_valid()
-
 def check_clear_place():
     global not_clear
     not_clear = False
@@ -1053,11 +1046,6 @@ def wipe_grid():
                 fuel += 40
             # Fuel is increased by 40 capped at 100
 
-    #if complete_row:
-    #    reorder_grid()
-        # Tetris grid is reordered
-
-
 def reorder_grid():
     for ypos in range(19):
         for xpos in range(10):
@@ -1066,8 +1054,6 @@ def reorder_grid():
                     if xpos == BlockObject.show_block_list(0, BlockListCounter) and ypos == BlockObject.show_block_list(1, BlockListCounter):
                         if BlockObject.check_t_grid_down():
                             BlockObject.move_t_grid_down()  # Block is moved down the grid by one for the current cycle
-
-                    #   fall_block()
 
 # Types of enemies
 # I Block
@@ -1220,7 +1206,6 @@ while not donegame:
     if startedgame:
         screen.fill(BLACK)
         if alreadyrunbefore:
-            # print("started game", startscreen, controlscreen, startedgame)
             # Initialise variables
             pilot_x = 400
             pilot_y = 384
@@ -1421,7 +1406,6 @@ while not donegame:
                     lastchosenblock = BlockChoice
                     # Temporarily stores the most recently chosen block
                     Mob = BlockChoice(4, BlockChoice)
-               #     print("position of the new Enemy spawned (", Mob.rect.x, ", ", Mob.rect.y, ")")
                     list_all_sprites.add(Mob)
                     list_mobs.add(Mob)
                 # The pilot flashes red when it is hit
@@ -1448,8 +1432,6 @@ while not donegame:
                     if finished_moving:
                         wipe_grid()
                     shift_block()
-                    # for BlockObject in active_block:
-                        # BlockObject.pos()
 
             # - - - - - Game logic - - - - - - - -
             pilot_x += pilot_x_speed
@@ -1519,12 +1501,10 @@ while not donegame:
                     Mob.Mob_Health -= 1
                     if Mob.Mob_Health == 0:
                         next_block_store = 0
-                        #print("check clear place", check_clear_place())
                         not_clear = False
                         if not check_clear_place():
                             place_next_block()
-        # unnecessary, it turns out                    not_clear = False
-                        #  BlockObject.pos()  # For printing the top left corner block of the tetris block
+                        # unnecessary, it turns out not_clear = False
                         list_mobs.remove(Mob)
                         list_all_sprites.remove(Mob)
                         list_mobs_hit.remove(Mob)
@@ -1554,7 +1534,7 @@ while not donegame:
             # - - - - - Update screen drawn - - -
             pygame.display.flip()
 
-            # Don't need to set the fps again as it has already been set in start menu loop
+        # Don't need to set the fps again as it has already been set in start menu loop
         # Stops and resets all timers
         pygame.time.set_timer(SpawnEnemy, 0)
         pygame.time.set_timer(MoveBlocks, 0)
